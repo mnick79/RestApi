@@ -68,6 +68,15 @@ namespace RestApi.Items
             return $"'id':'{client.id}', 'first_name':'{client.first_name}'";
 
         }
+        public static void DeleteCustomer(int idCustomer)
+        {
+            string onlySelectString = $"delete from customer where id={idCustomer};";
+            NpgsqlConnection con = ConnectDB.Connect();
+            using (NpgsqlCommand cmd = new NpgsqlCommand(onlySelectString, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 
 }
