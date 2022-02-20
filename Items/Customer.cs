@@ -17,6 +17,7 @@ namespace RestApi.Items
         public string Address { get { return address; } set { address = value; } }
         public bool Vip { get => vip; set { vip = value; } }
 
+        public Customer() { }
         public Customer(int id, string first_name, string last_name, string address, bool vip)
         {
             this.id = id;
@@ -26,6 +27,12 @@ namespace RestApi.Items
             this.vip = vip;
         }
 
+
+        /*Реализация контруктора 
+         * // GET: api/<CustomersController>
+        [HttpGet]
+        public List<Customer> Get() 
+        */
         public static List<Customer> GetAllCustomer(string sql) 
         { 
             var list = new List<Customer>();
@@ -39,11 +46,28 @@ namespace RestApi.Items
                 }
                 
             }
-
             return list;
+        }
+        public static Customer GetOnlyOneCustomer(int idCustomer)
+        {
+            string onlySelectString = $"select * from customer where id={idCustomer};";
+            NpgsqlConnection con=ConnectDB.Connect();
+            NpgsqlCommand cmd = new NpgsqlCommand(onlySelectString, con);
+            var read=cmd.ExecuteReader();
+            if (read.HasRows)
+            {
+                while (read.Read())
+                {
+                    return new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4));
+                }
+            }
+            return new Customer();
+        }
+        public static string ToString(Customer client)
+        {
+            return $"'id':'{client.id}', 'first_name':'{client.first_name}'";
 
         }
-
-
     }
+
 }

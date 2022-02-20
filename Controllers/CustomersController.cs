@@ -19,9 +19,9 @@ namespace RestApi.Controllers
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Customer Get(int id)
         {
-            return "value";
+            return Customer.GetOnlyOneCustomer(id);
         }
 
         // POST api/<CustomersController>

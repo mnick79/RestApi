@@ -3,6 +3,7 @@ using System;
 
 namespace RestApi.ConnBD
 {
+    // Подключение к постгрес БД mnick, БД не закрывается после выполнения метода.
     public class ConnectDB
     {
         private static readonly string _connectionString = @"Server=localhost;Port=5432;User Id=postgres;Password=123454321;Database=mnick;";
