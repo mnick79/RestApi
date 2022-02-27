@@ -18,6 +18,13 @@ namespace RestApi.Items
         public bool Vip { get => vip; set { vip = value; } }
 
         public Customer() { }
+        public Customer(string first_name, string last_name, string address, bool vip) 
+        {
+            this.first_name = first_name;
+            this.last_name = last_name;
+            this.address = address;
+            this.vip = vip;
+        }
         public Customer(int id, string first_name, string last_name, string address, bool vip)
         {
             this.id = id;
@@ -48,6 +55,8 @@ namespace RestApi.Items
             }
             return list;
         }
+        /* Реализация в конструкторе нахождения покупателя по id
+         */
         public static Customer GetOnlyOneCustomer(int idCustomer)
         {
             string onlySelectString = $"select * from customer where id={idCustomer};";
@@ -63,11 +72,27 @@ namespace RestApi.Items
             }
             return new Customer();
         }
+        // Переопределения метода ToString для класса Customer
         public static string ToString(Customer client)
         {
             return $"'id':'{client.id}', 'first_name':'{client.first_name}'";
 
         }
+        // Метод добавления нового покупателя
+        public static void NewCustomer(Customer value)
+        {
+            string sql = $"insert into customer (first_name, last_name, address, vip) values ({value.first_name}, {value.last_name}, {value.address}, {value.vip});";
+
+            using(Npgsql.NpgsqlConnection conn = ConnectDB.Connect())
+            {
+                using(var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
         public static void DeleteCustomer(int idCustomer)
         {
             string onlySelectString = $"delete from customer where id={idCustomer};";

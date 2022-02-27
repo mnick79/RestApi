@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestApi.Items;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,9 +12,9 @@ namespace RestApi.Controllers
     {
         // GET: api/<ProductsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<Products> Get()
         {
-            return new string[] { "value1", "value2" };
+            return Products.GetAllProduct("select * from product;");
         }
 
         // GET api/<ProductsController>/5

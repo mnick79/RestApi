@@ -26,8 +26,9 @@ namespace RestApi.Controllers
 
         // POST api/<CustomersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Customer value)
         {
+            Customer.NewCustomer(value);
         }
 
         // PUT api/<CustomersController>/5
