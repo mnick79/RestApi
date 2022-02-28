@@ -3,7 +3,7 @@ create database demoshop;
 create table customer(
 id serial PRIMARY key,
 first_name varchar(50) NOT NULL,
-last_nane varchar(50) NOT NULL,
+last_name varchar(50) NOT NULL,
 address varchar(255) NOT NULL,
 vip boolean NOT NULL
 );
@@ -32,7 +32,21 @@ COPY product 	from 'c:\copydb\product.csv' csv HEADER;
 COPY cart from 'c:\copydb\cart.csv' csv HEADER;
 COPY details from 'c:\copydb\details.csv' csv HEADER;
 
-SELECT count(*) from customer;
-SELECT count(*) from product;
-SELECT count(*) from cart;
-SELECT count(*) from details;
+-- Суммирование данных полного заказа в поле totalprice таблицы cart
+update cart as cart1
+set totalprice = (select sum(d.count*p.price) 
+					from cart join details d on cart.number=d.cart_number 
+					join product p on d.product_number=p.number 
+					where cart.customer_id=cart1.customer_id);
+
+-- Заполнение описания заказа в поле description таблицы cart
+update cart as cart1
+set description = (select 
+SUBSTRING(
+STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
+FROM 0 FOR 254) 
+from customer c 
+join  cart on c.id=cart.customer_id 
+join details d on cart.number=d.cart_number 
+join product p on d.product_number=p.number 
+where cart.customer_id=cart1.customer_id);
