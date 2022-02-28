@@ -9,7 +9,7 @@ namespace RestApi.Items
         private int number;
         private string name;
         private decimal price;
-
+        public Products() { }
         public Products(int number, string name, decimal price)
         {
             this.number = number;
@@ -53,6 +53,25 @@ namespace RestApi.Items
             }
             return rezult;
         }
-
+        public static Products GetOneProduct(int idProduct)
+        {
+            string sql = $"select * from product where number={idProduct}";
+            using(NpgsqlConnection conn = ConnectDB.Connect())
+            {
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    var read = cmd.ExecuteReader();
+                    if (read.HasRows)
+                    {
+                        while (read.Read())
+                        {
+                            return new Products(read.GetInt32(0), read.GetString(1), read.GetDecimal(2));
+                        }
+                    }
+                    return new Products();
+                }
+            }
+            
+        }
     }
 }

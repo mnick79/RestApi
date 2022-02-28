@@ -19,9 +19,9 @@ namespace RestApi.Controllers
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Products Get(int id)
         {
-            return "value";
+            return Products.GetOneProduct(id);
         }
 
         // POST api/<ProductsController>
