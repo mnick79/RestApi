@@ -50,3 +50,8 @@ join  cart on c.id=cart.customer_id
 join details d on cart.number=d.cart_number 
 join product p on d.product_number=p.number 
 where cart.customer_id=cart1.customer_id);
+
+select SETVAL('customer_id_seq', (select count(*) from customer)); -- поправка SEQUENCE для таблицы customer
+select SETVAL('product_number_seq', (select count(*) from product)); -- поправка SEQUENCE для таблицы product
+select SETVAL('cart_number_seq', (select count(*) from cart)); -- поправка SEQUENCE для таблицы cart
+select SETVAL('details_id_seq', (select count(*) from details)); -- поправка SEQUENCE для таблицы details
