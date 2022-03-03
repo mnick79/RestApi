@@ -40,6 +40,7 @@ namespace RestApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            Cart.DeleteOneCart(id);
         }
     }
 }

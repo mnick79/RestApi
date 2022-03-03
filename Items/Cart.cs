@@ -75,6 +75,16 @@ namespace RestApi.Items
             }
             return new Cart();
         }
+        public static void DeleteOneCart(int id)
+        {
+            string sql = $"delete from cart where number={id}";
+            NpgsqlConnection con = ConnectDB.Connect();
+            using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+
+        }
 
     }
 }
