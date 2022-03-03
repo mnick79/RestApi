@@ -23,7 +23,7 @@ description varchar(255)
 
 create table details (
 id serial PRIMARY KEY,
-cart_number integer REFERENCES cart(number),
+cart_number integer REFERENCES cart(number) ON DELETE CASCADE,
 product_number integer REFERENCES product(number),
 count integer NOT NULL);
 
