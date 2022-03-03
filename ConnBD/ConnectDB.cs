@@ -21,5 +21,15 @@ namespace RestApi.ConnBD
             }
             return conn;
         }
+        public static NpgsqlDataReader Reader(string sql)
+        {
+            NpgsqlConnection conn = ConnectDB.Connect();
+
+            var cmd = new NpgsqlCommand(sql, conn);
+
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+            return reader;
+             
+        }
     }
 }

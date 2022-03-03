@@ -17,8 +17,8 @@ price decimal NOT NULL
 create table cart (
 number serial PRIMARY KEY,
 totalprice decimal,
-customer_id integer REFERENCES customer(id),
-description varchar(255)
+description varchar(255),
+customer_id integer REFERENCES customer(id)
 );
 
 create table details (

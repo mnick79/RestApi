@@ -18,19 +18,19 @@ namespace RestApi.Items
         }
 
 
-        public int Number 
+        public int Number
         {
             get { return number; }
             set { number = value; }
         }
-        
+
 
         public string Name
         {
             get { return name; }
             set { name = value; }
         }
-        
+
 
         public decimal Price
         {
@@ -40,38 +40,29 @@ namespace RestApi.Items
         public static List<Products> GetAllProduct(string sql)
         {
             var rezult = new List<Products>();
-            using (NpgsqlConnection conn = ConnectDB.Connect()) 
+
+            var read = ConnectDB.Reader(sql);
+            while (read.Read())
             {
-                using (var cmd = new NpgsqlCommand(sql, conn))
-                {
-                    var read = cmd.ExecuteReader();
-                    while (read.Read())
-                    {
-                        rezult.Add(new Products(read.GetInt32(0), read.GetString(1), read.GetDecimal(2)));
-                    }
-                }
+                rezult.Add(new Products(read.GetInt32(0), read.GetString(1), read.GetDecimal(2)));
             }
+
             return rezult;
         }
         public static Products GetOneProduct(int idProduct)
         {
             string sql = $"select * from product where number={idProduct}";
-            using(NpgsqlConnection conn = ConnectDB.Connect())
+
+            var read = ConnectDB.Reader(sql);
+
+            if (read.HasRows)
             {
-                using (var cmd = new NpgsqlCommand(sql, conn))
+                while (read.Read())
                 {
-                    var read = cmd.ExecuteReader();
-                    if (read.HasRows)
-                    {
-                        while (read.Read())
-                        {
-                            return new Products(read.GetInt32(0), read.GetString(1), read.GetDecimal(2));
-                        }
-                    }
-                    return new Products();
+                    return new Products(read.GetInt32(0), read.GetString(1), read.GetDecimal(2));
                 }
             }
-            
+            return new Products();
         }
     }
 }

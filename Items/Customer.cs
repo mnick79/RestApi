@@ -12,13 +12,13 @@ namespace RestApi.Items
         private bool vip;
 
         public int Id { get { return id; } set { id = value; } }
-        public string First_name { get { return first_name; } set { first_name = value; }}
+        public string First_name { get { return first_name; } set { first_name = value; } }
         public string Last_name { get { return last_name; } set { first_name = value; } }
         public string Address { get { return address; } set { address = value; } }
         public bool Vip { get => vip; set { vip = value; } }
 
         public Customer() { }
-        public Customer(string first_name, string last_name, string address, bool vip) 
+        public Customer(string first_name, string last_name, string address, bool vip)
         {
             this.first_name = first_name;
             this.last_name = last_name;
@@ -40,36 +40,31 @@ namespace RestApi.Items
         [HttpGet]
         public List<Customer> Get() 
         */
-        public static List<Customer> GetAllCustomer(string sql) 
-        { 
-            var list = new List<Customer>();
-            NpgsqlConnection conn = ConnectDB.Connect();
-            using(var cmd = new NpgsqlCommand(sql, conn))
+        public static List<Customer> GetAllCustomer(string sql)
+        {
+            var rezult = new List<Customer>();
+
+            var read = ConnectDB.Reader(sql);
+            while (read.Read())
             {
-                var read = cmd.ExecuteReader();
-                while (read.Read())
-                {
-                    list.Add(new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4)));
-                }
-                
+                rezult.Add(new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4)));
             }
-            return list;
+            return rezult;
         }
         /* Реализация в конструкторе нахождения покупателя по id
          */
         public static Customer GetOnlyOneCustomer(int idCustomer)
         {
-            string onlySelectString = $"select * from customer where id={idCustomer};";
-            NpgsqlConnection con=ConnectDB.Connect();
-            NpgsqlCommand cmd = new NpgsqlCommand(onlySelectString, con);
-            var read=cmd.ExecuteReader();
-            if (read.HasRows)
-            {
-                while (read.Read())
+            string sql = $"select * from customer where id={idCustomer};";
+            var read = ConnectDB.Reader(sql);
+            while (read.Read())
+                if (read.HasRows)
                 {
-                    return new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4));
+                    while (read.Read())
+                    {
+                        return new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4));
+                    }
                 }
-            }
             return new Customer();
         }
         // Переопределения метода ToString для класса Customer
@@ -83,9 +78,9 @@ namespace RestApi.Items
         {
             string sql = $"insert into customer (first_name, last_name, address, vip) values ({value.first_name}, {value.last_name}, {value.address}, {value.vip});";
 
-            using(Npgsql.NpgsqlConnection conn = ConnectDB.Connect())
+            using (Npgsql.NpgsqlConnection conn = ConnectDB.Connect())
             {
-                using(var cmd = new NpgsqlCommand(sql, conn))
+                using (var cmd = new NpgsqlCommand(sql, conn))
                 {
                     cmd.ExecuteNonQuery();
                 }

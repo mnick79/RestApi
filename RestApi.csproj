@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\Products.cs" />
+    <Compile Remove="Controllers\ValuesController.cs" />
   </ItemGroup>
 
   <ItemGroup>
