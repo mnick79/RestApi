@@ -10,7 +10,7 @@ namespace RestApi.Items
         private decimal totalPrice;
         private string description;
         private int customer_Id;
-
+        
         public Cart() { }
         public Cart(decimal totalPrice, string description, int customer_Id)
         {
@@ -23,6 +23,7 @@ namespace RestApi.Items
         {
             this.number = number;
         }
+        
         public int Customer_Id
         {
             get { return customer_Id; }
