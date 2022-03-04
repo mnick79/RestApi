@@ -19,28 +19,29 @@ namespace RestApi.Controllers
        */
         // GET api/<DetailsController>/5
         [HttpGet("{id}")]
-        public List<Details> Get(int id)
+        public List<Details> Get(int cart_number) // cart_number из таблицы cart
         {
-            return Details.GetListDetailsByCartNumber(id);
+            return Details.GetListDetailsByCartNumber(cart_number);
         }
 
-     /*   // POST api/<DetailsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        /*   // POST api/<DetailsController>
+           [HttpPost]
+           public void Post([FromBody] string value)
+           {
+           }
 
-        // PUT api/<DetailsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
+           // PUT api/<DetailsController>/5
+           [HttpPut("{id}")]
+           public void Put(int id, [FromBody] string value)
+           {
+           }
+         */
         // DELETE api/<DetailsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            Details.DeleteOneDetails(id);
         }
-     */
+    
     }
 }

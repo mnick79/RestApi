@@ -31,5 +31,19 @@ namespace RestApi.ConnBD
             return reader;
              
         }
+        public static int? FieldSearch(string sql)
+        {
+            NpgsqlConnection conn = ConnectDB.Connect();
+
+            var cmd = new NpgsqlCommand(sql, conn);
+
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+            var read = ConnectDB.Reader(sql);
+            while (read.Read())
+            {
+                return read.GetInt32(0);
+            }
+            return null;
+        }
     }
 }
