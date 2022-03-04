@@ -11,11 +11,11 @@ namespace RestApi.Controllers
     public class CustomersController : ControllerBase
     {
         // GET: api/<CustomersController>
-        [HttpGet]
-        public List<Customer> Get()
-        {
-            return Customer.GetAllCustomer("select * from customer;");
-        }
+       // [HttpGet]
+        //public List<Customer> Get()
+        //{
+        //    return Customer.GetAllCustomer("select * from customer;");
+        //}
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
@@ -25,23 +25,26 @@ namespace RestApi.Controllers
         }
 
         // POST api/<CustomersController>
-        [HttpPost]
+       /* [HttpPost]
         public void Post([FromBody] Customer value)
         {
             Customer.NewCustomer(value);
         }
+       */
 
         // PUT api/<CustomersController>/5
-        [HttpPut("{id}")]
+       /* [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
-
+       */
+       /*
         // DELETE api/<CustomersController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
             Customer.DeleteCustomer(id);
         }
+       */
     }
 }

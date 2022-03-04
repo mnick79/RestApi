@@ -14,9 +14,9 @@ namespace RestApi.Controllers
         [HttpGet]
         public List<Products> Get()
         {
-            return Products.GetAllProduct("select * from product;");
+            return Products.GetAllProduct("select * from product limit 10;");
         }
-
+       
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
         public Products Get(int id)
@@ -25,7 +25,7 @@ namespace RestApi.Controllers
         }
 
         // POST api/<ProductsController>
-        [HttpPost]
+     /*   [HttpPost]
         public void Post([FromBody] string value)
         {
         }
@@ -41,5 +41,6 @@ namespace RestApi.Controllers
         public void Delete(int id)
         {
         }
+     */
     }
 }
