@@ -26,8 +26,9 @@ namespace RestApi.Controllers
 
         // POST api/<CartController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Cart value)
         {
+            Cart.PostCart(value);
         }
 
         // PUT api/<CartController>/5

@@ -127,13 +127,55 @@ namespace RestApi.Items
         }
         public static void DeleteOneCart(int id)
         {
-            string sql = $"delete from cart where number={id}";
+            string sql = $"delete from cart where number={id};";
             NpgsqlConnection con = ConnectDB.Connect();
             using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
             {
                 cmd.ExecuteNonQuery();
             }
 
+        }
+        public static void PostCart(Cart cart)
+        {
+            string sql = $"insert into cart (totalprice, description, customer_id) values ({cart.totalPrice}, '{cart.Description}', {cart.customer_Id}) returning number; ";
+            // Перебор List<Details> для добавления в таблицу details
+            foreach (var item in cart.details)
+            {
+                sql += $"insert into details (cart_number, product_number, count) values ((select number from cart where totalprice={cart.totalPrice} and description='{cart.Description}' and customer_id={cart.customer_Id}), {item.Product_number} , {item.Count}) returning id; ";
+            }
+            /* Валидация: введены ли значения или оставлены по умолчанию в поле описания заказа.
+             В случае оставления по умолчанию выполняется скрип автонаполнения описания заказа*/
+
+            if (cart.description == "" || cart.description == "string")
+            {
+                sql += $@"update cart as cart1
+                           set description = (select 
+                           SUBSTRING(
+                           STRING_AGG(p.name || '/count:'|| d.count || '/price:'|| p.price, '|') 
+                           FROM 0 FOR 254) 
+                           from customer c 
+                           join  cart on c.id=cart.customer_id 
+                           join details d on cart.number=d.cart_number 
+                           join product p on d.product_number=p.number 
+                           where cart.customer_id=cart1.customer_id)
+                           where cart1.number=(select currval('cart_number_seq'));";
+            }
+            // Валидация: Если не введена сумма всех детализаций заказа, выполняется скрипт нахождения суммы
+            if (cart.totalPrice == 0)
+            {
+
+                sql += $@"update cart as cart1
+                           set totalprice = (select sum(d.count*p.price) 
+            from cart join details d on cart.number=d.cart_number 
+            join product p on d.product_number=p.number 
+            where cart.customer_id=cart1.customer_id)
+            where cart1.number=(select currval('cart_number_seq'));";
+            }
+            NpgsqlConnection con = ConnectDB.Connect();
+            using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
         }
 
     }

@@ -10,7 +10,7 @@ namespace RestApi.Items
         private int cart_number;
         private int product_number;
         private int count;
-
+        
 
         public Details() { }
         public Details(int id, int cart_number, int product_number, int count)
