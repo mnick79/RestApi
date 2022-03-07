@@ -10,18 +10,24 @@ namespace RestApi.Items
         private decimal totalPrice;
         private string description;
         private int customer_Id;
+        public List<Details> details;
+
         
+
+
         public Cart() { }
         public Cart(decimal totalPrice, string description, int customer_Id)
         {
             this.totalPrice = totalPrice;
             this.description = description;
             this.customer_Id = customer_Id;
+            
         }
 
         public Cart(int number, decimal totalPrice, string description, int customer_Id): this(totalPrice, description, customer_Id)
         {
             this.number = number;
+            this.details = new List<Details>();
         }
         
         public int Customer_Id
@@ -43,7 +49,11 @@ namespace RestApi.Items
             set { totalPrice = value; }
         }
 
-
+        public List<Details> Details
+        {
+            get { return details; }
+            set { details = value; }
+        }
         public int Number
         {
             get { return number; }
@@ -64,17 +74,39 @@ namespace RestApi.Items
         public static Cart GetOneCart(int id)
         {
             string sql = $"select * from cart where number={id}";
-
-            var read = ConnectDB.Reader(sql);
-
-            if (read.HasRows)
+            
+            using (var read = ConnectDB.Reader(sql))
             {
+                if (!(read.HasRows))
+                {
+                    return new Cart();
+                }
+
                 while (read.Read())
                 {
-                   return new Cart(read.GetInt32(0), read.GetDecimal(1), read.GetString(2), read.GetInt32(3));
+                    Cart cart = new Cart(read.GetInt32(0), read.GetDecimal(1), read.GetString(2), read.GetInt32(3));
+                    string sqlGetAllDetails = $"select * from details where cart_number={cart.number}";
+                    using (var readDL = ConnectDB.Reader(sqlGetAllDetails))
+                    {
+
+                        while (readDL.Read())
+                        {
+                            Details temp = new Details();
+                            temp.Id = readDL.GetInt32(0);
+                            temp.Cart_number = readDL.GetInt32(1);
+                            temp.Product_number = readDL.GetInt32(2);
+                            temp.Count = readDL.GetInt32(3);
+                            cart.details.Add(temp);
+                           
+                        }
+                        return cart;
+                    }
                 }
+                
             }
             return new Cart();
+
+
         }
         public static void DeleteOneCart(int id)
         {

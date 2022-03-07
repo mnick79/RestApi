@@ -10,7 +10,7 @@ namespace RestApi.Items
         private int cart_number;
         private int product_number;
         private int count;
-        private int customer_id;
+
 
         public Details() { }
         public Details(int id, int cart_number, int product_number, int count)
@@ -21,10 +21,7 @@ namespace RestApi.Items
             this.count = count;
 
         }
-        public Details(int id, int cart_number, int product_number, int count, int customer_id) : this(id, cart_number, product_number, count)
-        {
-            this.customer_id = customer_id;
-        }
+
         public int Count
         {
             get { return count; }
