@@ -63,17 +63,34 @@ namespace RestApi.Items
         public static List<Cart> GetAllCart(string sql)
         {
             var rezult = new List<Cart>();
-
+            string sqlGetAllDetails = "";
             var read = ConnectDB.Reader(sql);
             while (read.Read())
             {
-                rezult.Add(new Cart(read.GetInt32(0), read.GetDecimal(1), read.GetString(2), read.GetInt32(3)));
+                Cart cart = new Cart(read.GetInt32(0), read.GetDecimal(1), read.GetString(2), read.GetInt32(3));
+
+                sqlGetAllDetails = $"select * from details where cart_number={cart.number};";
+                using (var readDL = ConnectDB.Reader(sqlGetAllDetails))
+                {
+
+                    while (readDL.Read())
+                    {
+                        Details temp = new Details();
+                        temp.Id = readDL.GetInt32(0);
+                        temp.Cart_number = readDL.GetInt32(1);
+                        temp.Product_number = readDL.GetInt32(2);
+                        temp.Count = readDL.GetInt32(3);
+                        cart.details.Add(temp);
+
+                    }
+                }
+                rezult.Add(cart);
             }
             return rezult;
         }
         public static Cart GetOneCart(int id)
         {
-            string sql = $"select * from cart where number={id}";
+            string sql = $"select * from cart where number={id};";
             
             using (var read = ConnectDB.Reader(sql))
             {
@@ -85,7 +102,7 @@ namespace RestApi.Items
                 while (read.Read())
                 {
                     Cart cart = new Cart(read.GetInt32(0), read.GetDecimal(1), read.GetString(2), read.GetInt32(3));
-                    string sqlGetAllDetails = $"select * from details where cart_number={cart.number}";
+                    string sqlGetAllDetails = $"select * from details where cart_number={cart.number};";
                     using (var readDL = ConnectDB.Reader(sqlGetAllDetails))
                     {
 

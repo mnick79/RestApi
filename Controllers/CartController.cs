@@ -14,7 +14,7 @@ namespace RestApi.Controllers
         [HttpGet]
         public List<Cart> Get()
         {
-            return Cart.GetAllCart("select * from cart;");
+            return Cart.GetAllCart("select * from cart limit 10;");
         }
 
         // GET api/<CartController>/5
