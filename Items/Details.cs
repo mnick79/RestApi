@@ -98,6 +98,17 @@ namespace RestApi.Items
 
         }
 
-
+        public static void PutDetails(int id, Details value)
+        {
+            string sql = "";
+            if (value.count != 0) { sql += $"update details set count={value.count} where id={id}; "; }
+            if (value.product_number != 0) { sql += $"update details set product_number={value.product_number} where id={id}; "; }
+            if (value.cart_number != 0) { sql += $"update details set cart_number={value.cart_number} where id={id};"; }
+            NpgsqlConnection con = ConnectDB.Connect();
+            using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

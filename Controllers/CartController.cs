@@ -33,8 +33,9 @@ namespace RestApi.Controllers
 
         // PUT api/<CartController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, int customer_id)
         {
+            Cart.PutOneCart(id, customer_id);
         }
 
         // DELETE api/<CartController>/5

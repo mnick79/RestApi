@@ -177,6 +177,15 @@ namespace RestApi.Items
                 cmd.ExecuteNonQuery();
             }
         }
-
+        public static void PutOneCart(int number, int customer_id)
+        {
+            string sql = $"update cart set customer_id={customer_id} where number={number};";
+        
+            NpgsqlConnection con = ConnectDB.Connect();
+            using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }
