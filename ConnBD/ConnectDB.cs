@@ -45,5 +45,14 @@ namespace RestApi.ConnBD
             }
             return null;
         }
+        public static void  ExeNoQuery(string sql)
+        {
+            NpgsqlConnection conn = ConnectDB.Connect();
+            using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conn))
+            {
+                cmd.ExecuteNonQuery();
+            }
+            conn.Close();
+        }
     }
 }

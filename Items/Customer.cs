@@ -78,24 +78,15 @@ namespace RestApi.Items
         {
             string sql = $"insert into customer (first_name, last_name, address, vip) values ({value.first_name}, {value.last_name}, {value.address}, {value.vip});";
 
-            using (Npgsql.NpgsqlConnection conn = ConnectDB.Connect())
-            {
-                using (var cmd = new NpgsqlCommand(sql, conn))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            ConnectDB.ExeNoQuery(sql);
         }
 
 
         public static void DeleteCustomer(int idCustomer)
         {
             string onlySelectString = $"delete from customer where id={idCustomer};";
-            NpgsqlConnection con = ConnectDB.Connect();
-            using (NpgsqlCommand cmd = new NpgsqlCommand(onlySelectString, con))
-            {
-                cmd.ExecuteNonQuery();
-            }
+            
+            ConnectDB.ExeNoQuery(onlySelectString);
         }
     }
 

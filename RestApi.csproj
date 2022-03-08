@@ -1,12 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mock\**" />
+    <Content Remove="Mock\**" />
+    <EmbeddedResource Remove="Mock\**" />
+    <None Remove="Mock\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controllers\Products.cs" />
     <Compile Remove="Controllers\ValuesController.cs" />
+    <Compile Remove="Controllers\WeatherForecastController.cs" />
   </ItemGroup>
 
   <ItemGroup>

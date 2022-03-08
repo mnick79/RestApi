@@ -59,6 +59,7 @@ namespace RestApi.Items
             {
                 rezult.Add(new Details(read.GetInt32(0), cart_number, read.GetInt32(2), read.GetInt32(3)));
             }
+
             return rezult;
         }
         public static void DeleteOneDetails(int id)
@@ -85,17 +86,9 @@ namespace RestApi.Items
                     where cart.customer_id=cart1.customer_id)
                     where cart1.number={cart_number};";
 
-                NpgsqlConnection con = ConnectDB.Connect();
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
-                {
-                    cmd.ExecuteNonQuery();
-                }
+                ConnectDB.ExeNoQuery(sql);
 
             }
-            
-
-
-
         }
 
         public static void PutDetails(int id, Details value)
@@ -104,11 +97,29 @@ namespace RestApi.Items
             if (value.count != 0) { sql += $"update details set count={value.count} where id={id}; "; }
             if (value.product_number != 0) { sql += $"update details set product_number={value.product_number} where id={id}; "; }
             if (value.cart_number != 0) { sql += $"update details set cart_number={value.cart_number} where id={id};"; }
-            NpgsqlConnection con = ConnectDB.Connect();
-            using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+            if (sql != "")
             {
-                cmd.ExecuteNonQuery();
+                sql += @$"delete from details where id={id};
+                    update cart as cart1 set totalprice = (select sum(d.count * p.price)
+                    from cart join details d on cart.number = d.cart_number
+                    join product p on d.product_number = p.number
+                    where cart.customer_id = cart1.customer_id)
+                    where cart1.number = {value.cart_number};
+                    update cart as cart1
+                    set description = (select 
+                    SUBSTRING(
+                    STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
+                    FROM 0 FOR 254) 
+                    from customer c 
+                    join  cart on c.id=cart.customer_id 
+                    join details d on cart.number=d.cart_number 
+                    join product p on d.product_number=p.number 
+                    where cart.customer_id=cart1.customer_id)
+                    where cart1.number={value.cart_number};";
+
+                ConnectDB.ExeNoQuery(sql);
             }
+            
         }
     }
 }
