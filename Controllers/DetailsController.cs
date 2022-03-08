@@ -28,6 +28,7 @@ namespace RestApi.Controllers
         [HttpPost]
         public void Post([FromBody] Details value)
         {
+            Details.PostDetails(value);
         }
 
         // PUT api/<DetailsController>/5

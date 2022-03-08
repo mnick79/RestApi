@@ -148,28 +148,12 @@ namespace RestApi.Items
 
             if (cart.description == "" || cart.description == "string")
             {
-                sql += $@"update cart as cart1
-                           set description = (select 
-                           SUBSTRING(
-                           STRING_AGG(p.name || '/count:'|| d.count || '/price:'|| p.price, '|') 
-                           FROM 0 FOR 254) 
-                           from customer c 
-                           join  cart on c.id=cart.customer_id 
-                           join details d on cart.number=d.cart_number 
-                           join product p on d.product_number=p.number 
-                           where cart.customer_id=cart1.customer_id)
-                           where cart1.number=(select currval('cart_number_seq'));";
+                sql += ConnectDB.AutoDescription();
             }
             // Валидация: Если не введена сумма всех детализаций заказа, выполняется скрипт нахождения суммы
             if (cart.totalPrice == 0)
             {
-
-                sql += $@"update cart as cart1
-                           set totalprice = (select sum(d.count*p.price) 
-            from cart join details d on cart.number=d.cart_number 
-            join product p on d.product_number=p.number 
-            where cart.customer_id=cart1.customer_id)
-            where cart1.number=(select currval('cart_number_seq'));";
+                sql += ConnectDB.AutoSumTotalprice();
             }
             NpgsqlConnection con = ConnectDB.Connect();
             using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))

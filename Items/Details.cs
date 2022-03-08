@@ -68,26 +68,10 @@ namespace RestApi.Items
 
             if ((ConnectDB.FieldSearch($"select id from details where id={id}") != null) && (cart_number != null))
                 {
-                string sql = @$"delete from details where id={id};
-                    update cart as cart1 set totalprice = (select sum(d.count * p.price)
-                    from cart join details d on cart.number = d.cart_number
-                    join product p on d.product_number = p.number
-                    where cart.customer_id = cart1.customer_id)
-                    where cart1.number = {cart_number};
-                    update cart as cart1
-                    set description = (select 
-                    SUBSTRING(
-                    STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
-                    FROM 0 FOR 254) 
-                    from customer c 
-                    join  cart on c.id=cart.customer_id 
-                    join details d on cart.number=d.cart_number 
-                    join product p on d.product_number=p.number 
-                    where cart.customer_id=cart1.customer_id)
-                    where cart1.number={cart_number};";
-
+                string sql = @$"delete from details where id={id};";
+                sql += ConnectDB.AutoSumTotalprice((int)cart_number);
+                sql += ConnectDB.AutoDescription((int)cart_number);
                 ConnectDB.ExeNoQuery(sql);
-
             }
         }
 
@@ -99,27 +83,27 @@ namespace RestApi.Items
             if (value.cart_number != 0) { sql += $"update details set cart_number={value.cart_number} where id={id};"; }
             if (sql != "")
             {
-                sql += @$"delete from details where id={id};
-                    update cart as cart1 set totalprice = (select sum(d.count * p.price)
-                    from cart join details d on cart.number = d.cart_number
-                    join product p on d.product_number = p.number
-                    where cart.customer_id = cart1.customer_id)
-                    where cart1.number = {value.cart_number};
-                    update cart as cart1
-                    set description = (select 
-                    SUBSTRING(
-                    STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
-                    FROM 0 FOR 254) 
-                    from customer c 
-                    join  cart on c.id=cart.customer_id 
-                    join details d on cart.number=d.cart_number 
-                    join product p on d.product_number=p.number 
-                    where cart.customer_id=cart1.customer_id)
-                    where cart1.number={value.cart_number};";
-
-                ConnectDB.ExeNoQuery(sql);
+                sql += ConnectDB.AutoSumTotalprice(value.cart_number);
+                sql += ConnectDB.AutoDescription(value.cart_number);
             }
-            
+            ConnectDB.ExeNoQuery(sql);
+        }
+        public static void PostDetails(Details value)
+        {
+            if (value.id != 0) 
+            {
+                string sql = "";
+                if (value.Count != 0) { sql += $"update details set count={value.Count} where id={value.Id};"; }
+                if (value.cart_number !=0) { sql += $"update details set cart_number={value.cart_number} where id={value.Id};"; }
+                if (value.product_number !=0) { sql += $"update details set product_number={value.product_number} where id={value.Id};"; }
+                if (sql != "" && value.cart_number!=0)
+                {
+                    sql += ConnectDB.AutoDescription(value.cart_number);
+                    sql += ConnectDB.AutoSumTotalprice(value.cart_number);
+                    ConnectDB.ExeNoQuery(sql);
+                }
+            }
+           
         }
     }
 }

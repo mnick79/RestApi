@@ -58,13 +58,10 @@ namespace RestApi.Items
             string sql = $"select * from customer where id={idCustomer};";
             var read = ConnectDB.Reader(sql);
             while (read.Read())
-                if (read.HasRows)
-                {
-                    while (read.Read())
-                    {
-                        return new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4));
-                    }
+                { 
+                    return new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4));
                 }
+
             return new Customer();
         }
         // Переопределения метода ToString для класса Customer
@@ -85,7 +82,7 @@ namespace RestApi.Items
         public static void DeleteCustomer(int idCustomer)
         {
             string onlySelectString = $"delete from customer where id={idCustomer};";
-            
+
             ConnectDB.ExeNoQuery(onlySelectString);
         }
     }
