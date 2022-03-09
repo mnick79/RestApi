@@ -85,7 +85,9 @@ namespace RestApi.ConnBD
                         from cart join details d on cart.number=d.cart_number 
                         join product p on d.product_number=p.number 
                         where cart.customer_id=cart1.customer_id)
-                        where cart1.number=(select currval('cart_number_seq'));";
+                        where cart1.number=(select currval('cart_number_seq'));
+                        
+";
         }
         public static string AutoSumTotalprice(int cart_number)
         {
