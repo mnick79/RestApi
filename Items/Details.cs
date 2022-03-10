@@ -52,16 +52,24 @@ namespace RestApi.Items
             }
         }
 
-        public static void PutDetails(int id, Details value)
+        public static void PutDetails(int id, Details detail)
         {
             string sql = "";
-            if (value.count != 0) { sql += $"update details set count={value.count} where id={id}; "; }
-            if (value.product_number != 0) { sql += $"update details set product_number={value.product_number} where id={id}; "; }
-            if (value.cart_number != 0) { sql += $"update details set cart_number={value.cart_number} where id={id};"; }
+            if (detail.count != 0) { sql += $"update details set count={detail.count} where id={id}; "; }
+            if (detail.product_number != 0) { sql += $"update details set product_number={detail.product_number} where id={id}; "; }
+            if (detail.cart_number != 0) { sql += $"update details set cart_number={detail.cart_number} where id={id};"; }
             if (sql != "")
             {
-                sql += ConnectDB.AutoSumTotalprice(value.cart_number);
-                sql += ConnectDB.AutoDescription(value.cart_number);
+                sql += ConnectDB.AutoDescription(detail.cart_number);
+                // Добавление дисконта, если полагается
+                if (Customer.GetOnlyOneCustomer(Cart.GetOneCart(detail.cart_number).Customer_Id).Vip) 
+                {
+                    sql += ConnectDB.Discont(Cart.GetOneCart(detail.cart_number));
+                }
+                else
+                {
+                    sql += ConnectDB.AutoSumTotalprice(detail.cart_number);
+                }
             }
             ConnectDB.ExeNoQuery(sql);
         }
@@ -76,7 +84,16 @@ namespace RestApi.Items
                 if (sql != "" && value.cart_number!=0)
                 {
                     sql += ConnectDB.AutoDescription(value.cart_number);
-                    sql += ConnectDB.AutoSumTotalprice(value.cart_number);
+                    // Добавление дисконта, если полагается
+                    if (Customer.GetOnlyOneCustomer(Cart.GetOneCart(value.cart_number).Customer_Id).Vip)
+                    {
+                        sql += ConnectDB.Discont(Cart.GetOneCart(value.cart_number));
+                    }
+                    else
+                    {
+                        sql += ConnectDB.AutoSumTotalprice(value.cart_number);
+                    }
+                    
                     ConnectDB.ExeNoQuery(sql);
                 }
             }

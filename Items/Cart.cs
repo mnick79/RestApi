@@ -119,20 +119,14 @@ namespace RestApi.Items
             // Валидация: Если не введена сумма всех детализаций заказа, выполняется скрипт нахождения суммы
             if (cart.totalPrice == 0)
             {
+                // Добавление дисконта, если полагается
                 if (!(Customer.GetOnlyOneCustomer(cart.customer_Id).Vip))
                 {
                     sql += ConnectDB.AutoSumTotalprice();
                 }
                 else
                 {
-                    decimal sum = 0;
-                    foreach (var item in cart.details)
-                    {
-                        sum += item.Count * Products.GetOneProduct(item.Product_number).Price;
-                    }
-                    string discont = Decimal.Round(sum * 0.9M).ToString("#.##").Replace(",", ".");
-                    sql += $@"select setval('cart_number_seq',(select max(number) from cart)); 
-                              update cart set totalprice={discont} where number=(select currval('cart_number_seq'));";
+                    sql += ConnectDB.Discont(cart);
                 }
 
             }

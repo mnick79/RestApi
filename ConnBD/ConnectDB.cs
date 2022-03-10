@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using RestApi.Items;
 using System;
 using System.Collections.Generic;
 
@@ -97,8 +98,17 @@ namespace RestApi.ConnBD
                     where cart.customer_id = cart1.customer_id)
                     where cart1.number = {cart_number};
                     ";
-            
-
+        }
+        public static string Discont(Cart cart)
+        {
+            decimal sum = 0;
+            foreach (var item in cart.details)
+            {
+                sum += item.Count * Products.GetOneProduct(item.Product_number).Price;
+            }
+            string discont = Decimal.Round(sum * 0.9M).ToString("#.##").Replace(",", ".");
+            return $@"select setval('cart_number_seq',(select max(number) from cart)); 
+                              update cart set totalprice={discont} where number=(select currval('cart_number_seq'));";
         }
     }
 }
