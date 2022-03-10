@@ -38,12 +38,12 @@ namespace RestApi.Items
         public static List<Customer> GetAllCustomer(string sql)
         {
             var rezult = new List<Customer>();
-
             var read = ConnectDB.Reader(sql);
             while (read.Read())
             {
                 rezult.Add(new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4)));
             }
+            read.Close();
             return rezult;
         }
         /* Реализация в конструкторе нахождения покупателя по id
@@ -53,17 +53,18 @@ namespace RestApi.Items
             string sql = $"select * from customer where id={idCustomer};";
             var read = ConnectDB.Reader(sql);
             while (read.Read())
-                { 
-                    return new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4));
-                }
-
+            {
+                var rezult = new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4));
+                read.Close();
+                return rezult;
+            }
+            read.Close();
             return new Customer();
         }
         // Метод добавления нового покупателя
         public static void NewCustomer(Customer value)
         {
             string sql = $"insert into customer (first_name, last_name, address, vip) values ({value.first_name}, {value.last_name}, {value.address}, {value.vip});";
-
             ConnectDB.ExeNoQuery(sql);
         }
 

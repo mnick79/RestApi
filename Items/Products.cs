@@ -29,22 +29,23 @@ namespace RestApi.Items
             {
                 rezult.Add(new Products(read.GetInt32(0), read.GetString(1), read.GetDecimal(2)));
             }
-
+            read.Close();
             return rezult;
         }
         public static Products GetOneProduct(int idProduct)
         {
             string sql = $"select * from product where number={idProduct}";
-
             var read = ConnectDB.Reader(sql);
-
             if (read.HasRows)
             {
                 while (read.Read())
                 {
-                    return new Products(read.GetInt32(0), read.GetString(1), read.GetDecimal(2));
+                    var rezult =  new Products(read.GetInt32(0), read.GetString(1), read.GetDecimal(2));
+                    read.Close();
+                    return rezult;
                 }
             }
+            read.Close();
             return new Products();
         }
     }

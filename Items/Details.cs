@@ -36,7 +36,7 @@ namespace RestApi.Items
             {
                 rezult.Add(new Details(read.GetInt32(0), cart_number, read.GetInt32(2), read.GetInt32(3)));
             }
-
+            read.Close();
             return rezult;
         }
         public static void DeleteOneDetails(int id)

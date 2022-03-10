@@ -25,17 +25,13 @@ namespace RestApi.Items
             this.totalPrice = totalPrice;
             this.description = description;
             this.customer_Id = customer_Id;
-            
         }
 
-
-        public Cart(int number, decimal totalPrice, string description, int customer_Id): this(totalPrice, description, customer_Id)
+        public Cart(int number, decimal totalPrice, string description, int customer_Id) : this(totalPrice, description, customer_Id)
         {
             this.number = number;
             this.details = new List<Details>();
         }
-        
-
 
         public static List<Cart> GetAllCart(string sql)
         {
@@ -49,7 +45,6 @@ namespace RestApi.Items
                 sqlGetAllDetails = $"select * from details where cart_number={cart.number};";
                 using (var readDL = ConnectDB.Reader(sqlGetAllDetails))
                 {
-
                     while (readDL.Read())
                     {
                         Details temp = new Details();
@@ -58,46 +53,42 @@ namespace RestApi.Items
                         temp.Product_number = readDL.GetInt32(2);
                         temp.Count = readDL.GetInt32(3);
                         cart.details.Add(temp);
-
                     }
                 }
                 rezult.Add(cart);
             }
+            read.Close();
             return rezult;
         }
         public static Cart GetOneCart(int id)
         {
             string sql = $"select * from cart where number={id};";
-            
-            using (var read = ConnectDB.Reader(sql))
+            var read = ConnectDB.Reader(sql);
+            if (!(read.HasRows))
             {
-                if (!(read.HasRows))
-                {
-                    return new Cart();
-                }
-
-                while (read.Read())
-                {
-                    Cart cart = new Cart(read.GetInt32(0), read.GetDecimal(1), read.GetString(2), read.GetInt32(3));
-                    string sqlGetAllDetails = $"select * from details where cart_number={cart.number};";
-                    using (var readDL = ConnectDB.Reader(sqlGetAllDetails))
-                    {
-
-                        while (readDL.Read())
-                        {
-                            Details temp = new Details();
-                            temp.Id = readDL.GetInt32(0);
-                            temp.Cart_number = readDL.GetInt32(1);
-                            temp.Product_number = readDL.GetInt32(2);
-                            temp.Count = readDL.GetInt32(3);
-                            cart.details.Add(temp);
-                           
-                        }
-                        return cart;
-                    }
-                }
-                
+                read.Close();
+                return new Cart();
             }
+            while (read.Read())
+            {
+                Cart cart = new Cart(read.GetInt32(0), read.GetDecimal(1), read.GetString(2), read.GetInt32(3));
+                string sqlGetAllDetails = $"select * from details where cart_number={cart.number};";
+                using (var readDL = ConnectDB.Reader(sqlGetAllDetails))
+                {
+                    while (readDL.Read())
+                    {
+                        Details temp = new Details();
+                        temp.Id = readDL.GetInt32(0);
+                        temp.Cart_number = readDL.GetInt32(1);
+                        temp.Product_number = readDL.GetInt32(2);
+                        temp.Count = readDL.GetInt32(3);
+                        cart.details.Add(temp);
+                    }
+                    read.Close();
+                    return cart;
+                }
+            }
+            read.Close();
             return new Cart();
 
 
@@ -110,7 +101,6 @@ namespace RestApi.Items
             {
                 cmd.ExecuteNonQuery();
             }
-
         }
         public static void PostCart(Cart cart)
         {
@@ -130,7 +120,7 @@ namespace RestApi.Items
             // Валидация: Если не введена сумма всех детализаций заказа, выполняется скрипт нахождения суммы
             if (cart.totalPrice == 0)
             {
-                
+
                 sql += ConnectDB.AutoSumTotalprice();
             }
             NpgsqlConnection con = ConnectDB.Connect();
@@ -142,7 +132,7 @@ namespace RestApi.Items
         public static void PutOneCart(int number, int customer_id)
         {
             string sql = $"update cart set customer_id={customer_id} where number={number};";
-        
+
             NpgsqlConnection con = ConnectDB.Connect();
             using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
             {
