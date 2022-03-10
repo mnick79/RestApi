@@ -35,11 +35,6 @@ namespace RestApi.Items
         }
 
 
-        /*Реализация контруктора 
-         * // GET: api/<CustomersController>
-        [HttpGet]
-        public List<Customer> Get() 
-        */
         public static List<Customer> GetAllCustomer(string sql)
         {
             var rezult = new List<Customer>();
@@ -64,12 +59,6 @@ namespace RestApi.Items
 
             return new Customer();
         }
-        // Переопределения метода ToString для класса Customer
-        public static string ToString(Customer client)
-        {
-            return $"'id':'{client.id}', 'first_name':'{client.first_name}'";
-
-        }
         // Метод добавления нового покупателя
         public static void NewCustomer(Customer value)
         {
@@ -77,7 +66,6 @@ namespace RestApi.Items
 
             ConnectDB.ExeNoQuery(sql);
         }
-
 
         public static void DeleteCustomer(int idCustomer)
         {

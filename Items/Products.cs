@@ -9,6 +9,9 @@ namespace RestApi.Items
         private int number;
         private string name;
         private decimal price;
+        public int Number { get { return number; } set { number = value; } }
+        public string Name { get { return name; } set { name = value; } }
+        public decimal Price { get { return price; } set { price = value; } }
         public Products() { }
         public Products(int number, string name, decimal price)
         {
@@ -17,26 +20,6 @@ namespace RestApi.Items
             this.price = price;
         }
 
-
-        public int Number
-        {
-            get { return number; }
-            set { number = value; }
-        }
-
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
-
-        public decimal Price
-        {
-            get { return price; }
-            set { price = value; }
-        }
         public static List<Products> GetAllProduct(string sql)
         {
             var rezult = new List<Products>();

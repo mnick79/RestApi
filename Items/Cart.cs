@@ -12,7 +12,11 @@ namespace RestApi.Items
         private int customer_Id;
         public List<Details> details;
 
-        
+        public int Customer_Id { get { return customer_Id; } set { customer_Id = value; } }
+        public string Description { get { return description; } set { description = value; } }
+        public decimal TotalPrice { get { return totalPrice; } set { totalPrice = value; } }
+        public List<Details> Details { get { return details; } set { details = value; } }
+        public int Number { get { return number; } set { number = value; } }
 
 
         public Cart() { }
@@ -24,41 +28,14 @@ namespace RestApi.Items
             
         }
 
+
         public Cart(int number, decimal totalPrice, string description, int customer_Id): this(totalPrice, description, customer_Id)
         {
             this.number = number;
             this.details = new List<Details>();
         }
         
-        public int Customer_Id
-        {
-            get { return customer_Id; }
-            set { customer_Id = value; }
-        }
 
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
-
-
-        public decimal TotalPrice
-        {
-            get { return totalPrice; }
-            set { totalPrice = value; }
-        }
-
-        public List<Details> Details
-        {
-            get { return details; }
-            set { details = value; }
-        }
-        public int Number
-        {
-            get { return number; }
-            set { number = value; }
-        }
 
         public static List<Cart> GetAllCart(string sql)
         {
@@ -137,11 +114,11 @@ namespace RestApi.Items
         }
         public static void PostCart(Cart cart)
         {
-            string sql = $"insert into cart (totalprice, description, customer_id) values ({cart.totalPrice}, '{cart.Description}', {cart.customer_Id}) returning number; ";
+            string sql = $"insert into cart (totalprice, description, customer_id) values ({cart.totalPrice}, '{cart.description}', {cart.customer_Id}) returning number; ";
             // Перебор List<Details> для добавления в таблицу details
             foreach (var item in cart.details)
             {
-                sql += $"insert into details (cart_number, product_number, count) values ((select number from cart where totalprice={cart.totalPrice} and description='{cart.Description}' and customer_id={cart.customer_Id}), {item.Product_number} , {item.Count}) returning id; ";
+                sql += $"insert into details (cart_number, product_number, count) values ((select number from cart where totalprice={cart.totalPrice} and description='{cart.description}' and customer_id={cart.customer_Id}), {item.Product_number} , {item.Count}) returning id; ";
             }
             /* Валидация: введены ли значения или оставлены по умолчанию в поле описания заказа.
              В случае оставления по умолчанию выполняется скрип автонаполнения описания заказа*/
@@ -153,6 +130,7 @@ namespace RestApi.Items
             // Валидация: Если не введена сумма всех детализаций заказа, выполняется скрипт нахождения суммы
             if (cart.totalPrice == 0)
             {
+                
                 sql += ConnectDB.AutoSumTotalprice();
             }
             NpgsqlConnection con = ConnectDB.Connect();

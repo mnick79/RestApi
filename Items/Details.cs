@@ -10,7 +10,10 @@ namespace RestApi.Items
         private int cart_number;
         private int product_number;
         private int count;
-        
+        public int Id { get { return id; } set { id = value; } }
+        public int Cart_number { get { return cart_number; } set { cart_number = value; } }
+        public int Product_number { get { return product_number; } set { product_number = value; } }
+        public int Count { get { return count; } set { count = value; } }
 
         public Details() { }
         public Details(int id, int cart_number, int product_number, int count)
@@ -22,32 +25,6 @@ namespace RestApi.Items
 
         }
 
-        public int Count
-        {
-            get { return count; }
-            set { count = value; }
-        }
-
-
-        public int Product_number
-        {
-            get { return product_number; }
-            set { product_number = value; }
-        }
-
-
-        public int Cart_number
-        {
-            get { return cart_number; }
-            set { cart_number = value; }
-        }
-
-
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
 
         public static List<Details> GetListDetailsByCartNumber(int cart_number)
         {
