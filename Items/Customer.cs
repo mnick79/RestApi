@@ -64,7 +64,7 @@ namespace RestApi.Items
         // Метод добавления нового покупателя
         public static void NewCustomer(Customer value)
         {
-            string sql = $"insert into customer (first_name, last_name, address, vip) values ({value.first_name}, {value.last_name}, {value.address}, {value.vip});";
+            string sql = $"insert into customer (id, first_name, last_name, address, vip) values ((select nextval('customer_id_seq')),{value.first_name}, {value.last_name}, {value.address}, {value.vip});";
             ConnectDB.ExeNoQuery(sql);
         }
 
