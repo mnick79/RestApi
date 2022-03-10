@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Npgsql;
 using RestApi.ConnBD;
 
@@ -90,8 +91,6 @@ namespace RestApi.Items
             }
             read.Close();
             return new Cart();
-
-
         }
         public static void DeleteOneCart(int id)
         {
@@ -104,11 +103,11 @@ namespace RestApi.Items
         }
         public static void PostCart(Cart cart)
         {
-            string sql = $"insert into cart (totalprice, description, customer_id) values ({cart.totalPrice}, '{cart.description}', {cart.customer_Id}) returning number; ";
+            string sql = $"insert into cart (number, totalprice, description, customer_id) values ((select nextval('cart_number_seq')),{cart.totalPrice}, '{cart.description}', {cart.customer_Id}) returning number; ";
             // Перебор List<Details> для добавления в таблицу details
             foreach (var item in cart.details)
             {
-                sql += $"insert into details (cart_number, product_number, count) values ((select number from cart where totalprice={cart.totalPrice} and description='{cart.description}' and customer_id={cart.customer_Id}), {item.Product_number} , {item.Count}) returning id; ";
+                sql += $"insert into details (id, cart_number, product_number, count) values ((select nextval('details_id_seq')),(select number from cart where totalprice={cart.totalPrice} and description='{cart.description}' and customer_id={cart.customer_Id}), {item.Product_number} , {item.Count}) returning id; ";
             }
             /* Валидация: введены ли значения или оставлены по умолчанию в поле описания заказа.
              В случае оставления по умолчанию выполняется скрип автонаполнения описания заказа*/
@@ -120,8 +119,22 @@ namespace RestApi.Items
             // Валидация: Если не введена сумма всех детализаций заказа, выполняется скрипт нахождения суммы
             if (cart.totalPrice == 0)
             {
+                if (!(Customer.GetOnlyOneCustomer(cart.customer_Id).Vip))
+                {
+                    sql += ConnectDB.AutoSumTotalprice();
+                }
+                else
+                {
+                    decimal sum = 0;
+                    foreach (var item in cart.details)
+                    {
+                        sum += item.Count * Products.GetOneProduct(item.Product_number).Price;
+                    }
+                    string discont = Decimal.Round(sum * 0.9M).ToString("#.##").Replace(",", ".");
+                    sql += $@"select setval('cart_number_seq',(select max(number) from cart)); 
+                              update cart set totalprice={discont} where number=(select currval('cart_number_seq'));";
+                }
 
-                sql += ConnectDB.AutoSumTotalprice();
             }
             NpgsqlConnection con = ConnectDB.Connect();
             using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
