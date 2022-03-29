@@ -11,11 +11,9 @@ namespace RestApi.Factories.Implimentations
     public class GetOneFactory : IGetOneFactory
     {
         private Entity entity;
-        private readonly string whatIsEntity;
         public GetOneFactory(Entity _entity)
         {
             entity = _entity;
-            whatIsEntity = entity.WhatIsEntity();
         }
         public Entity GetOneOption(int number)
         {

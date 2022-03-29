@@ -11,17 +11,15 @@ namespace RestApi.Factories.Implimentations
     {
         public List<Entity> entities;
         private Entity _entity;
-        private readonly string whatIsEntity;
         private string sql;
         public GetAllFactory(Entity entity)
         {
             _entity = entity;
-            whatIsEntity = entity.WhatIsEntity();
         }
         public List<Entity> GetAllOption(int customer_number = 0, int cart_number = 0)
         {
             DatabaseContextSelectAll dbContext = new DatabaseContextSelectAll();
-            switch (whatIsEntity)
+            switch (_entity.GetType().Name)
             {
                 case "Customer":
                     sql = "select * from customer limit 10;";
