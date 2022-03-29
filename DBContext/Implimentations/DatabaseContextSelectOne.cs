@@ -3,16 +3,19 @@ using RestApi.Database.Postgres.Implimentations;
 using RestApi.Domains;
 using RestApi.Domains.BaseEntity;
 using Npgsql;
+using RestApi.DBContext.Interfaces;
+
 namespace RestApi.DBContext.Implimentations
 {
-    public class DatabaseContext
+    public class DatabaseContextSelectOne: IDatabaseContextSelectOne
     {
         private Postgres database;
 
-        public DatabaseContext()
+        public DatabaseContextSelectOne()
         {
             database = new Postgres();
         }
+        public Entity SelectOneSql(Entity entity, string sql) => null;
         public Entity SelectOneSql(Customer customer, string sql)
         {
             using (NpgsqlConnection conn = database.Connect())

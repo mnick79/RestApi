@@ -11,14 +11,16 @@ namespace RestApi.Factories.Implimentations
     public class GetOneFactory : IGetOneFactory
     {
         private Entity entity;
+        private readonly string whatIsEntity;
         public GetOneFactory(Entity _entity)
         {
             entity = _entity;
+            whatIsEntity = entity.WhatIsEntity();
         }
         public Entity GetOneOption(int number)
         {
-            DatabaseContext dbContext = new DatabaseContext();
-            switch (entity.WhatIsEntity())
+            DatabaseContextSelectOne dbContext = new DatabaseContextSelectOne();
+            switch (whatIsEntity)
             {
                 case "Customer":
                     return dbContext.SelectOneSql((Customer)entity, entity.SqlGetOne(number));

@@ -2,6 +2,7 @@
 using RestApi.Domains;
 using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,19 +12,12 @@ namespace RestApi.Controllers
     [ApiController]
     public class DetailsController : ControllerBase
     {
-        // GET: api/<DetailsController>
-        /* [HttpGet]
-         public IEnumerable<string> Get()
-         {
-             return new string[] { "value1", "value2" };
-         }
-        */
         // GET api/<DetailsController>/5
-        [HttpGet("{id}")]
-        public Details Get(int id) // cart_number из таблицы cart
+        [HttpGet("{cart_number}")]
+        public List<Details> Get(int cart_number)
         {
-            GetOneService getOneService = new GetOneService(new Details());
-            return (Details)getOneService.GetOne(id);
+            GetAllService getAllService = new GetAllService(new Details());
+            return getAllService.GetAll(cart_number: cart_number).Select(x=>(Details)x).ToList();
         }
 
         // POST api/<DetailsController>

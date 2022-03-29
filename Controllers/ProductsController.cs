@@ -2,6 +2,7 @@
 using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
 using RestApi.Domains;
+using System.Linq;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,11 +15,12 @@ namespace RestApi.Controllers
     {
         // GET: api/<ProductsController>
         [HttpGet]
-        //public List<Products> Get()
-        //{
-        //    return Products.GetAllProduct("select * from product limit 10;");
-        //}
-       
+        public List<Product> Get()
+        {
+            GetAllService getAllService = new GetAllService(new Product());
+            return getAllService.GetAll().Select(x=>(Product)x).ToList();
+        }
+
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
         public Product Get(int id)

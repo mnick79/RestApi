@@ -3,6 +3,7 @@ using RestApi.Domains;
 using RestApi.Domains.BaseEntity;
 using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,11 +14,12 @@ namespace RestApi.Controllers
     public class CustomersController : ControllerBase
     {
         // GET: api/<CustomersController>
-       // [HttpGet]
-        //public List<Customer> Get()
-        //{
-        //    return Customer.GetAllCustomer("select * from customer;");
-        //}
+        [HttpGet]
+        public List<Customer> Get()
+        {
+            GetAllService getAllService = new GetAllService(new Customer());
+            return getAllService.GetAll().Select(x=>(Customer)x).ToList();
+        }
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
