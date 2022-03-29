@@ -1,11 +1,12 @@
 ﻿using RestApi.Domains.BaseEntity;
 using RestApi.Factories.ExtensionEntity;
 using RestApi.Factories.Implimentations;
+using RestApi.Servises.Interfaces;
 using System.Collections.Generic;
 
 namespace RestApi.Servises.Implimentations
 {
-    public class GetAllService
+    public class GetAllService: IGetAllService
     {
         private readonly Entity _entity;
         public GetAllService(Entity entity)

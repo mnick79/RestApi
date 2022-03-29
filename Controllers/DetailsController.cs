@@ -35,11 +35,12 @@ namespace RestApi.Controllers
         //}
 
         // DELETE api/<DetailsController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //    Details.DeleteOneDetails(id);
-        //}
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            DeleteService deleteService = new DeleteService(new Details());
+            deleteService.Delete(id);
+        }
 
     }
 }

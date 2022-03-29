@@ -2,11 +2,12 @@
 using RestApi.Domains;
 using RestApi.Domains.BaseEntity;
 using RestApi.Factories.ExtensionEntity;
+using RestApi.Factories.Interfaces;
 using System.Collections.Generic;
 
 namespace RestApi.Factories.Implimentations
 {
-    public class GetAllFactory
+    public class GetAllFactory : IGetAllFactory
     {
         public List<Entity> entities;
         private Entity _entity;

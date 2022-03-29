@@ -20,7 +20,7 @@ namespace RestApi.Factories.Implimentations
         public Entity GetOneOption(int number)
         {
             DatabaseContextSelectOne dbContext = new DatabaseContextSelectOne();
-            switch (whatIsEntity)
+            switch (entity.GetType().Name)
             {
                 case "Customer":
                     return dbContext.SelectOneSql((Customer)entity, entity.SqlGetOne(number));

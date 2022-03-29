@@ -35,10 +35,11 @@ namespace RestApi.Controllers
         //}
 
         // DELETE api/<CartController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //    Cart.DeleteOneCart(id);
-        //}
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            DeleteService deleteService =new DeleteService(new Cart());
+            deleteService.Delete(id);
+        }
     }
 }
