@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Items;
+using RestApi.Domains;
+using RestApi.Domains.BaseEntity;
+using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,7 +23,8 @@ namespace RestApi.Controllers
         [HttpGet("{id}")]
         public Customer Get(int id)
         {
-            return Customer.GetOnlyOneCustomer(id);
+            GetOneService getOneService = new GetOneService(new Customer());
+            return (Customer)getOneService.GetOne(id);
         }
 
         // POST api/<CustomersController>

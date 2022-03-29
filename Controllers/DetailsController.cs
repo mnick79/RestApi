@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Items;
+using RestApi.Domains;
+using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,32 +19,33 @@ namespace RestApi.Controllers
          }
         */
         // GET api/<DetailsController>/5
-        [HttpGet("{cart_number}")]
-        public List<Details> Get(int cart_number) // cart_number из таблицы cart
+        [HttpGet("{id}")]
+        public Details Get(int id) // cart_number из таблицы cart
         {
-            return Details.GetListDetailsByCartNumber(cart_number);
+            GetOneService getOneService = new GetOneService(new Details());
+            return (Details)getOneService.GetOne(id);
         }
 
         // POST api/<DetailsController>
-        [HttpPost]
-        public void Post([FromBody] Details value)
-        {
-            Details.PostDetails(value);
-        }
+        //[HttpPost]
+        //public void Post([FromBody] Details value)
+        //{
+        //    Details.PostDetails(value);
+        //}
 
         // PUT api/<DetailsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Details value)
-        {
-            Details.PutDetails(id, value);
-        }
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] Details value)
+        //{
+        //    Details.PutDetails(id, value);
+        //}
 
         // DELETE api/<DetailsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            Details.DeleteOneDetails(id);
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    Details.DeleteOneDetails(id);
+        //}
 
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Items;
+using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
+using RestApi.Domains;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,16 +14,17 @@ namespace RestApi.Controllers
     {
         // GET: api/<ProductsController>
         [HttpGet]
-        public List<Products> Get()
-        {
-            return Products.GetAllProduct("select * from product limit 10;");
-        }
+        //public List<Products> Get()
+        //{
+        //    return Products.GetAllProduct("select * from product limit 10;");
+        //}
        
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
-        public Products Get(int id)
+        public Product Get(int id)
         {
-            return Products.GetOneProduct(id);
+            GetOneService getOneService = new GetOneService(new Product());
+            return (Product)getOneService.GetOne(id);
         }
 
         // POST api/<ProductsController>
