@@ -39,12 +39,15 @@ namespace RestApi.Controllers
             postService.Post();
            }
 
-        /*    // PUT api/<ProductsController>/5
+            // PUT api/<ProductsController>/5
            [HttpPut("{id}")]
-           public void Put(int id, [FromBody] string value)
+           public void Put(int id, [FromBody] Product value)
            {
-           }
-
+            PutService putService = new PutService(value);
+            ProductValidator productValidator = new ProductValidator();
+            putService.Put(id);
+        }
+        /*
            // DELETE api/<ProductsController>/5
            [HttpDelete("{id}")]
            public void Delete(int id)

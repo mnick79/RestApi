@@ -21,8 +21,8 @@ namespace RestApi.Domains.Validation
                 .MinimumLength(1).WithMessage("Short name Address")
                 .MaximumLength(250).WithMessage("The Address must be shorter than 250 characters");
             RuleFor(customer => customer.Vip)
-                .NotEmpty().WithMessage("Vip cannot be empty")
-                .Must(vip => (new[] { "FALSE", "TRUE" }).Contains(vip.ToString().ToUpper()))
+                .Must(vip => (new[] { "False", "True" }).Contains(vip.ToString()))
+                //.Must(vip => (vip.ToString() == "True" || vip.ToString() == "False"))
                 .WithMessage("Vip must be false or true");
 
         }
