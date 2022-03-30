@@ -9,6 +9,7 @@ namespace RestApi.Factories.Implimentations
     {
         private string _sql;
         private readonly Entity _entity;
+        private string _discont = "1";
         public PutFactory(Entity entity)
         {
             _entity = entity;
@@ -16,6 +17,7 @@ namespace RestApi.Factories.Implimentations
         public void PutOption(int id)
         {
             DatabaseContextPut databaseContextPost = new DatabaseContextPut();
+
             switch (_entity.GetType().Name)
             {
                 case "Customer":
@@ -36,6 +38,30 @@ namespace RestApi.Factories.Implimentations
                     Details details = (Details)_entity;
                     _sql = $"update details set cart_number = {details.CartNumber}, product_number={details.ProductNumber}," +
                         $" count={details.Count} where number={id};";
+                    //Внесение изменений в заказ после изменения в детализации
+                    VipFactory vipFactory = new VipFactory();
+                    // Автосуммы в поле cart.Totalprice, если значение по умолчанию (равно нулю)
+                    // Реализация на строне БД. Определение VIP клиента на стороне API
+                    bool _isVip = vipFactory.SearchVipInCustomer(vipFactory.SearchVipInCart(vipFactory.SearchVipInDetails(details.Number)));
+                    if (!_isVip) { _discont = "0.9"; }
+                    _sql += $@"update cart as cart1
+                            set totalprice = (select sum(d.count*p.price)*{_discont} 
+					        from cart join details d on cart.number=d.cart_number 
+					        join product p on d.product_number=p.number 
+					        where cart.customer_number=cart1.customer_number)
+                            where cart1.number={details.CartNumber};";
+                    // Реализация автозаполнения после побавления новой детализации
+                    _sql += $@"update cart as cart1
+                                set description = (select 
+                                SUBSTRING(
+                                STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
+                                FROM 0 FOR 254) 
+                                from customer c 
+                                join  cart on c.number=cart.customer_number 
+                                join details d on cart.number=d.cart_number 
+                                join product p on d.product_number=p.number 
+                                where cart.customer_number=cart1.customer_number)
+                                where cart1.number={details.CartNumber};";
                     break;
             }
             databaseContextPost.PutSql(_sql);
