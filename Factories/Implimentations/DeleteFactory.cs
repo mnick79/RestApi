@@ -5,7 +5,7 @@ namespace RestApi.Factories.Implimentations
 {
     public class DeleteFactory : IDeleteFactory
     {
-        private string sql;
+        private string _sql;
         private readonly Entity _entity;
         public DeleteFactory(Entity entity)
         {
@@ -13,9 +13,9 @@ namespace RestApi.Factories.Implimentations
         }
         public void DeleteOption(int id)
         {
-            sql = $"delete from {_entity.GetType().Name} where number={id}";
+            _sql = $"delete from {_entity.GetType().Name} where number={id}";
             DatabaseContextDeleteOne databaseContextDeleteOne=new DatabaseContextDeleteOne();
-            databaseContextDeleteOne.DeleteOneSql(sql);
+            databaseContextDeleteOne.DeleteOneSql(_sql);
         }
     }
 }

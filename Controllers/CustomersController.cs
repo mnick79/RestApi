@@ -30,26 +30,27 @@ namespace RestApi.Controllers
         }
 
         // POST api/<CustomersController>
-       /* [HttpPost]
+        [HttpPost]
         public void Post([FromBody] Customer value)
         {
-            Customer.NewCustomer(value);
+            PostService postService = new PostService(value);
+            postService.Post();
         }
-       */
+
 
         // PUT api/<CustomersController>/5
-       /* [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-       */
-       /*
-        // DELETE api/<CustomersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            Customer.DeleteCustomer(id);
-        }
-       */
+        /* [HttpPut("{id}")]
+         public void Put(int id, [FromBody] string value)
+         {
+         }
+        */
+        /*
+         // DELETE api/<CustomersController>/5
+         [HttpDelete("{id}")]
+         public void Delete(int id)
+         {
+             Customer.DeleteCustomer(id);
+         }
+        */
     }
 }

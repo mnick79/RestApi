@@ -1,19 +1,17 @@
-﻿using Npgsql;
-using RestApi.Database.Postgres.Implimentations;
+﻿using RestApi.Database.Postgres.Implimentations;
 using RestApi.DBContext.Interfaces;
-using RestApi.Domains.BaseEntity;
-
+using Npgsql;
 namespace RestApi.DBContext.Implimentations
 {
-    public class DatabaseContextDeleteOne : IDatabaseContextDelete
+    public class DatabaseContextPost : IDatabaseContextPost
     {
         private Postgres database;
-
-        public DatabaseContextDeleteOne()
+        public DatabaseContextPost()
         {
             database = new Postgres();
         }
-        public void DeleteOneSql(string sql)
+
+        public void PostSql(string sql)
         {
             using (NpgsqlConnection conn = database.Connect())
             {
