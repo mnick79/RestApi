@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestApi.Domains;
 using RestApi.Domains.BaseEntity;
+using RestApi.Domains.Validation;
 using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace RestApi.Controllers
         public void Post([FromBody] Customer value)
         {
             PostService postService = new PostService(value);
+            CustomerValidator customerValidator = new CustomerValidator();
             postService.Post();
         }
 

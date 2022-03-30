@@ -3,6 +3,7 @@ using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
 using RestApi.Domains;
 using System.Linq;
+using RestApi.Domains.Validation;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,22 +31,25 @@ namespace RestApi.Controllers
         }
 
         // POST api/<ProductsController>
-     /*   [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+          [HttpPost]
+           public void Post([FromBody] Product value)
+           {
+            PostService postService = new PostService(value);
+            ProductValidator productValidator = new ProductValidator();
+            postService.Post();
+           }
 
-        // PUT api/<ProductsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        /*    // PUT api/<ProductsController>/5
+           [HttpPut("{id}")]
+           public void Put(int id, [FromBody] string value)
+           {
+           }
 
-        // DELETE api/<ProductsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-     */
+           // DELETE api/<ProductsController>/5
+           [HttpDelete("{id}")]
+           public void Delete(int id)
+           {
+           }
+        */
     }
 }

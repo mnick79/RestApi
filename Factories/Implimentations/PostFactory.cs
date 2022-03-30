@@ -26,6 +26,9 @@ namespace RestApi.Factories.Implimentations
                         $"'{customer.Address}', {customer.Vip.ToString()}); ";
                     break;
                 case "Product":
+                    Product product = (Product)_entity;
+                    _sql = $"insert into product (number, name, price) " +
+                        $"values ((select nextval('product_number_seq')), '{product.Name}', {product.Price.ToString().Replace(',','.')});";
                     break;
                 case "Cart":
                     break;

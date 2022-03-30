@@ -11,7 +11,7 @@ namespace RestApi.Servises.Implimentations
         public PostService(Entity entity)
         {
             _entity=entity;
-            CustomerValidator customerValidator = new CustomerValidator();
+            
         }
         public void Post()
         {
