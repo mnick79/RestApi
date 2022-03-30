@@ -30,7 +30,12 @@ namespace RestApi.Factories.Implimentations
                     _sql = $"insert into product (number, name, price) " +
                         $"values ((select nextval('product_number_seq')), '{product.Name}', {product.Price.ToString().Replace(',','.')});";
                     break;
+
                 case "Cart":
+                    Cart cart = (Cart)_entity;
+                    _sql = $"insert into cart (number, totalprice, description, customer_number) " +
+                        $"values((select nextval('cart_number_seq')), {cart.TotalPrice.ToString().Replace(',','.')}, '{cart.Description}', {cart.CustomerNumber} );";
+
                     break;
                 case "Details":
                     break;

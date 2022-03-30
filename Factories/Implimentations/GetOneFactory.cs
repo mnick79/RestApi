@@ -31,6 +31,5 @@ namespace RestApi.Factories.Implimentations
             }
             return entity;
         }
-
     }
 }

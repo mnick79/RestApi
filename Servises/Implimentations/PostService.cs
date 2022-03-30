@@ -11,7 +11,6 @@ namespace RestApi.Servises.Implimentations
         public PostService(Entity entity)
         {
             _entity=entity;
-            
         }
         public void Post()
         {
