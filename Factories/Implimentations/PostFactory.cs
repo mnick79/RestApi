@@ -38,6 +38,9 @@ namespace RestApi.Factories.Implimentations
 
                     break;
                 case "Details":
+                    Details details = (Details)_entity;
+                    _sql = $"insert into details (number, cart_number, product_number, count) " +
+                        $"values ((select nextval('cart_number_seq')), {details.CartNumber}, {details.ProductNumber},{details.Count});";
                     break;
             }
             databaseContextPost.PostSql(_sql);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestApi.Domains;
+using RestApi.Domains.Validation;
 using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,13 @@ namespace RestApi.Controllers
         }
 
         // POST api/<DetailsController>
-        //[HttpPost]
-        //public void Post([FromBody] Details value)
-        //{
-        //    Details.PostDetails(value);
-        //}
+        [HttpPost]
+        public void Post([FromBody] Details value)
+        {
+            PostService postService = new PostService(value);
+            DetailsValidator detailsValidator = new DetailsValidator();
+            postService.Post();
+        }
 
         // PUT api/<DetailsController>/5
         //[HttpPut("{id}")]
