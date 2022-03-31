@@ -5,15 +5,14 @@ namespace RestApi.Servises.Implimentations
 {
     public class DeleteService : IDeleteServise
     {
-        private readonly Entity _entity;
-        public DeleteService(Entity entity)
+        DeleteFactory _deleteFactory;
+        public DeleteService(DeleteFactory deleteFactory)
         {
-            _entity = entity;
+            _deleteFactory = deleteFactory;
         }
         public void Delete(int id)
         {
-            DeleteFactory deleteFactory = new DeleteFactory(_entity);
-            deleteFactory.DeleteOption(id);
+            _deleteFactory.DeleteOption(id);
         }
     }
 }

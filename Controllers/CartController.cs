@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestApi.Domains;
 using RestApi.Domains.Validation;
+using RestApi.Factories.Implimentations;
 using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace RestApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            DeleteService deleteService =new DeleteService(new Cart());
+            DeleteService deleteService = new DeleteService(new DeleteFactory(new Cart()));
             deleteService.Delete(id);
         }
     }
