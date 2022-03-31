@@ -100,10 +100,10 @@ namespace RestApi.Factories.Implimentations
                                 STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
                                 FROM 0 FOR 254) 
                                 from customer c 
-                                join  cart on c.number=cart.customer_number 
+                                join  cart on c.number=cart.customer_number     
                                 join details d on cart.number=d.cart_number 
                                 join product p on d.product_number=p.number 
-                                where cart.customer_number=cart1.customer_number)
+                                where cart.customer_number=(select currval('cart_number_seq')))
                                 where cart1.number=(select currval('cart_number_seq'));";
             }
             else
@@ -117,7 +117,7 @@ namespace RestApi.Factories.Implimentations
                                 join  cart on c.number=cart.customer_number 
                                 join details d on cart.number=d.cart_number 
                                 join product p on d.product_number=p.number 
-                                where cart.customer_number=cart1.customer_number)
+                                where cart.number={cartNumber})
                                 where cart1.number={cartNumber};";
             }
             

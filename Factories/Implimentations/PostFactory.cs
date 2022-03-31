@@ -41,7 +41,7 @@ namespace RestApi.Factories.Implimentations
                         $"select setval('cart_number_seq', (select max(number) from cart));";
 
                     //Автосумма применяется, когда значение по умолчанию не изменялось,
-                    //в ином случае вносит изменения суммы следующей строкой
+                    //в ином случае вносит изменения суммы автозаполнением
                     _sql += vipFactory.AutoSummForPostCartCurrentSeq(cart);
                     // Автозаполнения cart.Decription, если cart.Decription равен "" или "string" при заполнении
                     // Реализация на стороне БД
@@ -53,7 +53,7 @@ namespace RestApi.Factories.Implimentations
                     }
                     else
                     {
-                        _sql += $"update cart set cart.description ={cart.Description} where number=(select currval('cart_number_seq'));"; ;
+                        _sql += $"update cart set description ='{cart.Description}' where number=(select currval('cart_number_seq'));";
                     }
                     
                     break;
