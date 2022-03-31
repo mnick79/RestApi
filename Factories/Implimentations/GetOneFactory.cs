@@ -10,7 +10,7 @@ namespace RestApi.Factories.Implimentations
     
     public class GetOneFactory : IGetOneFactory
     {
-        private Entity entity;
+        private readonly Entity entity;
         public GetOneFactory(Entity _entity)
         {
             entity = _entity;
@@ -28,6 +28,8 @@ namespace RestApi.Factories.Implimentations
                     return dbContext.SelectOneSql((Cart)entity, entity.SqlGetOne(number));
                 case "Details":
                     return dbContext.SelectOneSql((Details)entity, entity.SqlGetOne(number));
+                default:
+                    break;
             }
             return entity;
         }

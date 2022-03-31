@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestApi.Domains;
-using RestApi.Domains.BaseEntity;
 using RestApi.Domains.Validation;
 using RestApi.Factories.Implimentations;
 using RestApi.Servises.Implimentations;
@@ -19,7 +18,7 @@ namespace RestApi.Controllers
         [HttpGet("{cart_number}")]
         public List<Details> Get(int cart_number)
         {
-            GetAllService getAllService = new GetAllService(new Details());
+            GetAllService getAllService = new GetAllService(new GetAllFactory(new Details()));
             return getAllService.GetAll(cart_number: cart_number).Select(x=>(Details)x).ToList();
         }
 
@@ -27,18 +26,18 @@ namespace RestApi.Controllers
         [HttpPost]
         public void Post([FromBody] Details value)
         {
-            PostService postService = new PostService(value);
+            Details details = value;
             DetailsValidator detailsValidator = new DetailsValidator();
-            postService.Post();
+            new PostService(new PostFactory(details)).Post();
         }
 
         // PUT api/<DetailsController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Details value)
         {
-            PutService putService = new PutService(value);
+            Details details = value;
             DetailsValidator detailsValidator = new DetailsValidator();
-            putService.Put(id);
+            new PutService(new PutFactory(details)).Put(id);
         }
 
         // DELETE api/<DetailsController>/5

@@ -9,7 +9,7 @@ namespace RestApi.DBContext.Implimentations
 {
     public class DatabaseContextSelectAll : IDatabaseContextSelectAll
     {
-        private Postgres database;
+        private readonly Postgres database;
         public DatabaseContextSelectAll()
         {
             database = new Postgres();

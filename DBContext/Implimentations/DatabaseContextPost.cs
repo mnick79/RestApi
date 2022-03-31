@@ -5,7 +5,7 @@ namespace RestApi.DBContext.Implimentations
 {
     public class DatabaseContextPost : IDatabaseContextPost
     {
-        private Postgres database;
+        private readonly Postgres database;
         public DatabaseContextPost()
         {
             database = new Postgres();

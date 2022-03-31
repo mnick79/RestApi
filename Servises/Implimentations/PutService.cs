@@ -6,15 +6,14 @@ namespace RestApi.Servises.Implimentations
 {
     public class PutService : IPutService
     {
-        private Entity _entity;
-        public PutService(Entity entity)
+        private readonly PutFactory _putFactory;
+        public PutService(PutFactory putFactory)
         {
-            _entity = entity;
+            _putFactory = putFactory;
         }
         public void Put(int id)
         {
-            PutFactory putFactory = new PutFactory(_entity);
-            putFactory.PutOption(id);
+            _putFactory.PutOption(id);
         }
     }
 }

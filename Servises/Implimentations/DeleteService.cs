@@ -5,7 +5,7 @@ namespace RestApi.Servises.Implimentations
 {
     public class DeleteService : IDeleteServise
     {
-        DeleteFactory _deleteFactory;
+        private readonly DeleteFactory _deleteFactory;
         public DeleteService(DeleteFactory deleteFactory)
         {
             _deleteFactory = deleteFactory;

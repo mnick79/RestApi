@@ -2,9 +2,8 @@
 using RestApi.Domains;
 using RestApi.Domains.BaseEntity;
 using RestApi.Domains.Validation;
+using RestApi.Factories.Implimentations;
 using RestApi.Servises.Implimentations;
-using System.Collections.Generic;
-using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,7 +25,7 @@ namespace RestApi.Controllers
         [HttpGet("{id}")]
         public Customer Get(int id)
         {
-            GetOneService getOneService = new GetOneService(new Customer());
+            GetOneService getOneService = new GetOneService(new GetOneFactory(new Customer()));
             return (Customer)getOneService.GetOne(id);
         }
 
