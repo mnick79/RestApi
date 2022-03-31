@@ -6,7 +6,7 @@ namespace RestApi.DBContext.Implimentations.Vip
 {
     public class DatabaseContextVip : IDatabaseContextVip
     {
-        private Postgres database;
+        private readonly Postgres database;
         public DatabaseContextVip()
         {
             database = new Postgres();

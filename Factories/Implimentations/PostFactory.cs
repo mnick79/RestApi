@@ -8,7 +8,7 @@ namespace RestApi.Factories.Implimentations
     public class PostFactory : IPostFactory
     {
         private string _sql;
-        private Entity _entity;
+        private readonly Entity _entity;
         public PostFactory(Entity entity)
         {
             _entity = entity;
@@ -24,7 +24,7 @@ namespace RestApi.Factories.Implimentations
                     Customer customer = (Customer)_entity;
                     _sql = $"insert into customer (number, first_name, last_name, address, vip) " +
                         $"values((select nextval('customer_number_seq')), '{customer.FistName}', '{customer.LastName}', " +
-                        $"'{customer.Address}', {customer.Vip.ToString()}) returning number; " +
+                        $"'{customer.Address}', {customer.Vip}) returning number; " +
                         $"select setval('customer_number_seq', (select max(number) from customer));";
                     break;
                 case "Product":

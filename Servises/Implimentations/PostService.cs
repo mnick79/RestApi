@@ -7,15 +7,14 @@ namespace RestApi.Servises.Implimentations
 {
     public class PostService : IPostService
     {
-        private Entity _entity;
-        public PostService(Entity entity)
+        private readonly PostFactory _postFactory;
+        public PostService(PostFactory postFactory)
         {
-            _entity=entity;
+            _postFactory=postFactory; 
         }
         public void Post()
         {
-            PostFactory postFactory = new PostFactory(_entity);
-            postFactory.PostOption();
+            _postFactory.PostOption();
         }
     }
 }

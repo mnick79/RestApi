@@ -16,7 +16,7 @@ namespace RestApi.Controllers
         [HttpGet("{customer_number}")]
         public List<Cart> Get(int customer_number)
         {
-            GetAllService getAllService = new GetAllService(new Cart());
+            GetAllService getAllService = new GetAllService(new GetAllFactory(new Cart()));
             return getAllService.GetAll(customer_number: customer_number).Select(x=>(Cart)x).ToList();
         }
 
@@ -24,7 +24,8 @@ namespace RestApi.Controllers
         [HttpPost]
         public void Post([FromBody] Cart value)
         {
-            PostService postService = new PostService(value);
+            Cart cart = value;
+            PostService postService = new PostService(new PostFactory(cart));
             CartValidator cartValidator = new CartValidator();
             postService.Post();
         }
@@ -33,7 +34,8 @@ namespace RestApi.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Cart value)
         {
-            PutService putService = new PutService(value);
+            Cart cart = value;
+            PutService putService = new PutService(new PutFactory(cart));
             CartValidator cartValidator = new CartValidator();
             putService.Put(id);
         }

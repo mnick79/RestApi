@@ -12,7 +12,7 @@ namespace RestApi.Factories.Implimentations
         private string _sqlAutoSumm;
         private bool _IsVip;
         private string _discont = "1";
-        private DatabaseContextVip databaseContextVip;
+        private readonly DatabaseContextVip databaseContextVip;
 
         public VipFactory()
         {
@@ -48,7 +48,6 @@ namespace RestApi.Factories.Implimentations
                     if (_IsVip) { _discont = "0.9"; }
                     break;
                 case "Details":
-                    Details details = (Details)entity;
                     _IsVip = SearchVipInCustomer(SearchVipInCart(SearchVipInDetails(cartNumber)));
                     break;
             }

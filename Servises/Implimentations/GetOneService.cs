@@ -6,16 +6,14 @@ namespace RestApi.Servises.Implimentations
 {
     public class GetOneService : IGetOneService
     {
-        private readonly Entity _entity;
-        public GetOneService(Entity entity)
+        private readonly GetOneFactory _getOneFactory;
+        public GetOneService(GetOneFactory getOneFactory)
         {
-            _entity = entity;
+            _getOneFactory = getOneFactory;
         }
         public Entity GetOne(int number)
         {
-            GetOneFactory getOneFactory = new GetOneFactory(_entity);
-
-            return getOneFactory.GetOneOption(number);
+            return _getOneFactory.GetOneOption(number);
         }
     }
 }

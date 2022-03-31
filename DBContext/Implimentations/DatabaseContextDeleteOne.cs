@@ -7,7 +7,7 @@ namespace RestApi.DBContext.Implimentations
 {
     public class DatabaseContextDeleteOne : IDatabaseContextDelete
     {
-        private Postgres database;
+        private readonly Postgres database;
 
         public DatabaseContextDeleteOne()
         {

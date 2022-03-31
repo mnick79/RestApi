@@ -1,5 +1,4 @@
-﻿using RestApi.Database.Interfaces;
-using RestApi.Database.Postgres.Implimentations;
+﻿using RestApi.Database.Postgres.Implimentations;
 using RestApi.Domains;
 using RestApi.Domains.BaseEntity;
 using Npgsql;
@@ -9,7 +8,7 @@ namespace RestApi.DBContext.Implimentations
 {
     public class DatabaseContextSelectOne: IDatabaseContextSelectOne
     {
-        private Postgres database;
+        private readonly Postgres database;
 
         public DatabaseContextSelectOne()
         {
