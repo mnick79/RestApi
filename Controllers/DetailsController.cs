@@ -43,6 +43,7 @@ namespace RestApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+
             DeleteService deleteService = new DeleteService(new Details());
             deleteService.Delete(id);
         }
