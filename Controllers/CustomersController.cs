@@ -14,13 +14,13 @@ namespace RestApi.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        // GET: api/<CustomersController>
-        [HttpGet]
-        public List<Customer> Get()
-        {
-            GetAllService getAllService = new GetAllService(new Customer());
-            return getAllService.GetAll().Select(x=>(Customer)x).ToList();
-        }
+        // GET: api/<CustomersController> - нет в ТЗ
+        //[HttpGet]
+        //public List<Customer> Get()
+        //{
+        //    GetAllService getAllService = new GetAllService(new Customer());
+        //    return getAllService.GetAll().Select(x=>(Customer)x).ToList();
+        //}
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
@@ -30,33 +30,24 @@ namespace RestApi.Controllers
             return (Customer)getOneService.GetOne(id);
         }
 
-        // POST api/<CustomersController>
-        [HttpPost]
-        public void Post([FromBody] Customer value)
-        {
-            PostService postService = new PostService(value);
-            CustomerValidator customerValidator = new CustomerValidator();
-            postService.Post();
-        }
+        // POST api/<CustomersController> -нет в ТЗ
+        //[HttpPost]
+        //public void Post([FromBody] Customer value)
+        //{
+        //    PostService postService = new PostService(value);
+        //    CustomerValidator customerValidator = new CustomerValidator();
+        //    postService.Post();
+        //}
 
 
-        // PUT api/<CustomersController>/5
-         [HttpPut("{id}")]
-         public void Put(int id, [FromBody] Customer value)
-         {
-            PutService putService = new PutService(value);
-            CustomerValidator customerValidator = new CustomerValidator();
-            putService.Put(id);
+        // PUT api/<CustomersController>/5 -нет в ТЗ
+        //[HttpPut("{id}")]
+        // public void Put(int id, [FromBody] Customer value)
+        // {
+        //    PutService putService = new PutService(value);
+        //    CustomerValidator customerValidator = new CustomerValidator();
+        //    putService.Put(id);
 
-         }
-
-        /*
-         // DELETE api/<CustomersController>/5
-         [HttpDelete("{id}")]
-         public void Delete(int id)
-         {
-             Customer.DeleteCustomer(id);
-         }
-        */
+        // }
     }
 }
