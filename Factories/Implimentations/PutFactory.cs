@@ -36,17 +36,18 @@ namespace RestApi.Factories.Implimentations
                     //Внесение автосуммы
                     _sql += vipFactory.AutoSumm(cart, id);
                     // Реализация автозаполнения после побавления новой детализации
-                    _sql += $@"update cart as cart1
-                                set description = (select 
-                                SUBSTRING(
-                                STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
-                                FROM 0 FOR 254) 
-                                from customer c 
-                                join  cart on c.number=cart.customer_number 
-                                join details d on cart.number=d.cart_number 
-                                join product p on d.product_number=p.number 
-                                where cart.customer_number=cart1.customer_number)
-                                where cart1.number={cart.Number};";
+                    _sql += vipFactory.AutoDescription(id);
+                    //_sql += $@"update cart as cart1
+                    //            set description = (select 
+                    //            SUBSTRING(
+                    //            STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
+                    //            FROM 0 FOR 254) 
+                    //            from customer c 
+                    //            join  cart on c.number=cart.customer_number 
+                    //            join details d on cart.number=d.cart_number 
+                    //            join product p on d.product_number=p.number 
+                    //            where cart.customer_number=cart1.customer_number)
+                    //            where cart1.number={cart.Number};";
                     break;
                 case "Details":
                     Details details = (Details)_entity;
@@ -56,19 +57,20 @@ namespace RestApi.Factories.Implimentations
                     VipFactory vipFactory1 = new VipFactory();
                     // Автосуммы в поле cart.Totalprice, если значение по умолчанию (равно нулю)
                     _sql += vipFactory.AutoSumm(details, details.CartNumber);
-                    
+
                     // Реализация автозаполнения после побавления новой детализации
-                    _sql += $@"update cart as cart1
-                                set description = (select 
-                                SUBSTRING(
-                                STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
-                                FROM 0 FOR 254) 
-                                from customer c 
-                                join  cart on c.number=cart.customer_number 
-                                join details d on cart.number=d.cart_number 
-                                join product p on d.product_number=p.number 
-                                where cart.customer_number=cart1.customer_number)
-                                where cart1.number={details.CartNumber};";
+                    _sql += vipFactory.AutoDescription(details.CartNumber);
+                    //_sql += $@"update cart as cart1
+                    //            set description = (select 
+                    //            SUBSTRING(
+                    //            STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
+                    //            FROM 0 FOR 254) 
+                    //            from customer c 
+                    //            join  cart on c.number=cart.customer_number 
+                    //            join details d on cart.number=d.cart_number 
+                    //            join product p on d.product_number=p.number 
+                    //            where cart.customer_number=cart1.customer_number)
+                    //            where cart1.number={details.CartNumber};";
                     break;
             }
             databaseContextPost.PutSql(_sql);

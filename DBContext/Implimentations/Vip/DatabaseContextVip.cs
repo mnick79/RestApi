@@ -21,7 +21,7 @@ namespace RestApi.DBContext.Implimentations.Vip
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    rezult = read.GetInt32(1);
+                    rezult = read.GetInt32(0);
                 }
                 conn.Close();
             }
