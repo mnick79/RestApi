@@ -29,30 +29,5 @@ namespace RestApi.Controllers
             GetOneService getOneService = new GetOneService(new Product());
             return (Product)getOneService.GetOne(id);
         }
-
-        // POST api/<ProductsController>
-          [HttpPost]
-           public void Post([FromBody] Product value)
-           {
-            PostService postService = new PostService(value);
-            ProductValidator productValidator = new ProductValidator();
-            postService.Post();
-           }
-
-            // PUT api/<ProductsController>/5
-           [HttpPut("{id}")]
-           public void Put(int id, [FromBody] Product value)
-           {
-            PutService putService = new PutService(value);
-            ProductValidator productValidator = new ProductValidator();
-            putService.Put(id);
-        }
-        /*
-           // DELETE api/<ProductsController>/5
-           [HttpDelete("{id}")]
-           public void Delete(int id)
-           {
-           }
-        */
     }
 }
