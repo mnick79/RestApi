@@ -9,8 +9,6 @@ namespace RestApi.Factories.Implimentations
     {
         private string _sql;
         private Entity _entity;
-        private bool _isVip;
-        private string _discont="1";
         public PostFactory(Entity entity)
         {
             _entity = entity;
@@ -36,13 +34,16 @@ namespace RestApi.Factories.Implimentations
 
                 case "Cart":
                     Cart cart = (Cart)_entity;
-                    // Определение VIP клиента
-                    _isVip = vipFactory.SearchVipInCustomer(vipFactory.SearchVipInCart(cart.Number));
-                    
-                    _sql = $"insert into cart (number, customer_number) " +
-                        $"values((select nextval('cart_number_seq')), {cart.CustomerNumber} );";
+                    _sql = $"insert into cart (number, customer_number, totalprice) " +
+                        $"values((select nextval('cart_number_seq')), {cart.CustomerNumber}, {cart.TotalPrice} );";
+
+                    //Автосумма применяется, когда значение по умолчанию не изменялось,
+                    //в ином случае вносит изменения суммы следующей строкой
+                    _sql += vipFactory.AutoSummForPostCartCurrentSeq(cart);
                     // Автозаполнения cart.Decription, если cart.Decription равен "" или "string" при заполнении
                     // Реализация на стороне БД
+
+
                     if (cart.Description.Trim() == "" || cart.Description.Trim()== "string")
                     {
                         _sql += @"update cart as cart1
@@ -56,6 +57,7 @@ namespace RestApi.Factories.Implimentations
                                 join product p on d.product_number=p.number 
                                 where cart.customer_number=cart1.customer_number)
                                 where cart1.number=(select currval('cart_number_seq'));";
+
                     }
                     else
                     {
@@ -67,16 +69,14 @@ namespace RestApi.Factories.Implimentations
                     Details details = (Details)_entity;
                     _sql = $"insert into details (number, cart_number, product_number, count) " +
                         $"values ((select nextval('details_number_seq')), {details.CartNumber}, {details.ProductNumber},{details.Count});";
+
                     // Автосуммы в поле cart.Totalprice, если значение по умолчанию (равно нулю)
                     // Реализация на строне БД. Определение VIP клиента на стороне API
-                    _isVip = vipFactory.SearchVipInCustomer(vipFactory.SearchVipInCart(vipFactory.SearchVipInDetails(details.Number)));
-                    if (!_isVip) { _discont = "0.9"; }
-                    _sql += $@"update cart as cart1
-                            set totalprice = (select sum(d.count*p.price)*{_discont} 
-					        from cart join details d on cart.number=d.cart_number 
-					        join product p on d.product_number=p.number 
-					        where cart.customer_number=cart1.customer_number)
-                            where cart1.number={details.CartNumber};";
+
+                    _sql += vipFactory.AutoSumm(_entity, details.CartNumber);
+
+
+
                     // Реализация автозаполнения после побавления новой детализации
                     _sql += $@"update cart as cart1
                                 set description = (select 

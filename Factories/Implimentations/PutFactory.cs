@@ -9,10 +9,11 @@ namespace RestApi.Factories.Implimentations
     {
         private string _sql;
         private readonly Entity _entity;
-        private string _discont = "1";
+        private VipFactory vipFactory;
         public PutFactory(Entity entity)
         {
             _entity = entity;
+            vipFactory = new VipFactory();
         }
         public void PutOption(int id)
         {
@@ -31,25 +32,31 @@ namespace RestApi.Factories.Implimentations
                     break;
                 case "Cart":
                     Cart cart = (Cart)_entity;
-                    _sql = $"update cart set totalprice = {cart.TotalPrice}, description='{cart.Description}', " +
-                        $"customer_number={cart.CustomerNumber} where number={id};";
+                    _sql = $"update cart set customer_number={cart.CustomerNumber} where number={id};";
+                    //Внесение автосуммы
+                    _sql += vipFactory.AutoSumm(cart, id);
+                    // Реализация автозаполнения после побавления новой детализации
+                    _sql += $@"update cart as cart1
+                                set description = (select 
+                                SUBSTRING(
+                                STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
+                                FROM 0 FOR 254) 
+                                from customer c 
+                                join  cart on c.number=cart.customer_number 
+                                join details d on cart.number=d.cart_number 
+                                join product p on d.product_number=p.number 
+                                where cart.customer_number=cart1.customer_number)
+                                where cart1.number={cart.Number};";
                     break;
                 case "Details":
                     Details details = (Details)_entity;
                     _sql = $"update details set cart_number = {details.CartNumber}, product_number={details.ProductNumber}," +
                         $" count={details.Count} where number={id};";
                     //Внесение изменений в заказ после изменения в детализации
-                    VipFactory vipFactory = new VipFactory();
+                    VipFactory vipFactory1 = new VipFactory();
                     // Автосуммы в поле cart.Totalprice, если значение по умолчанию (равно нулю)
-                    // Реализация на строне БД. Определение VIP клиента на стороне API
-                    bool _isVip = vipFactory.SearchVipInCustomer(vipFactory.SearchVipInCart(vipFactory.SearchVipInDetails(details.Number)));
-                    if (!_isVip) { _discont = "0.9"; }
-                    _sql += $@"update cart as cart1
-                            set totalprice = (select sum(d.count*p.price)*{_discont} 
-					        from cart join details d on cart.number=d.cart_number 
-					        join product p on d.product_number=p.number 
-					        where cart.customer_number=cart1.customer_number)
-                            where cart1.number={details.CartNumber};";
+                    _sql += vipFactory.AutoSumm(details, details.CartNumber);
+                    
                     // Реализация автозаполнения после побавления новой детализации
                     _sql += $@"update cart as cart1
                                 set description = (select 
