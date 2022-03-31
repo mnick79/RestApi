@@ -79,9 +79,9 @@ namespace RestApi.Factories.Implimentations
                             set totalprice = (select sum(d.count*p.price)*{_discont} 
 					        from cart join details d on cart.number=d.cart_number 
 					        join product p on d.product_number=p.number 
-					        where cart.customer_number=cart1.customer_number)
+					        where cart.number=(select currval('cart_number_seq')))
                             where cart1.number=(select currval('cart_number_seq'));";
-            }
+                }
             else
             {
                 _sqlAutoSumm = $"update cart set totalprice = {cart.TotalPrice} where number = (select currval('cart_number_seq'));";
