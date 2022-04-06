@@ -16,7 +16,18 @@ namespace RestApi.Servises.Implimentations
         }
         public void Delete(int number)
         {
-            _repo.Delete(number);
+            if (_repo.IsExist(number))
+            {
+                _repo.Delete(number);
+            }
+            else
+            {
+                throw new System.Exception("500");
+            }
+        }
+        public void Post(Customer customer)
+        {
+            _repo.Post(customer);
         }
     }
 }

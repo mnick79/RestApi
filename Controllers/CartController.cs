@@ -29,14 +29,14 @@ namespace RestApi.Controllers
         //}
 
         // POST api/<CartController>
-        //[HttpPost]
-        //public void Post([FromBody] Cart value)
-        //{
-        //    Cart cart = value;
-        //    PostService postService = new PostService(new PostFactory(cart));
-        //    CartValidator cartValidator = new CartValidator();
-        //    postService.Post();
-        //}
+        [HttpPost]
+        public void Post([FromBody] Cart value)
+        {
+            Cart cart = value;
+            CartValidator cartValidator = new CartValidator();
+            CartService cartService = new CartService(_repo);
+            cartService.Post(cart);
+        }
 
         // PUT api/<CartController>/5
         //[HttpPut("{id}")]

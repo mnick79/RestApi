@@ -6,6 +6,7 @@ using System.Linq;
 using RestApi.Factories.Implimentations;
 using RestApi.Models;
 using RestApi.Interfaces;
+using RestApi.Domains.Validation;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -42,6 +43,15 @@ namespace RestApi.Controllers
         {
             ProductService productService = new ProductService(_repo);
             productService.Delete(id);
+        }
+        // POST api/<ProductsController>
+        [HttpPost]
+        public void Post([FromBody] Product value)
+        {
+            Product details = value;
+            ProductValidator detailsValidator = new ProductValidator();
+            ProductService productService = new ProductService(_repo);
+            productService.Post(details);
         }
     }
 }

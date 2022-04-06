@@ -14,5 +14,9 @@ namespace RestApi.Servises.Implimentations
         {
             _repo.Delete(number);
         }
+        public void Post(Cart cart)
+        {
+            _repo.Post(cart);
+        }
     }
 }

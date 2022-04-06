@@ -18,5 +18,9 @@ namespace RestApi.Servises.Implimentations
         {
             _repo.Delete(number);
         }
+        public void Post(Details details)
+        {
+            _repo.Post(details);
+        }
     }
 }

@@ -40,13 +40,13 @@ namespace RestApi.Controllers
         }
 
         // POST api/<CustomersController> -нет в ТЗ
-        //[HttpPost]
-        //public void Post([FromBody] Customer value)
-        //{
-        //    PostService postService = new PostService(value);
-        //    CustomerValidator customerValidator = new CustomerValidator();
-        //    postService.Post();
-        //}
+        [HttpPost]
+        public void Post([FromBody] Customer value)
+        {
+            CustomerService customerService = new CustomerService(_repo);
+            CustomerValidator customerValidator = new CustomerValidator();
+            customerService.Post(value);
+        }
 
 
         // PUT api/<CustomersController>/5 -нет в ТЗ
