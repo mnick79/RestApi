@@ -15,7 +15,7 @@ namespace RestApi.DBContext.Implimentations
             database = new Postgres();
         }
         public Entity SelectOneSql(Entity entity, string sql) => null;
-        public Entity SelectOneSql(Customer customer, string sql)
+        public Entity SelectOneSql(CustomerOld customer, string sql)
         {
             using (NpgsqlConnection conn = database.Connect())
             {
@@ -33,7 +33,7 @@ namespace RestApi.DBContext.Implimentations
             }
             return customer;
         }
-        public Entity SelectOneSql(Product product, string sql)
+        public Entity SelectOneSql(ProductOld product, string sql)
         {
             using (NpgsqlConnection conn = database.Connect())
             {
@@ -49,7 +49,7 @@ namespace RestApi.DBContext.Implimentations
             }
             return product;
         }
-        public Entity SelectOneSql(Cart cart, string sql)
+        public Entity SelectOneSql(CartOld cart, string sql)
         {
             using (NpgsqlConnection conn = database.Connect())
             {
@@ -66,7 +66,7 @@ namespace RestApi.DBContext.Implimentations
             }
             return cart;
         }
-        public Entity SelectOneSql(Details details, string sql)
+        public Entity SelectOneSql(DetailsOld details, string sql)
         {
             using (NpgsqlConnection conn = database.Connect())
             {

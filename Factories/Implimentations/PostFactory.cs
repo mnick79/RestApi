@@ -21,21 +21,21 @@ namespace RestApi.Factories.Implimentations
             switch (_entity.GetType().Name)
             {
                 case "Customer":
-                    Customer customer = (Customer)_entity;
+                    CustomerOld customer = (CustomerOld)_entity;
                     _sql = $"insert into customer (number, first_name, last_name, address, vip) " +
                         $"values((select nextval('customer_number_seq')), '{customer.FistName}', '{customer.LastName}', " +
                         $"'{customer.Address}', {customer.Vip}) returning number; " +
                         $"select setval('customer_number_seq', (select max(number) from customer));";
                     break;
                 case "Product":
-                    Product product = (Product)_entity;
+                    ProductOld product = (ProductOld)_entity;
                     _sql = $"insert into product (number, name, price) " +
                         $"values ((select nextval('product_number_seq')), '{product.Name}', {product.Price.ToString().Replace(',','.')}) returning number; " +
                         $"select setval('product_number_seq', (select max(number) from product));";
                     break;
 
                 case "Cart":
-                    Cart cart = (Cart)_entity;
+                    CartOld cart = (CartOld)_entity;
                     _sql = $"insert into cart (number, customer_number, totalprice) " +
                         $"values((select nextval('cart_number_seq')), {cart.CustomerNumber}, {cart.TotalPrice} ) returning number; " +
                         $"select setval('cart_number_seq', (select max(number) from cart));";
@@ -58,7 +58,7 @@ namespace RestApi.Factories.Implimentations
                     
                     break;
                 case "Details":
-                    Details details = (Details)_entity;
+                    DetailsOld details = (DetailsOld)_entity;
                     _sql = $"insert into details (number, cart_number, product_number, count) " +
                         $"values ((select nextval('details_number_seq')), {details.CartNumber}, {details.ProductNumber},{details.Count}) returning number; " +
                         $"select setval('details_number_seq', (select max(number) from details));";

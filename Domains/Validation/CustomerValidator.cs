@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace RestApi.Domains.Validation
 {
-    public class CustomerValidator : AbstractValidator<Customer>
+    public class CustomerValidator : AbstractValidator<CustomerOld>
     {
         public CustomerValidator()
         {

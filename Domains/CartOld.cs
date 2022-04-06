@@ -2,7 +2,7 @@
 
 namespace RestApi.Domains
 {
-    public class Cart: Entity
+    public class CartOld: Entity
     {
         public decimal TotalPrice { get; set; }
         public string Description { get; set; }

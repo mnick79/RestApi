@@ -19,7 +19,7 @@ namespace RestApi.Factories.Implimentations
                 $"select setval('{_entity.GetType().Name}_number_seq', (select max(number) from {_entity.GetType().Name})); ";
             if (_entity.GetType().Name == "Details")
             {
-                Details details = (Details)_entity;
+                DetailsOld details = (DetailsOld)_entity;
                 VipFactory vipFactory = new VipFactory();
                 // Реализация автосуммы после удаления новой детализации
                 _sql += vipFactory.AutoSumm(details, details.CartNumber);

@@ -23,16 +23,16 @@ namespace RestApi.Factories.Implimentations
             {
                 case "Customer":
                     sql = "select * from customer limit 10;";
-                    return dbContext.SelectAllSql((Customer)_entity, sql);
+                    return dbContext.SelectAllSql((CustomerOld)_entity, sql);
                 case "Product":
                     sql = "select * from product limit 10;";
-                    return dbContext.SelectAllSql((Product)_entity, sql);
+                    return dbContext.SelectAllSql((ProductOld)_entity, sql);
                 case "Cart":
                     sql = $"select * from cart where customer_number={customer_number};";
-                    return dbContext.SelectAllSql((Cart)_entity, sql);
+                    return dbContext.SelectAllSql((CartOld)_entity, sql);
                 case "Details":
                     sql = $"select * from details where cart_number={cart_number};";
-                    return dbContext.SelectAllSql((Details)_entity, sql);
+                    return dbContext.SelectAllSql((DetailsOld)_entity, sql);
                 default:
                     throw new System.Exception();
             }

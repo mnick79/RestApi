@@ -43,7 +43,7 @@ namespace RestApi.Factories.Implimentations
             switch (entity.GetType().Name)
             {
                 case "Cart":
-                    Cart cart = (Cart)entity;
+                    CartOld cart = (CartOld)entity;
                     _IsVip = SearchVipInCustomer(cart.CustomerNumber);
                     if (_IsVip) { _discont = "0.9"; }
                     break;
@@ -68,7 +68,7 @@ namespace RestApi.Factories.Implimentations
 
         {
             _sqlAutoSumm = "";
-            Cart cart = (Cart)entity;
+            CartOld cart = (CartOld)entity;
             if (cart.TotalPrice == 0)
             {
                 _IsVip = SearchVipInCustomer(SearchVipInCart(cart.CustomerNumber));

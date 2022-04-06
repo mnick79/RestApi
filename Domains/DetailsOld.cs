@@ -1,10 +1,9 @@
-﻿using RestApi.Interfaces;
+﻿using RestApi.Domains.BaseEntity;
 
-namespace RestApi.Models
+namespace RestApi.Domains
 {
-    public class NewDetails : IEntity
+    public class DetailsOld: Entity
     {
-        public int Number { get; set; }
         public int CartNumber { get; set; }
         public int ProductNumber { get; set; }
         public int Count { get; set; }

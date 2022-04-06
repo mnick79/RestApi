@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 namespace RestApi.Domains.Validation
 {
-    public class CartValidator: AbstractValidator<Cart>
+    public class CartValidator: AbstractValidator<CartOld>
     {
         public CartValidator()
         {

@@ -3,9 +3,11 @@ using RestApi.Domains;
 using RestApi.Domains.BaseEntity;
 using RestApi.Domains.Validation;
 using RestApi.Factories.Implimentations;
+using RestApi.Interfaces;
+using RestApi.Models;
 using RestApi.Servises.Implimentations;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RestApi.Controllers
 {
@@ -13,20 +15,28 @@ namespace RestApi.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        // GET: api/<CustomersController> - нет в ТЗ
-        //[HttpGet]
-        //public List<Customer> Get()
-        //{
-        //    GetAllService getAllService = new GetAllService(new Customer());
-        //    return getAllService.GetAll().Select(x=>(Customer)x).ToList();
-        //}
+        private readonly IRepo<Customer> _repo;
+        public CustomersController(IRepo<Customer> repo)
+        {
+            _repo=repo;
+        }
+        //GET: api/<CustomersController> 
+       //[HttpGet]
+       // public List<NewCustomer> Get()
+       // {
+
+
+       //     GetAllService getAllService = new GetAllService(new NewCustomer());
+       //     return getAllService.GetAll().Select(x => (newCustomer)x).ToList();
+       // }
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
         public Customer Get(int id)
         {
-            GetOneService getOneService = new GetOneService(new GetOneFactory(new Customer()));
-            return (Customer)getOneService.GetOne(id);
+            CustomerService oneService = new CustomerService(_repo);
+            return (Customer)oneService.Get(id);
+
         }
 
         // POST api/<CustomersController> -нет в ТЗ
@@ -48,5 +58,12 @@ namespace RestApi.Controllers
         //    putService.Put(id);
 
         // }
+        //DELETE api/<CustomersController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            CustomerService customerService = new CustomerService(_repo);
+            customerService.Delete(id);
+        }
     }
 }

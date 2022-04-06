@@ -1,7 +1,9 @@
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RepositoryDesignPattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +24,12 @@ namespace RestApi
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+    //    public static IHostBuilder CreateHostWithAutofactBuilder(string[] args) =>
+    //Host.CreateDefaultBuilder(args)
+    //    .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+    //    .ConfigureWebHostDefaults(webHostBuilder =>
+    //    {
+    //        webHostBuilder.UseStartup<StartupWithAutofac>();
+    //    });
     }
 }

@@ -21,13 +21,13 @@ namespace RestApi.Factories.Implimentations
             switch (entity.GetType().Name)
             {
                 case "Customer":
-                    return dbContext.SelectOneSql((Customer)entity, entity.SqlGetOne(number));
+                    return dbContext.SelectOneSql((CustomerOld)entity, entity.SqlGetOne(number));
                 case "Product":
-                    return dbContext.SelectOneSql((Product)entity, entity.SqlGetOne(number));
+                    return dbContext.SelectOneSql((ProductOld)entity, entity.SqlGetOne(number));
                 case "Cart":
-                    return dbContext.SelectOneSql((Cart)entity, entity.SqlGetOne(number));
+                    return dbContext.SelectOneSql((CartOld)entity, entity.SqlGetOne(number));
                 case "Details":
-                    return dbContext.SelectOneSql((Details)entity, entity.SqlGetOne(number));
+                    return dbContext.SelectOneSql((DetailsOld)entity, entity.SqlGetOne(number));
                 default:
                     break;
             }

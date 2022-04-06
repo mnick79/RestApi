@@ -16,7 +16,7 @@ namespace RestApi.DBContext.Implimentations
         }
         public List<Entity> SelectAllSql(Entity entity, string sql) => null;
 
-        public List<Entity> SelectAllSql(Customer customer, string sql)
+        public List<Entity> SelectAllSql(CustomerOld customer, string sql)
         {
             List<Entity> list = new List<Entity>();
 
@@ -26,7 +26,7 @@ namespace RestApi.DBContext.Implimentations
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    list.Add(new Customer()
+                    list.Add(new CustomerOld()
                     {
                         Number = read.GetInt32(0),
                         FistName = read.GetString(1),
@@ -39,7 +39,7 @@ namespace RestApi.DBContext.Implimentations
             }
             return list;
         }
-        public List<Entity> SelectAllSql(Product customer, string sql)
+        public List<Entity> SelectAllSql(ProductOld customer, string sql)
         {
             List<Entity> list = new List<Entity>();
 
@@ -49,7 +49,7 @@ namespace RestApi.DBContext.Implimentations
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    list.Add(new Product()
+                    list.Add(new ProductOld()
                     {
                         Number = read.GetInt32(0),
                         Name = read.GetString(1),
@@ -60,7 +60,7 @@ namespace RestApi.DBContext.Implimentations
             }
             return list;
         }
-        public List<Entity> SelectAllSql(Cart cart, string sql)
+        public List<Entity> SelectAllSql(CartOld cart, string sql)
         {
             List<Entity> list = new List<Entity>();
 
@@ -70,7 +70,7 @@ namespace RestApi.DBContext.Implimentations
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    list.Add(new Cart()
+                    list.Add(new CartOld()
                     {
                         Number = read.GetInt32(0),
                         TotalPrice = read.GetDecimal(1),
@@ -82,7 +82,7 @@ namespace RestApi.DBContext.Implimentations
             }
             return list;
         }
-        public List<Entity> SelectAllSql(Details details, string sql)
+        public List<Entity> SelectAllSql(DetailsOld details, string sql)
         {
             List<Entity> list = new List<Entity>();
 
@@ -92,7 +92,7 @@ namespace RestApi.DBContext.Implimentations
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    list.Add(new Details()
+                    list.Add(new DetailsOld()
                     {
                         Number = read.GetInt32(0),
                         CartNumber = read.GetInt32(1),
