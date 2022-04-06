@@ -42,13 +42,14 @@ namespace RestApi.Controllers
         }
 
         // PUT api/<DetailsController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] Details value)
-        //{
-        //    Details details = value;
-        //    DetailsValidator detailsValidator = new DetailsValidator();
-        //    new PutService(new PutFactory(details)).Put(id);
-        //}
+        [HttpPut()]
+        public void Put([FromBody] Details value)
+        {
+            Details details = value;
+            DetailsValidator detailsValidator = new DetailsValidator();
+            DetailsService detailsService = new DetailsService(_repo);
+            detailsService.Put(details);
+        }
 
         //DELETE api/<DetailsController>/5
         [HttpDelete("{id}")]

@@ -22,5 +22,9 @@ namespace RestApi.Servises.Implimentations
         {
             _repo.Post(details);
         }
+        public void Put(Details details)
+        {
+            _repo.Put(details);
+        }
     }
 }

@@ -39,14 +39,14 @@ namespace RestApi.Controllers
         }
 
         // PUT api/<CartController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] Cart value)
-        //{
-        //    Cart cart = value;
-        //    PutService putService = new PutService(new PutFactory(cart));
-        //    CartValidator cartValidator = new CartValidator();
-        //    putService.Put(id);
-        //}
+        [HttpPut()]
+        public void Put([FromBody] Cart value)
+        {
+            Cart cart = value;
+            CartValidator cartValidator = new CartValidator();
+            CartService cartService = new CartService(_repo);
+            cartService.Put(cart);
+        }
 
         // DELETE api/<CartController>/5
         [HttpDelete("{id}")]

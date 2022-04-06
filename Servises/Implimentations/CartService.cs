@@ -18,5 +18,9 @@ namespace RestApi.Servises.Implimentations
         {
             _repo.Post(cart);
         }
+        public void Put(Cart cart)
+        {
+            _repo.Put(cart);
+        }
     }
 }

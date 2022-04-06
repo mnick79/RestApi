@@ -53,5 +53,14 @@ namespace RestApi.Controllers
             ProductService productService = new ProductService(_repo);
             productService.Post(details);
         }
+        // PUT api/<ProductsController>/5
+        [HttpPut()]
+        public void Put([FromBody] Product value)
+        {
+            Product cart = value;
+            ProductValidator cartValidator = new ProductValidator();
+            ProductService productService = new ProductService(_repo);
+            productService.Put(cart);
+        }
     }
 }

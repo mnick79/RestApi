@@ -50,14 +50,14 @@ namespace RestApi.Controllers
 
 
         // PUT api/<CustomersController>/5 -нет в ТЗ
-        //[HttpPut("{id}")]
-        // public void Put(int id, [FromBody] Customer value)
-        // {
-        //    PutService putService = new PutService(value);
-        //    CustomerValidator customerValidator = new CustomerValidator();
-        //    putService.Put(id);
-
-        // }
+        [HttpPut()]
+        public void Put([FromBody] Customer value)
+        {
+            Customer customer = value;
+            CustomerValidator customerValidator = new CustomerValidator();
+            CustomerService customerService = new CustomerService(_repo);
+            customerService.Put(customer);
+        }
         //DELETE api/<CustomersController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)

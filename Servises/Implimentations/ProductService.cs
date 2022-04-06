@@ -22,5 +22,9 @@ namespace RestApi.Servises.Implimentations
         {
             _repo.Post(product);
         }
+        public void Put(Product product)
+        {
+            _repo.Put(product);
+        }
     }
 }
