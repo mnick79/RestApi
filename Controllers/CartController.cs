@@ -20,13 +20,12 @@ namespace RestApi.Controllers
             _repo = repo;
         }
         // GET api/<CartController>/5
-        //[HttpGet("{customer_number}")]
-        //public List<NewCart> Get(int customer_number)
-        //{
-        //    //CartService cartService = new CartService(_repo);
-        //    //return (NewCart)cartService.Get(customer_number);
-        //    return new List<NewCart>();
-        //}
+        [HttpGet("{customer_number}")]
+        public List<Cart> Get(int customer_number)
+        {
+            CartService cartService = new CartService(_repo);
+            return cartService.GetAll(customer_number);
+        }
 
         // POST api/<CartController>
         [HttpPost]

@@ -23,12 +23,12 @@ namespace RestApi.Controllers
             _repo = repo;
         }
         //GET: api/<ProductsController>
-        //[HttpGet]
-        //public List<Product> Get()
-        //{
-        //    GetAllService getAllService = new GetAllService(new GetAllFactory(new Product()));
-        //    return getAllService.GetAll().Select(x=>(Product)x).ToList();
-        //}
+        [HttpGet]
+        public List<Product> Get()
+        {
+            ProductService productService = new ProductService(_repo);
+            return productService.GetAll(10); //не реализовано из-за задвоения кода
+        }
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]

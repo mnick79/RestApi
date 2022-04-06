@@ -34,12 +34,12 @@ namespace RestApi.Repository.Implimentation
             return _cart;
         }
 
-        public override List<Cart> GetAll(Cart entity)
+        public override List<Cart> GetAll(int limit)
         {
             List<Cart> list = new List<Cart>();
             using (NpgsqlConnection conn = _database.Connect())
             {
-                string _sql = $"select * from cart order by number limit 10; ";
+                string _sql = $"select * from cart order by number limit {limit}; ";
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var read = cmd.ExecuteReader();
                 while (read.Read())

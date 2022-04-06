@@ -33,7 +33,7 @@ namespace RestApi.Repository.Implimentation
             return _details;
         }
 
-        public override List<Details> GetAll(Details entity)
+        public override List<Details> GetAll(int limit)
         {
             List<Details> list = new List<Details>();
             using (NpgsqlConnection conn = _database.Connect())

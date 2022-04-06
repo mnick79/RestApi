@@ -1,5 +1,6 @@
 ﻿using RestApi.Interfaces;
 using RestApi.Models;
+using System.Collections.Generic;
 
 namespace RestApi.Servises.Implimentations
 {
@@ -32,6 +33,10 @@ namespace RestApi.Servises.Implimentations
         public void Put(Customer customer)
         {
             _repo.Put(customer);
+        }
+        public List<Customer> GetAll(int limit)
+        {
+            return _repo.GetAll(limit);
         }
     }
 }

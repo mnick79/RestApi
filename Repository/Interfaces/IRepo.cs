@@ -8,7 +8,7 @@ namespace RestApi.Interfaces
         bool IsExist(int number);
         T Get(int number);
 
-        List<T> GetAll(T entity);
+        List<T> GetAll(int limit);
 
         void Post(T entity);
         void Put(T entity);

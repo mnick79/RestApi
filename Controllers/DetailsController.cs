@@ -24,12 +24,12 @@ namespace RestApi.Controllers
             
         }
         // GET api/<DetailsController>/5
-        //[HttpGet("{cart_number}")]
-        //public List<Details> Get(int cart_number)
-        //{
-        //    GetAllService getAllService = new GetAllService(new GetAllFactory(new Details()));
-        //    return getAllService.GetAll(cart_number: cart_number).Select(x=>(Details)x).ToList();
-        //}
+        [HttpGet("{cart_number}")]
+        public List<Details> Get(int cart_number)
+        {
+            DetailsService detailsService = new DetailsService(_repo);
+            return detailsService.GetAll(cart_number);
+        }
 
         // POST api/<DetailsController>
         [HttpPost]

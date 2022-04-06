@@ -50,7 +50,7 @@ namespace RestApi.Interfaces.Implimentation
         }
 
         public abstract T Get(int number);
-        public abstract List<T> GetAll(T entity);
+        public abstract List<T> GetAll(int limit);
         public abstract void Post(T entity);
         public abstract void Put(T entity);
         

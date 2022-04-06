@@ -1,5 +1,6 @@
 ﻿using RestApi.Interfaces;
 using RestApi.Models;
+using System.Collections.Generic;
 
 namespace RestApi.Servises.Implimentations
 {
@@ -10,10 +11,8 @@ namespace RestApi.Servises.Implimentations
         {
             _repo = repo;
         }
-        public void Delete(int number)
-        {
-            _repo.Delete(number);
-        }
+        public void Delete(int number) => _repo.Delete(number);
+       
         public void Post(Cart cart)
         {
             _repo.Post(cart);
@@ -22,5 +21,10 @@ namespace RestApi.Servises.Implimentations
         {
             _repo.Put(cart);
         }
+        public List<Cart> GetAll(int limit)
+        {
+            return _repo.GetAll(limit);
+        }
+
     }
 }

@@ -21,14 +21,12 @@ namespace RestApi.Controllers
             _repo=repo;
         }
         //GET: api/<CustomersController> 
-       //[HttpGet]
-       // public List<NewCustomer> Get()
-       // {
-
-
-       //     GetAllService getAllService = new GetAllService(new NewCustomer());
-       //     return getAllService.GetAll().Select(x => (newCustomer)x).ToList();
-       // }
+        [HttpGet]
+        public List<Customer> Get()
+        {
+            CustomerService customerService = new CustomerService(_repo);
+            return customerService.GetAll(10); //не реализовано из-за задвоения кода
+        }
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]

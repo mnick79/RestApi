@@ -34,12 +34,12 @@ namespace RestApi.Repository.Implimentation
             return _product;
         }
 
-        public override List<Product> GetAll(Product entity)
+        public override List<Product> GetAll(int limit)
         {
             List<Product> list = new List<Product>();
             using (NpgsqlConnection conn = _database.Connect())
             {
-                string _sql = $"select * from product order by number limit 10; ";
+                string _sql = $"select * from product order by number limit {limit}; ";
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var read = cmd.ExecuteReader();
                 while (read.Read())
