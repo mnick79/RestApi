@@ -47,7 +47,10 @@ namespace RestApi
             services.AddTransient(typeof(IBaseService<Product>), typeof(ProductService));
 
             services.AddTransient(typeof(IRepo<Details>), typeof(RepoDetails));
+            services.AddTransient(typeof(IBaseService<Details>), typeof(DetailsService));
+
             services.AddTransient(typeof(IRepo<Cart>), typeof(RepoCart));
+            services.AddTransient(typeof(IBaseService<Cart>), typeof(CartService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

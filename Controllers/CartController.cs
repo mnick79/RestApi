@@ -4,8 +4,10 @@ using RestApi.Domains.Validation;
 using RestApi.Interfaces;
 using RestApi.Models;
 using RestApi.Servises.Implimentations;
+using RestApi.Servises.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using RestApi.Servises.Interfaces;
 
 namespace RestApi.Controllers
 {
@@ -13,17 +15,18 @@ namespace RestApi.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly IRepo<Cart> _repo;
-        public CartController(IRepo<Cart> repo)
+        private readonly IBaseService<Cart> _baseService;
+        public CartController(IBaseService<Cart> baseService)
         {
-            _repo = repo;
+            _baseService = baseService;
         }
         // GET api/<CartController>/5
         [HttpGet("{customer_number}")]
         public List<Cart> Get(int customer_number)
         {
-            CartService cartService = new CartService(_repo);
-            return cartService.GetAll(customer_number);
+            //CartService cartService = new CartService(_repo);
+            //return cartService.GetAll(customer_number);
+            return _baseService.GetAll(customer_number);
         }
 
         // POST api/<CartController>
@@ -32,8 +35,9 @@ namespace RestApi.Controllers
         {
             Cart cart = value;
             CartValidator cartValidator = new CartValidator();
-            CartService cartService = new CartService(_repo);
-            cartService.Post(cart);
+            //CartService cartService = new CartService(_repo);
+            //cartService.Post(cart);
+            _baseService.Post(cart);
         }
 
         // PUT api/<CartController>/5
@@ -42,16 +46,18 @@ namespace RestApi.Controllers
         {
             Cart cart = value;
             CartValidator cartValidator = new CartValidator();
-            CartService cartService = new CartService(_repo);
-            cartService.Put(cart);
+            //CartService cartService = new CartService(_repo);
+            //cartService.Put(cart);
+            _baseService.Put(cart);
         }
 
         // DELETE api/<CartController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            CartService cartService = new CartService(_repo);
-            cartService.Delete(id);
+            //CartService cartService = new CartService(_repo);
+            //cartService.Delete(id);
+            _baseService.Delete(id);
         }
     }
 }

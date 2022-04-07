@@ -7,7 +7,7 @@ namespace RestApi.Domains.Validation
     {
         public DetailsValidator()
         {
-            RuleFor(customer => customer.Number).Equal(0).WithMessage("Number isn't used");
+            //RuleFor(customer => customer.Number).Equal(0).WithMessage("Number isn't used");
             RuleFor(details => details.CartNumber)
                 .NotEmpty().WithMessage("FistName cannot be empty")
                 .GreaterThan(0).WithMessage("Price must is positive");

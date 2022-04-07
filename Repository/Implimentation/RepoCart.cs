@@ -34,20 +34,18 @@ namespace RestApi.Repository.Implimentation
             return _cart;
         }
 
-        public override List<Cart> GetAll(int limit)
+        public override List<Cart> GetAll(int customerNumber)
         {
             List<Cart> list = new List<Cart>();
             using (NpgsqlConnection conn = _database.Connect())
             {
-                string _sql = $"select * from cart order by number limit {limit}; ";
+                string _sql = $"select * from cart where customer_number={customerNumber}; ";
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    if (read.Read())
-                    {
-                        list.Add(new Cart(read.GetInt32(0), read.GetDecimal(1), read.GetString(2), read.GetInt32(3)));
-                    }
+                    list.Add(new Cart(read.GetInt32(0), (read.GetValue(1)==null)?0: read.GetDecimal(1), (read.GetValue(2)==null)?string.Empty: read.GetString(2), read.GetInt32(3)));
+                    
                 }
                 conn.Close();
             }
