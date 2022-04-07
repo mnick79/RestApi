@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
+using RestApi.Models;
+
 namespace RestApi.Domains.Validation
 {
-    public class DetailsValidator: AbstractValidator<DetailsOld>
+    public class DetailsValidator: AbstractValidator<Details>
     {
         public DetailsValidator()
         {

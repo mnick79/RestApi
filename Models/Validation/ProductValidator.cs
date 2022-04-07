@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
+using RestApi.Models;
+
 namespace RestApi.Domains.Validation
 {
-    public class ProductValidator: AbstractValidator<ProductOld>
+    public class ProductValidator: AbstractValidator<Product>
     {
         public ProductValidator()
         {

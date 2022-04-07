@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
+using RestApi.Models;
+
 namespace RestApi.Domains.Validation
 {
-    public class CartValidator: AbstractValidator<CartOld>
+    public class CartValidator: AbstractValidator<Cart>
     {
         public CartValidator()
         {
-            RuleFor(cart => cart.Number).Equal(0).WithMessage("Number isn't used");
+            RuleFor(cart => cart.Number).GreaterThanOrEqualTo(0).WithMessage("Number isn't used");
 
             RuleFor(cart => cart.Description)
                 .MaximumLength(250).WithMessage("The FistName must be shorter than 250 characters");

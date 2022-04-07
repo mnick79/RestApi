@@ -1,10 +1,10 @@
 ﻿using Npgsql;
-using RestApi.Domains.BaseEntity;
+using RestApi.Interfaces;
 
 namespace RestApi.DBContext.Interfaces
 {
     public interface IDatabaseContextSelectOne
     {
-        public Entity SelectOneSql(Entity entity, string sql);
+        public IEntity SelectOneSql(IEntity entity, string sql);
     }
 }

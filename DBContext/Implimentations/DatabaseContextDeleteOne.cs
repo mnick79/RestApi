@@ -1,7 +1,6 @@
 ﻿using Npgsql;
 using RestApi.Database.Postgres.Implimentations;
 using RestApi.DBContext.Interfaces;
-using RestApi.Domains.BaseEntity;
 
 namespace RestApi.DBContext.Implimentations
 {

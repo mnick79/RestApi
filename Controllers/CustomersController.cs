@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Domains;
-using RestApi.Domains.BaseEntity;
 using RestApi.Domains.Validation;
-using RestApi.Factories.Implimentations;
 using RestApi.Interfaces;
 using RestApi.Models;
 using RestApi.Servises.Implimentations;
+using RestApi.Servises.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,35 +13,33 @@ namespace RestApi.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly IRepo<Customer> _repo;
-        public CustomersController(IRepo<Customer> repo)
+        private readonly IBaseService<Customer> _baseService;
+        public CustomersController(IBaseService<Customer> baseService)
         {
-            _repo=repo;
+            _baseService=baseService;
         }
         //GET: api/<CustomersController> 
-        [HttpGet]
-        public List<Customer> Get()
-        {
-            CustomerService customerService = new CustomerService(_repo);
-            return customerService.GetAll(10); //не реализовано из-за задвоения кода
-        }
+        //[HttpGet]
+        //public List<Customer> GetAll()
+        //{
+        //    CustomerService customerService = new CustomerService(_repo);
+        //    return customerService.GetAll(10); //не реализовано из-за задвоения кода
+        //}
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
         public Customer Get(int id)
         {
-            CustomerService oneService = new CustomerService(_repo);
-            return (Customer)oneService.Get(id);
-
+            return _baseService.Get(id);
         }
 
         // POST api/<CustomersController> -нет в ТЗ
         [HttpPost]
         public void Post([FromBody] Customer value)
         {
-            CustomerService customerService = new CustomerService(_repo);
+            Customer customer = value;
             CustomerValidator customerValidator = new CustomerValidator();
-            customerService.Post(value);
+            _baseService.Post(customer);
         }
 
 
@@ -53,15 +49,13 @@ namespace RestApi.Controllers
         {
             Customer customer = value;
             CustomerValidator customerValidator = new CustomerValidator();
-            CustomerService customerService = new CustomerService(_repo);
-            customerService.Put(customer);
+            _baseService.Put(customer);
         }
         //DELETE api/<CustomersController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            CustomerService customerService = new CustomerService(_repo);
-            customerService.Delete(id);
+            _baseService.Delete(id);
         }
     }
 }

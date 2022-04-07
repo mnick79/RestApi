@@ -11,6 +11,8 @@ using Microsoft.OpenApi.Models;
 using RestApi.Interfaces;
 using RestApi.Models;
 using RestApi.Repository.Implimentation;
+using RestApi.Servises.Implimentations;
+using RestApi.Servises.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +40,8 @@ namespace RestApi
             });
             services.AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddTransient(typeof(IRepo<Customer>), typeof(RepoCustomer));
+            services.AddTransient(typeof(IBaseService<Customer>), typeof(CustomerService));
+
             services.AddTransient(typeof(IRepo<Product>), typeof(RepoProduct));
             services.AddTransient(typeof(IRepo<Details>), typeof(RepoDetails));
             services.AddTransient(typeof(IRepo<Cart>), typeof(RepoCart));

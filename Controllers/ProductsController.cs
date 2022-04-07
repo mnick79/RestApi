@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestApi.Servises.Implimentations;
 using System.Collections.Generic;
-using RestApi.Domains;
 using System.Linq;
-using RestApi.Factories.Implimentations;
 using RestApi.Models;
 using RestApi.Interfaces;
 using RestApi.Domains.Validation;

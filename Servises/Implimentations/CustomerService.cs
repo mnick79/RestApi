@@ -1,42 +1,26 @@
 ﻿using RestApi.Interfaces;
 using RestApi.Models;
+using RestApi.Servises.Bases;
 using System.Collections.Generic;
 
 namespace RestApi.Servises.Implimentations
 {
-    public class CustomerService
+    public class CustomerService : BaseService<Customer>
     {
-        private readonly IRepo<Customer> _repo;
-        public CustomerService(IRepo<Customer> repo)
+        private readonly IRepo<Customer> _repoCustomer;
+        public CustomerService(IRepo<Customer> repo) : base(repo)
         {
-            _repo=repo;
+            _repoCustomer = repo;
         }
-        public IEntity Get(int number)
-        {
-            return _repo.Get(number);
-        }
-        public void Delete(int number)
-        {
-            if (_repo.IsExist(number))
-            {
-                _repo.Delete(number);
-            }
-            else
-            {
-                throw new System.Exception("500");
-            }
-        }
-        public void Post(Customer customer)
-        {
-            _repo.Post(customer);
-        }
-        public void Put(Customer customer)
-        {
-            _repo.Put(customer);
-        }
-        public List<Customer> GetAll(int limit)
-        {
-            return _repo.GetAll(limit);
-        }
+        
+        //public void Post(Customer customer)
+        //{
+        //    _repo.Post(customer);
+        //}
+        //public void Put(Customer customer)
+        //{
+        //    _repo.Put(customer);
+        //}
+        
     }
 }

@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
+using RestApi.Models;
 using System.Linq;
 
 namespace RestApi.Domains.Validation
 {
-    public class CustomerValidator : AbstractValidator<CustomerOld>
+    public class CustomerValidator : AbstractValidator<Customer>
     {
         public CustomerValidator()
         {
-            RuleFor(customer => customer.Number).Equal(0).WithMessage("Number isn't used");
+            //RuleFor(customer => customer.Number).Equal(0).WithMessage("Number isn't used");
             RuleFor(customer => customer.FistName)
                 .NotEmpty().WithMessage("FistName cannot be empty")
                 .MinimumLength(1).WithMessage("Short name FistName")
