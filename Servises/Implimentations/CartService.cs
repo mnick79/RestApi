@@ -13,15 +13,20 @@ namespace RestApi.Servises.Implimentations
             _repo = repo;
         }
         //public void Delete(int number) => _repo.Delete(number);
-       
-        //public void Post(Cart cart)
+
+        //public override void Post(Cart cart)
         //{
         //    _repo.Post(cart);
         //}
-        //public void Put(Cart cart)
-        //{
-        //    _repo.Put(cart);
-        //}
+        public override void Put(Cart cart)
+        {
+            if (_repo.IsExist(cart.Number))
+            {
+                _repo.Put(cart);
+
+            }
+            
+        }
         //public List<Cart> GetAll(int limit)
         //{
         //    return _repo.GetAll(limit);

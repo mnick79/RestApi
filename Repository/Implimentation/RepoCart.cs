@@ -3,6 +3,7 @@ using RestApi.Database.Postgres.Implimentations;
 using RestApi.Interfaces;
 using RestApi.Interfaces.Implimentation;
 using RestApi.Models;
+using RestApi.Repository.Vip;
 using System.Collections.Generic;
 
 namespace RestApi.Repository.Implimentation
@@ -61,21 +62,7 @@ namespace RestApi.Repository.Implimentation
                         $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, {entity.TotalPrice} ) returning number; " +
                         $"select setval('cart_number_seq', (select max(number) from cart));";
 
-                //Автосумма применяется, когда значение по умолчанию не изменялось,
-                //в ином случае вносит изменения суммы автозаполнением
-                //_sql += vipFactory.AutoSummForPostCartCurrentSeq(cart);
-                // Автозаполнения cart.Decription, если cart.Decription равен "" или "string" при заполнении
-                // Реализация на стороне БД
-
-
-                //if (entity.Description.Trim() == "" || entity.Description.Trim() == "string")
-                //{
-                //    _sql += vipFactory.AutoDescription(0);
-                //}
-                //else
-                //{
-                //    _sql += $"update cart set description ='{cart.Description}' where number=(select currval('cart_number_seq'));";
-                //}
+                _sql += new VipAutoComplite().PostToCart(entity, discont);
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var write = cmd.ExecuteNonQuery();
                 conn.Close();
@@ -88,17 +75,12 @@ namespace RestApi.Repository.Implimentation
             {
 
                 _sql = $"update cart set customer_number={entity.CustomerNumber} where number={entity.Number};";
-                //Внесение автосуммы
-                //_sql += vipFactory.AutoSumm(cart, id);
-                // Реализация автозаполнения после побавления новой детализации
-                //_sql += vipFactory.AutoDescription(id);
+                _sql += new VipAutoComplite().PutToCart(entity, discont);
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var write = cmd.ExecuteNonQuery();
                 conn.Close();
             }
         }
-
-        
     }
 }
 

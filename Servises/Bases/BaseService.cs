@@ -15,15 +15,15 @@ namespace RestApi.Servises.Bases
             _repo = repo;
         }
 
-        public void Delete(int id) 
+        public virtual void Delete(int id) 
         {
-            _repo.Delete(id);
+                _repo.Delete(id);
         }
-        public void Post(T entity)
+        public virtual void Post(T entity)
         {
             _repo.Post(entity);
         }
-        public void Put(T entity) 
+        public virtual void Put(T entity) 
         {
             _repo.Put(entity);
         }

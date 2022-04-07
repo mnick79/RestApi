@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Domains;
 using RestApi.Domains.Validation;
-using RestApi.Interfaces;
 using RestApi.Models;
-using RestApi.Servises.Implimentations;
 using RestApi.Servises.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using RestApi.Servises.Interfaces;
 
 namespace RestApi.Controllers
 {
@@ -24,8 +19,6 @@ namespace RestApi.Controllers
         [HttpGet("{customer_number}")]
         public List<Cart> Get(int customer_number)
         {
-            //CartService cartService = new CartService(_repo);
-            //return cartService.GetAll(customer_number);
             return _baseService.GetAll(customer_number);
         }
 
@@ -35,8 +28,6 @@ namespace RestApi.Controllers
         {
             Cart cart = value;
             CartValidator cartValidator = new CartValidator();
-            //CartService cartService = new CartService(_repo);
-            //cartService.Post(cart);
             _baseService.Post(cart);
         }
 
@@ -46,8 +37,6 @@ namespace RestApi.Controllers
         {
             Cart cart = value;
             CartValidator cartValidator = new CartValidator();
-            //CartService cartService = new CartService(_repo);
-            //cartService.Put(cart);
             _baseService.Put(cart);
         }
 
@@ -55,8 +44,6 @@ namespace RestApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            //CartService cartService = new CartService(_repo);
-            //cartService.Delete(id);
             _baseService.Delete(id);
         }
     }

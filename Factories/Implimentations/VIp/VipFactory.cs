@@ -1,5 +1,5 @@
-﻿using RestApi.DBContext.Implimentations.Vip;
-using RestApi.Domains;
+﻿//using RestApi.DBContext.Implimentations.Vip;
+//using RestApi.Domains;
 
 //namespace RestApi.Factories.Implimentations
 //{
@@ -56,7 +56,7 @@ using RestApi.Domains;
 //					        join product p on d.product_number=p.number 
 //					        where cart.number={cartNumber})
 //                            where cart1.number={cartNumber};";
-//            return _sqlAutoSumm;          
+//            return _sqlAutoSumm;
 //        }
 
 //        /*  Формирует строку SQl обновления суммы при заведении нового заказа пользователем.
@@ -79,7 +79,7 @@ using RestApi.Domains;
 //					        join product p on d.product_number=p.number 
 //					        where cart.number=(select currval('cart_number_seq')))
 //                            where cart1.number=(select currval('cart_number_seq'));";
-//                }
+//            }
 //            else
 //            {
 //                _sqlAutoSumm = $"update cart set totalprice = {cart.TotalPrice} where number = (select currval('cart_number_seq'));";
@@ -118,7 +118,7 @@ using RestApi.Domains;
 //                                where cart.number={cartNumber})
 //                                where cart1.number={cartNumber};";
 //            }
-            
+
 //            return autoDescription;
 //        }
 //    }

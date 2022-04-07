@@ -1,7 +1,9 @@
-﻿using RestApi.Interfaces;
+﻿using RestApi.Domains.Validation;
+using RestApi.Interfaces;
 using RestApi.Models;
 using RestApi.Servises.Bases;
 using System.Collections.Generic;
+using FluentValidation;
 
 namespace RestApi.Servises.Implimentations
 {
@@ -12,7 +14,15 @@ namespace RestApi.Servises.Implimentations
         {
             _repoCustomer = repo;
         }
-        
+        public override void Delete(int id)
+        {
+            if (_repoCustomer.IsExist(id))
+            {
+                CustomerValidator validator = new CustomerValidator();
+            }
+            base.Delete(id);
+        }
+
         //public void Post(Customer customer)
         //{
         //    _repo.Post(customer);
@@ -21,6 +31,6 @@ namespace RestApi.Servises.Implimentations
         //{
         //    _repo.Put(customer);
         //}
-        
+
     }
 }
