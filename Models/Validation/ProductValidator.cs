@@ -7,7 +7,7 @@ namespace RestApi.Domains.Validation
     {
         public ProductValidator()
         {
-            RuleFor(product => product.Number).Equal(0).WithMessage("Number isn't used");
+            //RuleFor(product => product.Number).Equal(0).WithMessage("Number isn't used");
             RuleFor(product => product.Name)
                 .NotEmpty().WithMessage("FistName cannot be empty")
                 .MinimumLength(1).WithMessage("Short name FistName")

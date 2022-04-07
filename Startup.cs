@@ -39,10 +39,13 @@ namespace RestApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestApi", Version = "v1" });
             });
             services.AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>());
+
             services.AddTransient(typeof(IRepo<Customer>), typeof(RepoCustomer));
             services.AddTransient(typeof(IBaseService<Customer>), typeof(CustomerService));
 
             services.AddTransient(typeof(IRepo<Product>), typeof(RepoProduct));
+            services.AddTransient(typeof(IBaseService<Product>), typeof(ProductService));
+
             services.AddTransient(typeof(IRepo<Details>), typeof(RepoDetails));
             services.AddTransient(typeof(IRepo<Cart>), typeof(RepoCart));
         }

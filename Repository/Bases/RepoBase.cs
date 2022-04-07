@@ -42,7 +42,8 @@ namespace RestApi.Interfaces.Implimentation
             using (NpgsqlConnection conn = _database.Connect())
             {
                 string _sql = $"delete from {typeof(T).Name} where number={number}; " +
-                $"select setval('{typeof(T).Name}_number_seq', (select max(number) from {typeof(T).Name})); ";
+                 $"select setval('cart_number_seq', (select max(number) from cart)); " +
+                 $"select setval('details_number_seq', (select max(number) from details));";
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var write = cmd.ExecuteNonQuery();
                 conn.Close();

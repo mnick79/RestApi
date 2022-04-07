@@ -5,6 +5,7 @@ using System.Linq;
 using RestApi.Models;
 using RestApi.Interfaces;
 using RestApi.Domains.Validation;
+using RestApi.Servises.Interfaces;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,32 +16,29 @@ namespace RestApi.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IRepo<Product> _repo;
-        public ProductsController(IRepo<Product> repo)
+        private readonly IBaseService<Product> _baseService;
+        public ProductsController(IBaseService<Product> baseService)
         {
-            _repo = repo;
+            _baseService = baseService;
         }
         //GET: api/<ProductsController>
         [HttpGet]
         public List<Product> Get()
         {
-            ProductService productService = new ProductService(_repo);
-            return productService.GetAll(10); //не реализовано из-за задвоения кода
+            return _baseService.GetAll(10);
         }
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
         public Product Get(int id)
         {
-            ProductService oneService = new ProductService(_repo);
-            return (Product)oneService.Get(id);
+            return _baseService.Get(id);
         }
         //DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            ProductService productService = new ProductService(_repo);
-            productService.Delete(id);
+            _baseService.Delete(id);
         }
         // POST api/<ProductsController>
         [HttpPost]
@@ -48,17 +46,15 @@ namespace RestApi.Controllers
         {
             Product details = value;
             ProductValidator detailsValidator = new ProductValidator();
-            ProductService productService = new ProductService(_repo);
-            productService.Post(details);
+            _baseService.Post(details);
         }
         // PUT api/<ProductsController>/5
         [HttpPut()]
         public void Put([FromBody] Product value)
         {
-            Product cart = value;
+            Product product = value;
             ProductValidator cartValidator = new ProductValidator();
-            ProductService productService = new ProductService(_repo);
-            productService.Put(cart);
+            _baseService.Put(product);
         }
     }
 }
