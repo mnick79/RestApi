@@ -15,6 +15,7 @@ namespace RestApi.Servises.Implimentations
         {
             _repo = repo;
         }
+
         //public override Cart Get(int id)
         //{
         //    if (_repo.IsExist(id))
@@ -29,6 +30,12 @@ namespace RestApi.Servises.Implimentations
         //{
         //    _repo.Post(cart);
         //}
+        public override List<Cart> GetAll(int id)
+        {
+            //Cart cart = new RepoCart().IsExist(id);
+            if (_repo.IsExist(id)) { return base.GetAll(id); }
+            return null;
+        }
         public override void Put(Cart cart)
         {
             if (_repo.IsExist(cart.Number))
@@ -42,8 +49,9 @@ namespace RestApi.Servises.Implimentations
                     sum += details.Count * product.Price;
                     desc.Append(product.Name + "/count:" + details.Count.ToString()+"/price:"+product.Name.ToString());
                 }
-                cart.TotalPrice = sum;
-                cart.Description = desc.ToString(0,254);
+                cart.TotalPrice = sum*discont; // Добавление дисконта
+                if (desc.Length > 254) { desc.Remove(254, desc.Length); }
+                cart.Description = desc.ToString();
                 _repo.Put(cart);
 
             }

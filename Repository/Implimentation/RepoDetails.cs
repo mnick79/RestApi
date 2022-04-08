@@ -62,7 +62,7 @@ namespace RestApi.Repository.Implimentation
                 _sql = $"insert into details (number, cart_number, product_number, count) " +
                         $"values ((select nextval('details_number_seq')), {entity.CartNumber}, {entity.ProductNumber},{entity.Count}) returning number; " +
                         $"select setval('details_number_seq', (select max(number) from details));";
-                _sql += new VipAutoComplite().PutAndPostToDetails(entity, discont);
+                //_sql += new VipAutoComplite().PutAndPostToDetails(entity, discont);
                 // Автосуммы в поле cart.Totalprice, если значение по умолчанию (равно нулю)
                 // Реализация на строне БД. Определение VIP клиента на стороне API
 
@@ -95,7 +95,7 @@ namespace RestApi.Repository.Implimentation
             {
                 _sql = $"update details set cart_number = {entity.CartNumber}, product_number={entity.ProductNumber}," +
                          $" count={entity.Count} where number={entity.Number};";
-                _sql += new VipAutoComplite().PutAndPostToDetails(entity, discont);
+                //_sql += new VipAutoComplite().PutAndPostToDetails(entity, discont);
                 //Внесение изменений в заказ после изменения в детализации
                 // Автосуммы в поле cart.Totalprice, если значение по умолчанию (равно нулю)
                 //_sql += vipFactory.AutoSumm(details, details.CartNumber);
@@ -114,7 +114,7 @@ namespace RestApi.Repository.Implimentation
                 _sql = $"delete from details where number={number}; " +
                  $"select setval('cart_number_seq', (select max(number) from cart)); " +
                  $"select setval('details_number_seq', (select max(number) from details));";
-                _sql += new VipAutoComplite().PutAndPostToDetails(new Details() { Number=number }, discont);
+                //_sql += new VipAutoComplite().PutAndPostToDetails(new Details() { Number=number }, discont);
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var write = cmd.ExecuteNonQuery();
                 conn.Close();

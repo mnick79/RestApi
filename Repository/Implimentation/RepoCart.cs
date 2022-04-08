@@ -1,9 +1,7 @@
 ﻿using Npgsql;
 using RestApi.Database.Postgres.Implimentations;
-using RestApi.Interfaces;
 using RestApi.Interfaces.Implimentation;
 using RestApi.Models;
-using RestApi.Repository.Vip;
 using System.Collections.Generic;
 
 namespace RestApi.Repository.Implimentation
@@ -55,7 +53,7 @@ namespace RestApi.Repository.Implimentation
 
         public override void Post(Cart entity)
         {
-            if (entity == null)
+            if (entity != null)
             {
                 using (NpgsqlConnection conn = _database.Connect())
                 { 
@@ -63,19 +61,6 @@ namespace RestApi.Repository.Implimentation
                                 $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, 0, '') returning number; " +
                                 $"select setval('cart_number_seq', (select max(number) from cart));";
                 
-                    //if (entity.TotalPrice != 0)
-                    //{
-                    //    _sql = $"insert into cart (number, customer_number, totalprice, description) " +
-                    //            $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, {entity.TotalPrice}, {entity.Description} ) returning number; " +
-                    //            $"select setval('cart_number_seq', (select max(number) from cart));";
-                    //}
-                    //else
-                    //{
-                    //    _sql = $"insert into cart (number, customer_number) " +
-                    //            $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}) returning number; " +
-                    //            $"select setval('cart_number_seq', (select max(number) from cart));";
-                    //}
-                    //_sql += new VipAutoComplite().PostToCart(entity, discont);
                     NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                     var write = cmd.ExecuteNonQuery();
                     conn.Close();
@@ -90,7 +75,6 @@ namespace RestApi.Repository.Implimentation
 
                 _sql = $"update cart set customer_number={entity.CustomerNumber}, totalprice='{entity.TotalPrice.ToString().Replace(',','.')}'," +
                     $"description='{entity.Description}' where number={entity.Number};";
-                //_sql += new VipAutoComplite().PutToCart(entity, discont);
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var write = cmd.ExecuteNonQuery();
                 conn.Close();

@@ -5,9 +5,10 @@ using System.Collections.Generic;
 
 namespace RestApi.Servises.Bases
 {
-    public abstract class BaseService<T>: IBaseService<T> where T: IEntity 
+    public class BaseService<T>: IBaseService<T> where T: IEntity 
     {
         private readonly IRepo<T> _repo;
+        protected const decimal discont = 0.9m;
         
 
         public BaseService(IRepo<T> repo)
