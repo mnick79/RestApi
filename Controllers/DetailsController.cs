@@ -36,7 +36,7 @@ namespace RestApi.Controllers
         public void Post([FromBody] Details value)
         {
             Details details = value;
-            DetailsValidator detailsValidator = new DetailsValidator();
+            DetailsValidatorPost detailsValidator = new DetailsValidatorPost();
             //DetailsService detailsService = new DetailsService(_repo);
             //detailsService.Post(details);
             _baseService.Post(details);
@@ -47,7 +47,7 @@ namespace RestApi.Controllers
         public void Put([FromBody] Details value)
         {
             Details details = value;
-            DetailsValidator detailsValidator = new DetailsValidator();
+            DetailsValidatorPost detailsValidator = new DetailsValidatorPost();
             //DetailsService detailsService = new DetailsService(_repo);
             //detailsService.Put(details);
             _baseService.Put(details);

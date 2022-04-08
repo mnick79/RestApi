@@ -44,13 +44,7 @@ namespace RestApi.Repository.Implimentation
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    _customer = new Customer();
-                    _customer.Number = read.GetInt32(0);
-                    _customer.FistName = read.GetString(1);
-                    _customer.LastName = read.GetString(2);
-                    _customer.Address = read.GetString(3);
-                    _customer.Vip = read.GetBoolean(4);
-                    list.Add(_customer);
+                    list.Add(new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4)));
                 }
                 conn.Close();
             }

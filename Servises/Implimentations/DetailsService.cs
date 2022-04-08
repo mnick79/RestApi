@@ -1,5 +1,7 @@
-﻿using RestApi.Interfaces;
+﻿using RestApi.Domains.Validation;
+using RestApi.Interfaces;
 using RestApi.Models;
+using RestApi.Models.Validation;
 using RestApi.Repository.Implimentation;
 using RestApi.Repository.Vip;
 using RestApi.Servises.Bases;
@@ -46,6 +48,7 @@ namespace RestApi.Servises.Implimentations
         }
         public override void Post(Details details)
         {
+            DetailsValidatorPost validations = new DetailsValidatorPost();
             base.Post(details);
             decimal sum = 0;
             StringBuilder desc = new StringBuilder();
@@ -67,6 +70,7 @@ namespace RestApi.Servises.Implimentations
         }
         public override void Put(Details details)
         {
+            DetailsValidatorPut detailsValidator = new DetailsValidatorPut();
             base.Put(details);
             decimal sum = 0;
             StringBuilder desc = new StringBuilder();
