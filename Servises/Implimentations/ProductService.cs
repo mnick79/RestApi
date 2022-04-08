@@ -21,25 +21,5 @@ namespace RestApi.Servises.Implimentations
             }
             return null;
         }
-        //public IEntity Get(int number)
-        //{
-        //    return _repo.Get(number);
-        //}
-        //public void Delete(int number)
-        //{
-        //    _repo.Delete(number);
-        //}
-        //public void Post(Product product)
-        //{
-        //    _repo.Post(product);
-        //}
-        //public void Put(Product product)
-        //{
-        //    _repo.Put(product);
-        //}
-        //public List<Product> GetAll(int limit)
-        //{
-        //    return _repo.GetAll(limit);
-        //}
     }
 }

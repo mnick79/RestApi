@@ -21,7 +21,7 @@ namespace RestApi.Repository.Implimentation
             _cart = new Cart();
             using (NpgsqlConnection conn = _database.Connect())
             {
-                string _sql = $"select * from product where number={number}; ";
+                string _sql = $"select * from cart where number={number}; ";
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var read = cmd.ExecuteReader();
                 while (read.Read())
@@ -57,8 +57,10 @@ namespace RestApi.Repository.Implimentation
             {
                 using (NpgsqlConnection conn = _database.Connect())
                 { 
+                    if (entity.Description == null || entity.Description.Trim() == "string") { entity.Description = ""; }
                     _sql = $"insert into cart (number, customer_number, totalprice, description) " +
-                                $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, 0, '') returning number; " +
+                                $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, {entity.TotalPrice}, " +
+                                $"'{entity.Description}') returning number; " +
                                 $"select setval('cart_number_seq', (select max(number) from cart));";
                 
                     NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);

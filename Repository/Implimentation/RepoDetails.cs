@@ -44,10 +44,7 @@ namespace RestApi.Repository.Implimentation
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    if (read.Read())
-                    {
-                        list.Add(new Details(read.GetInt32(0), read.GetInt32(1), read.GetInt32(2), read.GetInt32(3)));
-                    }
+                    list.Add(new Details(read.GetInt32(0), read.GetInt32(1), read.GetInt32(2), read.GetInt32(3)));
                 }
                 conn.Close();
             }

@@ -1,6 +1,7 @@
 ﻿using RestApi.Interfaces;
 using RestApi.Models;
 using RestApi.Repository.Implimentation;
+using RestApi.Repository.Vip;
 using RestApi.Servises.Bases;
 using System.Collections.Generic;
 using System.Text;
@@ -14,14 +15,15 @@ namespace RestApi.Servises.Implimentations
         {
             _repo = repo;
         }
-        public override Details Get(int id)
+        public override List<Details> GetAll(int cartNumber)
         {
-            if (_repo.IsExist(id))
+            if (new RepoCart().IsExist(cartNumber))
             {
-                return base.Get(id);
+                return _repo.GetAll(cartNumber);
             }
             return null;
         }
+
         public override void Delete(int number)
         {
             Details details = new RepoDetails().Get(number);
@@ -37,8 +39,9 @@ namespace RestApi.Servises.Implimentations
                 sum += details.Count * product.Price;
                 desc.Append(product.Name + "/count:" + details.Count.ToString() + "/price:" + product.Name.ToString());
             }
-            cart.TotalPrice = sum*discont;
-            cart.Description = desc.ToString(0, 254);
+            cart.TotalPrice = new IsVip().FromDetails(details) ? sum * discont : sum;
+            if (desc.Length > 254) { desc.Remove(254, desc.Length - 254 - 1); }
+            cart.Description = desc.ToString();
             repoCart.Put(cart);
         }
         public override void Post(Details details)
@@ -55,8 +58,10 @@ namespace RestApi.Servises.Implimentations
                 sum += details.Count * product.Price;
                 desc.Append(product.Name + "/count:" + details.Count.ToString() + "/price:" + product.Name.ToString());
             }
-            cart.TotalPrice = sum*discont;
-            cart.Description = desc.ToString(0, 254);
+            cart.TotalPrice = new IsVip().FromDetails(details) ? sum * discont : sum;
+            if (desc.Length > 254) { desc.Remove(254, desc.Length-254-1); }
+
+            cart.Description = desc.ToString();
             repoCart.Put(cart);
             
         }
@@ -74,8 +79,9 @@ namespace RestApi.Servises.Implimentations
                 sum += details.Count * product.Price;
                 desc.Append(product.Name + "/count:" + details.Count.ToString() + "/price:" + product.Name.ToString());
             }
-            cart.TotalPrice = sum*discont;
-            cart.Description = desc.ToString(0, 254);
+            cart.TotalPrice = new IsVip().FromDetails(details) ? sum * discont : sum;
+            if (desc.Length > 254) { desc.Remove(254, desc.Length - 254 - 1); }
+            cart.Description = desc.ToString();
             repoCart.Put(cart);
 
         }

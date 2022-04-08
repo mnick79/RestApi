@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestApi.Domains.Validation;
 using RestApi.Models;
+using RestApi.Models.Validation;
 using RestApi.Servises.Interfaces;
 using System.Collections.Generic;
 
@@ -26,18 +27,14 @@ namespace RestApi.Controllers
         [HttpPost]
         public void Post([FromBody] Cart value)
         {
-            Cart cart = value;
-            CartValidator cartValidator = new CartValidator();
-            _baseService.Post(cart);
+            _baseService.Post(value);
         }
 
         // PUT api/<CartController>/5
         [HttpPut()]
         public void Put([FromBody] Cart value)
         {
-            Cart cart = value;
-            CartValidator cartValidator = new CartValidator();
-            _baseService.Put(cart);
+            _baseService.Put(value);
         }
 
         // DELETE api/<CartController>/5
