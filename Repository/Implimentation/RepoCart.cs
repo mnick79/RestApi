@@ -45,8 +45,8 @@ namespace RestApi.Repository.Implimentation
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    list.Add(new Cart(read.GetInt32(0), (read.GetValue(1)==null)?0: read.GetDecimal(1), (read.GetValue(2)==null)?string.Empty: read.GetString(2), read.GetInt32(3)));
-                    
+                    list.Add(new Cart(read.GetInt32(0), (read.GetValue(1) == null) ? 0 : read.GetDecimal(1), (read.GetValue(2) == null) ? string.Empty : read.GetString(2), read.GetInt32(3)));
+
                 }
                 conn.Close();
             }
@@ -55,17 +55,31 @@ namespace RestApi.Repository.Implimentation
 
         public override void Post(Cart entity)
         {
-
-            using (NpgsqlConnection conn = _database.Connect())
+            if (entity == null)
             {
-                _sql = $"insert into cart (number, customer_number, totalprice) " +
-                        $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, {entity.TotalPrice} ) returning number; " +
-                        $"select setval('cart_number_seq', (select max(number) from cart));";
-
-                _sql += new VipAutoComplite().PostToCart(entity, discont);
-                NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
-                var write = cmd.ExecuteNonQuery();
-                conn.Close();
+                using (NpgsqlConnection conn = _database.Connect())
+                { 
+                    _sql = $"insert into cart (number, customer_number, totalprice, description) " +
+                                $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, 0, '') returning number; " +
+                                $"select setval('cart_number_seq', (select max(number) from cart));";
+                
+                    //if (entity.TotalPrice != 0)
+                    //{
+                    //    _sql = $"insert into cart (number, customer_number, totalprice, description) " +
+                    //            $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, {entity.TotalPrice}, {entity.Description} ) returning number; " +
+                    //            $"select setval('cart_number_seq', (select max(number) from cart));";
+                    //}
+                    //else
+                    //{
+                    //    _sql = $"insert into cart (number, customer_number) " +
+                    //            $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}) returning number; " +
+                    //            $"select setval('cart_number_seq', (select max(number) from cart));";
+                    //}
+                    //_sql += new VipAutoComplite().PostToCart(entity, discont);
+                    NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
+                    var write = cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
             }
         }
 
@@ -74,8 +88,9 @@ namespace RestApi.Repository.Implimentation
             using (NpgsqlConnection conn = _database.Connect())
             {
 
-                _sql = $"update cart set customer_number={entity.CustomerNumber} where number={entity.Number};";
-                _sql += new VipAutoComplite().PutToCart(entity, discont);
+                _sql = $"update cart set customer_number={entity.CustomerNumber}, totalprice='{entity.TotalPrice.ToString().Replace(',','.')}'," +
+                    $"description='{entity.Description}' where number={entity.Number};";
+                //_sql += new VipAutoComplite().PutToCart(entity, discont);
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var write = cmd.ExecuteNonQuery();
                 conn.Close();

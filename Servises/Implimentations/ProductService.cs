@@ -13,6 +13,14 @@ namespace RestApi.Servises.Implimentations
         {
             _repo = repo;
         }
+        public override Product Get(int id)
+        {
+            if (_repo.IsExist(id))
+            {
+                return base.Get(id);
+            }
+            return null;
+        }
         //public IEntity Get(int number)
         //{
         //    return _repo.Get(number);

@@ -22,7 +22,14 @@ namespace RestApi.Servises.Implimentations
             }
             base.Delete(id);
         }
-
+        public override Customer Get(int id)
+        {
+            if (_repoCustomer.IsExist(id))
+            {
+                return base.Get(id);
+            }
+            return null;
+        }
         //public void Post(Customer customer)
         //{
         //    _repo.Post(customer);

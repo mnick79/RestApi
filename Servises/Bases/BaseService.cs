@@ -27,9 +27,10 @@ namespace RestApi.Servises.Bases
         {
             _repo.Put(entity);
         }
-        public T Get(int id) 
+        public virtual T Get(int id) 
         {
-           return _repo.Get(id);
+            
+            return _repo.Get(id);            
         }
         public virtual List<T> GetAll(int limit)
         {

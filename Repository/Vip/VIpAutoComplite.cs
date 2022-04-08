@@ -7,17 +7,21 @@ namespace RestApi.Repository.Vip
     public class VipAutoComplite
     {
         private string _sql;
+
         public string PutToCart(Cart cart, decimal discont)
         {
+            string sqldiscont = discont.ToString().Replace(',', '.');
             //Внесение автосуммы
             _sql = $@"update cart as cart1
-                            set totalprice = (select sum(d.count * p.price) *{discont}
+                            set totalprice = (select sum(d.count * p.price)*{sqldiscont}
                             from cart join details d on cart.number = d.cart_number
                             join product p on d.product_number = p.number
                             where cart.number ={cart.Number})
                             where cart1.number ={cart.Number}; ";
             //Внесение автоописания
-            _sql += $@"update cart as cart1
+            if (cart.Description != "" || cart.Description != "string")
+            {
+                _sql += $@"update cart as cart1
                                 set description = (select 
                                 SUBSTRING(
                                 STRING_AGG(p.name || '/count:'|| d.count || '/price'|| p.price, '|') 
@@ -28,6 +32,7 @@ namespace RestApi.Repository.Vip
                                 join product p on d.product_number=p.number 
                                 where cart.number={cart.Number})
                                 where cart1.number={cart.Number};";
+            }
             return _sql;
         }
         public string PostToCart(Cart cart, decimal discont)
