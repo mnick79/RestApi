@@ -15,24 +15,8 @@ namespace RestApi.Servises.Implimentations
         {
             _repo = repo;
         }
-
-        //public override Cart Get(int id)
-        //{
-        //    if (_repo.IsExist(id))
-        //    {
-        //        return base.Get(id);
-        //    }
-        //    return null;
-        //}
-        //public void Delete(int number) => _repo.Delete(number);
-
-        //public override void Post(Cart cart)
-        //{
-        //    _repo.Post(cart);
-        //}
         public override List<Cart> GetAll(int id)
         {
-            //Cart cart = new RepoCart().IsExist(id);
             if (_repo.IsExist(id)) { return base.GetAll(id); }
             return null;
         }
@@ -53,15 +37,7 @@ namespace RestApi.Servises.Implimentations
                 if (desc.Length > 254) { desc.Remove(254, desc.Length); }
                 cart.Description = desc.ToString();
                 _repo.Put(cart);
-
             }
-
-            //}
-            //public List<Cart> GetAll(int limit)
-            //{
-            //    return _repo.GetAll(limit);
-            //}
-
         }
     }
 }

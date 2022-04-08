@@ -41,7 +41,7 @@ namespace RestApi.Repository.Implimentation
 
         public override List<Customer> GetAll(int limit)
         {
-            List<Customer> list = new List<Customer> ();
+            List<Customer> list = new List<Customer>();
             using (NpgsqlConnection conn = _database.Connect())
             {
                 string _sql = $"select * from customer order by number limit {limit}; ";
@@ -49,16 +49,14 @@ namespace RestApi.Repository.Implimentation
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    if (read.Read())
-                    {
-                        _customer = new Customer();
-                        _customer.Number = read.GetInt32(0);
-                        _customer.FistName = read.GetString(1);
-                        _customer.LastName = read.GetString(2);
-                        _customer.Address = read.GetString(3);
-                        _customer.Vip = read.GetBoolean(4);
-                        list.Add(_customer);
-                    }
+                    _customer = new Customer();
+                    _customer.Number = read.GetInt32(0);
+                    _customer.FistName = read.GetString(1);
+                    _customer.LastName = read.GetString(2);
+                    _customer.Address = read.GetString(3);
+                    _customer.Vip = read.GetBoolean(4);
+                    list.Add(_customer);
+
                 }
                 conn.Close();
             }

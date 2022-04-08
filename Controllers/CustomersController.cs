@@ -19,12 +19,11 @@ namespace RestApi.Controllers
             _baseService=baseService;
         }
         //GET: api/<CustomersController> 
-        //[HttpGet]
-        //public List<Customer> GetAll()
-        //{
-        //    CustomerService customerService = new CustomerService(_repo);
-        //    return customerService.GetAll(10); //не реализовано из-за задвоения кода
-        //}
+        [HttpGet]
+        public List<Customer> GetAll()
+        {
+            return _baseService.GetAll(10); // 
+        }
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
@@ -34,28 +33,28 @@ namespace RestApi.Controllers
         }
 
         // POST api/<CustomersController> -нет в ТЗ
-        [HttpPost]
-        public void Post([FromBody] Customer value)
-        {
-            Customer customer = value;
-            CustomerValidator customerValidator = new CustomerValidator();
-            _baseService.Post(customer);
-        }
+        //[HttpPost]
+        //public void Post([FromBody] Customer value)
+        //{
+        //    Customer customer = value;
+        //    CustomerValidator customerValidator = new CustomerValidator();
+        //    _baseService.Post(customer);
+        //}
 
 
         // PUT api/<CustomersController>/5 -нет в ТЗ
-        [HttpPut()]
-        public void Put([FromBody] Customer value)
-        {
-            Customer customer = value;
-            CustomerValidator customerValidator = new CustomerValidator();
-            _baseService.Put(customer);
-        }
-        //DELETE api/<CustomersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _baseService.Delete(id);
-        }
+        //[HttpPut()]
+        //public void Put([FromBody] Customer value)
+        //{
+        //    Customer customer = value;
+        //    CustomerValidator customerValidator = new CustomerValidator();
+        //    _baseService.Put(customer);
+        //}
+        //DELETE api/<CustomersController>/5                    -нет в ТЗ
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    _baseService.Delete(id);
+        //}
     }
 }

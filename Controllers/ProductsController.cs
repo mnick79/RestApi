@@ -35,26 +35,26 @@ namespace RestApi.Controllers
             return _baseService.Get(id);
         }
         //DELETE api/<ProductsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _baseService.Delete(id);
-        }
+        //[HttpDelete("{id}")]              -нет в ТЗ
+        //public void Delete(int id)
+        //{
+        //    _baseService.Delete(id);
+        //}
         // POST api/<ProductsController>
-        [HttpPost]
-        public void Post([FromBody] Product value)
-        {
-            Product details = value;
-            ProductValidator detailsValidator = new ProductValidator();
-            _baseService.Post(details);
-        }
+        //[HttpPost]
+        //public void Post([FromBody] Product value)    - нет в ТЗ
+        //{
+        //    Product details = value;
+        //    ProductValidator detailsValidator = new ProductValidator();
+        //    _baseService.Post(details);
+        //}
         // PUT api/<ProductsController>/5
-        [HttpPut()]
-        public void Put([FromBody] Product value)
-        {
-            Product product = value;
-            ProductValidator cartValidator = new ProductValidator();
-            _baseService.Put(product);
-        }
+        //[HttpPut()]                                   - нет в ТЗ
+        //public void Put([FromBody] Product value)
+        //{
+        //    Product product = value;
+        //    ProductValidator cartValidator = new ProductValidator();
+        //    _baseService.Put(product);
+        //}
     }
 }

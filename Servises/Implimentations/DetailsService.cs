@@ -22,10 +22,6 @@ namespace RestApi.Servises.Implimentations
             }
             return null;
         }
-        //public IEntity Get(int number)
-        //{
-        //    return _repo.Get(number);
-        //}
         public override void Delete(int number)
         {
             Details details = new RepoDetails().Get(number);
@@ -83,9 +79,5 @@ namespace RestApi.Servises.Implimentations
             repoCart.Put(cart);
 
         }
-        //public List<Details> GetAll(int limit)
-        //{
-        //    return _repo.GetAll(limit);
-        //}
     }
 }
