@@ -24,7 +24,7 @@ namespace RestApi.Controllers
             List<Details> list = _baseService.GetAll(cart_number);
             if (list == null)
             {
-                return NotFound();
+                return NotFound("Details not found");
             }
             return Ok(list);
         }
@@ -38,9 +38,13 @@ namespace RestApi.Controllers
 
         // PUT api/<DetailsController>/5
         [HttpPut()]
-        public void Put([FromBody] Details value)
+        public ActionResult Put([FromBody] Details value)
         {
-            _baseService.Put(value);
+            if (_baseService.Put(value))
+            {
+                return Ok();
+            }
+            return BadRequest($"Detail number={value.Number} not found");
         }
 
         //DELETE api/<DetailsController>/5
@@ -51,7 +55,7 @@ namespace RestApi.Controllers
             {
                 return Ok();
             }
-            return NotFound();
+            return NotFound($"Detail number={id} not found");
         }
 
     }

@@ -21,7 +21,7 @@ namespace RestApi.Controllers
             List<Product> list = _baseService.GetAll(10);
             if (list == null)
             {
-                return NotFound();
+                return NotFound("Products not found");
             }
             return Ok(list);
         }
@@ -33,7 +33,7 @@ namespace RestApi.Controllers
             Product product = _baseService.Get(id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound($"Product number={id} not found");
             }
             return Ok(product);
         }
