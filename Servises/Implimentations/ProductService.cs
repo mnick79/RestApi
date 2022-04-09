@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 namespace RestApi.Servises.Implimentations
 {
-    public class ProductService: BaseService<Product>
+    public class ProductService : BaseService<Product>
     {
         private readonly IRepo<Product> _repo;
-        public ProductService(IRepo<Product> repo): base(repo)
+        public ProductService(IRepo<Product> repo) : base(repo)
         {
             _repo = repo;
         }

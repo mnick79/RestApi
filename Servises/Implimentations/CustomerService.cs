@@ -12,7 +12,7 @@ namespace RestApi.Servises.Implimentations
         {
             _repoCustomer = repo;
         }
-        
+
         public override Customer Get(int id)
         {
             if (_repoCustomer.IsExist(id))

@@ -22,7 +22,7 @@ namespace RestApi.Servises.Implimentations
             if (_repo.IsExist(id)) { return base.GetAll(id); }
             return null;
         }
-        public override void Put(Cart cart)
+        public override bool Put(Cart cart)
         {
             
             if (_repo.IsExist(cart.Number))
@@ -43,15 +43,18 @@ namespace RestApi.Servises.Implimentations
                 cart.Description = desc.ToString();
 
                 _repo.Put(cart);
+                return true;
             }
+            return false;
         }
-        public override void Delete(int id)
-        {
-            if (_repo.IsExist(id))
-            {
-                base.Delete(id);
-            }
-        }
+        //public override bool Delete(int id)
+        //{
+        //    if (_repo.IsExist(id))
+        //    {
+        //        base.Delete(id);
+
+        //    }
+        //}
         public override void Post(Cart entity)
         {
             base.Post(entity);

@@ -11,17 +11,22 @@ namespace RestApi.Controllers
     public class DetailsController : ControllerBase
     {
         private readonly IBaseService<Details> _baseService;
-        
+
         public DetailsController(IBaseService<Details> baseService)
         {
             _baseService = baseService;
-            
+
         }
         // GET api/<DetailsController>/5
         [HttpGet("{cart_number}")]
-        public List<Details> Get(int cart_number)
+        public ActionResult<List<Details>> Get(int cart_number)
         {
-            return _baseService.GetAll(cart_number);
+            List<Details> list = _baseService.GetAll(cart_number);
+            if (list == null)
+            {
+                return NotFound();
+            }
+            return Ok(list);
         }
 
         // POST api/<DetailsController>
@@ -40,9 +45,13 @@ namespace RestApi.Controllers
 
         //DELETE api/<DetailsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            _baseService.Delete(id);
+            if (_baseService.Delete(id))
+            {
+                return Ok();
+            }
+            return NotFound();
         }
 
     }
