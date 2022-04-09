@@ -16,16 +16,26 @@ namespace RestApi.Controllers
         }
         //GET: api/<ProductsController>
         [HttpGet]
-        public List<Product> Get()
+        public ActionResult<List<Product>> Get()
         {
-            return _baseService.GetAll(10);
+            List<Product> list = _baseService.GetAll(10);
+            if (list == null)
+            {
+                return NotFound();
+            }
+            return Ok(list);
         }
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
-        public Product Get(int id)
+        public ActionResult<Product> Get(int id)
         {
-            return _baseService.Get(id);
+            Product product = _baseService.Get(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
         }
     }
 }

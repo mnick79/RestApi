@@ -12,17 +12,28 @@ namespace RestApi.Servises.Bases
         {
             _repo = repo;
         }
-        public virtual void Delete(int id)
+        public virtual bool Delete(int id)
         {
-            _repo.Delete(id);
+            if (_repo.IsExist(id))
+            {
+                _repo.Delete(id);
+                return true;
+            }
+            return false;
         }
         public virtual void Post(T entity)
         {
             _repo.Post(entity);
         }
-        public virtual void Put(T entity)
+        public virtual bool Put(T entity)
         {
-            _repo.Put(entity);
+            if (!_repo.IsExist(entity.Number))
+            {
+                _repo.Put(entity);
+                return true;
+            }
+            return false;
+            
         }
         public virtual T Get(int id)
         {

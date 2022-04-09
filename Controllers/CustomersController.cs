@@ -13,22 +13,30 @@ namespace RestApi.Controllers
         private readonly IBaseService<Customer> _baseService;
         public CustomersController(IBaseService<Customer> baseService)
         {
-            _baseService=baseService;
+            _baseService = baseService;
         }
         //GET: api/<CustomersController> 
         [HttpGet]
-        public List<Customer> GetAll()
+        public ActionResult<List<Customer>> GetAll()
         {
-            return _baseService.GetAll(10); 
+            var list = _baseService.GetAll(10);
+            if (list == null)
+            {
+                return NotFound();
+            }
+            return Ok(list);
         }
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
-        public Customer Get(int id)
+        public ActionResult<Customer> Get(int id)
         {
             Customer customer = _baseService.Get(id);
-            if (customer == null) { return customer; }
-            return customer;
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return Ok(customer);
         }
 
         // POST api/<CustomersController> -нет в ТЗ
