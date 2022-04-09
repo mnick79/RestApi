@@ -24,7 +24,7 @@ namespace RestApi.Servises.Implimentations
         }
         public override void Put(Cart cart)
         {
-            CartValidatorPut cartValidator = new CartValidatorPut();
+            
             if (_repo.IsExist(cart.Number))
             {
                 decimal sum = 0;
@@ -36,25 +36,24 @@ namespace RestApi.Servises.Implimentations
                     sum += details.Count * product.Price;
                     desc.Append(product.Name + "/count:" + details.Count.ToString() + "/price:" + product.Name.ToString());
                 }
-                // Добавление дисконта, если он есть
 
                 cart.TotalPrice = new IsVip().FromCart(cart) ? sum * discont : sum;
 
-
                 if (desc.Length > 254) { desc.Remove(254, desc.Length - 254 - 1); }
                 cart.Description = desc.ToString();
+
                 _repo.Put(cart);
             }
         }
         public override void Delete(int id)
         {
-            Cart cart = _repo.Get(id);
-            CartValidatorPut cartValidator = new CartValidatorPut();
-            base.Delete(id);
+            if (_repo.IsExist(id))
+            {
+                base.Delete(id);
+            }
         }
         public override void Post(Cart entity)
         {
-            CartValidatorPost cartValidator = new CartValidatorPost();
             base.Post(entity);
         }
     }

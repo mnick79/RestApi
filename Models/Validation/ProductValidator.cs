@@ -9,11 +9,11 @@ namespace RestApi.Domains.Validation
         {
             //RuleFor(product => product.Number).Equal(0).WithMessage("Number isn't used");
             RuleFor(product => product.Name)
-                .NotEmpty().WithMessage("FistName cannot be empty")
-                .MinimumLength(1).WithMessage("Short name FistName")
+                .NotEmpty().WithMessage("Name cannot be empty")
+                .MinimumLength(1).WithMessage("Short name Name")
                 .MaximumLength(250).WithMessage("The FistName must be shorter than 250 characters");
             RuleFor(product => product.Price)
-                .NotEmpty().WithMessage("FistName cannot be empty")
+                .NotEmpty().WithMessage("Price cannot be empty")
                 .GreaterThan(0).WithMessage("Price must is positive");
         }
     }

@@ -2,8 +2,6 @@
 using RestApi.Interfaces;
 using RestApi.Models;
 using RestApi.Servises.Bases;
-using System.Collections.Generic;
-using FluentValidation;
 
 namespace RestApi.Servises.Implimentations
 {
@@ -30,14 +28,5 @@ namespace RestApi.Servises.Implimentations
             }
             return null;
         }
-        //public void Post(Customer customer)
-        //{
-        //    _repo.Post(customer);
-        //}
-        //public void Put(Customer customer)
-        //{
-        //    _repo.Put(customer);
-        //}
-
     }
 }

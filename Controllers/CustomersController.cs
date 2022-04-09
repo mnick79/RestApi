@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Domains.Validation;
-using RestApi.Interfaces;
 using RestApi.Models;
-using RestApi.Servises.Implimentations;
 using RestApi.Servises.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RestApi.Controllers
 {
@@ -22,7 +18,7 @@ namespace RestApi.Controllers
         [HttpGet]
         public List<Customer> GetAll()
         {
-            return _baseService.GetAll(10); // 
+            return _baseService.GetAll(10); 
         }
 
         // GET api/<CustomersController>/5

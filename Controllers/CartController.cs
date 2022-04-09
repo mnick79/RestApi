@@ -24,16 +24,20 @@ namespace RestApi.Controllers
         }
 
         // POST api/<CartController>
-        [HttpPost]
-        public void Post([FromBody] Cart value)
+        [HttpPost("{customer_number}")]
+        public void Post(int customer_number)
         {
-            _baseService.Post(value);
+            Cart cart = new Cart() { CustomerNumber=customer_number};
+            CartValidatorPost cartValidator = new CartValidatorPost();
+            _baseService.Post(cart);
         }
 
         // PUT api/<CartController>/5
         [HttpPut()]
         public void Put([FromBody] Cart value)
         {
+            Cart cart = value;
+            CartValidatorPut cartValidator = new CartValidatorPut();
             _baseService.Put(value);
         }
 

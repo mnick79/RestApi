@@ -9,15 +9,18 @@ namespace RestApi.Models.Validation
             RuleFor(customer => customer.Number)
                 .NotEmpty().WithMessage("Number cannot be empty")
                 .GreaterThan(0).WithMessage("Number must is positive");
+
             RuleFor(details => details.CartNumber)
-                .NotEmpty().WithMessage("FistName cannot be empty")
-                .GreaterThan(0).WithMessage("Price must is positive");
+                .NotEmpty().WithMessage("CartNumber cannot be empty")
+                .GreaterThan(0).WithMessage("CartNumber must is positive");
+
             RuleFor(details => details.ProductNumber)
-                .NotEmpty().WithMessage("FistName cannot be empty")
-                .GreaterThan(0).WithMessage("Price must is positive");
+                .NotEmpty().WithMessage("ProductNumber cannot be empty")
+                .GreaterThan(0).WithMessage("ProductNumber must is positive");
+
             RuleFor(details => details.Count)
-                .NotEmpty().WithMessage("FistName cannot be empty")
-                .GreaterThan(0).WithMessage("Price must is positive");
+                .NotEmpty().WithMessage("Count cannot be empty")
+                .GreaterThan(0).WithMessage("Count must is positive");
         }
     }
 }

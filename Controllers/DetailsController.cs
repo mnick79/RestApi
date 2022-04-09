@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Domains;
-using RestApi.Domains.Validation;
-using RestApi.Interfaces;
 using RestApi.Models;
-using RestApi.Servises.Implimentations;
 using RestApi.Servises.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 
 
 namespace RestApi.Controllers
@@ -26,8 +21,6 @@ namespace RestApi.Controllers
         [HttpGet("{cart_number}")]
         public List<Details> Get(int cart_number)
         {
-            //DetailsService detailsService = new DetailsService(_repo);
-            //return detailsService.GetAll(cart_number);
             return _baseService.GetAll(cart_number);
         }
 
@@ -35,30 +28,20 @@ namespace RestApi.Controllers
         [HttpPost]
         public void Post([FromBody] Details value)
         {
-            Details details = value;
-            DetailsValidatorPost detailsValidator = new DetailsValidatorPost();
-            //DetailsService detailsService = new DetailsService(_repo);
-            //detailsService.Post(details);
-            _baseService.Post(details);
+            _baseService.Post(value);
         }
 
         // PUT api/<DetailsController>/5
         [HttpPut()]
         public void Put([FromBody] Details value)
         {
-            Details details = value;
-            DetailsValidatorPost detailsValidator = new DetailsValidatorPost();
-            //DetailsService detailsService = new DetailsService(_repo);
-            //detailsService.Put(details);
-            _baseService.Put(details);
+            _baseService.Put(value);
         }
 
         //DELETE api/<DetailsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            //DetailsService detailsService = new DetailsService(_repo);
-            //detailsService.Delete(id);
             _baseService.Delete(id);
         }
 

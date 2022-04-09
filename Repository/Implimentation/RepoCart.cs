@@ -1,5 +1,4 @@
 ﻿using Npgsql;
-using RestApi.Database.Postgres.Implimentations;
 using RestApi.Interfaces.Implimentation;
 using RestApi.Models;
 using System.Collections.Generic;
@@ -9,16 +8,10 @@ namespace RestApi.Repository.Implimentation
     public class RepoCart : RepoBase<Cart>
     {
         private string _sql;
-        private Cart _cart;
-        private readonly Postgres _postgres;
-        public RepoCart() : base()
-        {
-            _postgres = new Postgres();
-        }
 
         public override Cart Get(int number)
         {
-            _cart = new Cart();
+            Cart _cart = null;
             using (NpgsqlConnection conn = _database.Connect())
             {
                 string _sql = $"select * from cart where number={number}; ";
@@ -58,13 +51,14 @@ namespace RestApi.Repository.Implimentation
                 using (NpgsqlConnection conn = _database.Connect())
                 { 
                     if (entity.Description == null || entity.Description.Trim() == "string") { entity.Description = ""; }
+
                     _sql = $"insert into cart (number, customer_number, totalprice, description) " +
-                                $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, {entity.TotalPrice}, " +
+                                $"values((select nextval('cart_number_seq')), {entity.CustomerNumber}, {entity.TotalPrice.ToString().Replace(',', '.')}, " +
                                 $"'{entity.Description}') returning number; " +
                                 $"select setval('cart_number_seq', (select max(number) from cart));";
                 
                     NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
-                    var write = cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                     conn.Close();
                 }
             }

@@ -32,7 +32,7 @@ namespace RestApi.Repository.Vip
         {
             using (NpgsqlConnection conn = _database.Connect())
             {
-                _sql = $"select vip from cart join customer on cart.customer_number=customer.number where {details.CartNumber};";
+                _sql = $"select vip from cart join customer on cart.customer_number=customer.number where cart.number={details.CartNumber};";
                 NpgsqlCommand cmd = new NpgsqlCommand(_sql, conn);
                 var read = cmd.ExecuteReader();
                 while (read.Read())

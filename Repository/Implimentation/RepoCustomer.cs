@@ -1,6 +1,4 @@
 ﻿using Npgsql;
-using RestApi.Database.Postgres.Implimentations;
-using RestApi.Interfaces;
 using RestApi.Interfaces.Implimentation;
 using RestApi.Models;
 using System.Collections.Generic;
@@ -10,16 +8,10 @@ namespace RestApi.Repository.Implimentation
     public class RepoCustomer : RepoBase<Customer>
     {
         private string _sql;
-        private Customer _customer;
-        private readonly Postgres _postgres;
-        public RepoCustomer() : base()
-        {
-            _postgres = new Postgres();
-        }
 
         public override Customer Get(int number)
         {
-            _customer = new Customer();
+            Customer customer = null;
             using (NpgsqlConnection conn = _database.Connect())
             {
                 string _sql = $"select * from customer where number={number}; ";
@@ -27,11 +19,11 @@ namespace RestApi.Repository.Implimentation
                 var read = cmd.ExecuteReader();
                 while (read.Read())
                 {
-                    _customer = new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4));
+                    customer = new Customer(read.GetInt32(0), read.GetString(1), read.GetString(2), read.GetString(3), read.GetBoolean(4));
                 }
                 conn.Close();
             }
-            return _customer;
+            return customer;
         }
 
         public override List<Customer> GetAll(int limit)
@@ -53,7 +45,6 @@ namespace RestApi.Repository.Implimentation
 
         public override void Post(Customer entity)
         {
-
             using (NpgsqlConnection conn = _database.Connect())
             {
                 _sql = $"insert into customer (number, first_name, last_name, address, vip) " +
