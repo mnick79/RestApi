@@ -8,6 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RestApi.Interfaces;
+using RestApi.Models;
+using RestApi.Repository.Implimentation;
+using RestApi.Servises.Implimentations;
+using RestApi.Servises.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +39,18 @@ namespace RestApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestApi", Version = "v1" });
             });
             services.AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            services.AddTransient(typeof(IRepo<Customer>), typeof(RepoCustomer));
+            services.AddTransient(typeof(IBaseService<Customer>), typeof(CustomerService));
+
+            services.AddTransient(typeof(IRepo<Product>), typeof(RepoProduct));
+            services.AddTransient(typeof(IBaseService<Product>), typeof(ProductService));
+
+            services.AddTransient(typeof(IRepo<Details>), typeof(RepoDetails));
+            services.AddTransient(typeof(IBaseService<Details>), typeof(DetailsService));
+
+            services.AddTransient(typeof(IRepo<Cart>), typeof(RepoCart));
+            services.AddTransient(typeof(IBaseService<Cart>), typeof(CartService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

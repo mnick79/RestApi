@@ -4,7 +4,7 @@ using System;
 
 namespace RestApi.Database.Postgres.Implimentations
 {
-    public class Postgres: IPostgreSql
+    public class Postgres : IPostgreSql
     {
         private readonly string _server = "localhost";
         private readonly int _port = 5432;

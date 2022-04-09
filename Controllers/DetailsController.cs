@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Domains;
-using RestApi.Domains.Validation;
-using RestApi.Servises.Implimentations;
+using RestApi.Models;
+using RestApi.Servises.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RestApi.Controllers
 {
@@ -13,36 +10,39 @@ namespace RestApi.Controllers
     [ApiController]
     public class DetailsController : ControllerBase
     {
+        private readonly IBaseService<Details> _baseService;
+        
+        public DetailsController(IBaseService<Details> baseService)
+        {
+            _baseService = baseService;
+            
+        }
         // GET api/<DetailsController>/5
         [HttpGet("{cart_number}")]
         public List<Details> Get(int cart_number)
         {
-            GetAllService getAllService = new GetAllService(new Details());
-            return getAllService.GetAll(cart_number: cart_number).Select(x=>(Details)x).ToList();
+            return _baseService.GetAll(cart_number);
         }
 
         // POST api/<DetailsController>
         [HttpPost]
         public void Post([FromBody] Details value)
         {
-            PostService postService = new PostService(value);
-            DetailsValidator detailsValidator = new DetailsValidator();
-            postService.Post();
+            _baseService.Post(value);
         }
 
         // PUT api/<DetailsController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] Details value)
-        //{
-        //    Details.PutDetails(id, value);
-        //}
+        [HttpPut()]
+        public void Put([FromBody] Details value)
+        {
+            _baseService.Put(value);
+        }
 
-        // DELETE api/<DetailsController>/5
+        //DELETE api/<DetailsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            DeleteService deleteService = new DeleteService(new Details());
-            deleteService.Delete(id);
+            _baseService.Delete(id);
         }
 
     }

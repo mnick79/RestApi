@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Domains;
-using RestApi.Domains.BaseEntity;
-using RestApi.Domains.Validation;
-using RestApi.Servises.Implimentations;
+using RestApi.Models;
+using RestApi.Servises.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RestApi.Controllers
 {
@@ -14,45 +10,50 @@ namespace RestApi.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        // GET: api/<CustomersController>
-        [HttpGet]
-        public List<Customer> Get()
+        private readonly IBaseService<Customer> _baseService;
+        public CustomersController(IBaseService<Customer> baseService)
         {
-            GetAllService getAllService = new GetAllService(new Customer());
-            return getAllService.GetAll().Select(x=>(Customer)x).ToList();
+            _baseService=baseService;
+        }
+        //GET: api/<CustomersController> 
+        [HttpGet]
+        public List<Customer> GetAll()
+        {
+            return _baseService.GetAll(10); 
         }
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
         public Customer Get(int id)
         {
-            GetOneService getOneService = new GetOneService(new Customer());
-            return (Customer)getOneService.GetOne(id);
+            Customer customer = _baseService.Get(id);
+            if (customer == null) { return customer; }
+            return customer;
         }
 
-        // POST api/<CustomersController>
-        [HttpPost]
-        public void Post([FromBody] Customer value)
-        {
-            PostService postService = new PostService(value);
-            CustomerValidator customerValidator = new CustomerValidator();
-            postService.Post();
-        }
+        // POST api/<CustomersController> -нет в ТЗ
+        //[HttpPost]    
+        //public void Post([FromBody] Customer value)
+        //{
+        //    Customer customer = value;
+        //    CustomerValidator customerValidator = new CustomerValidator();
+        //    _baseService.Post(customer);
+        //}
 
 
-        // PUT api/<CustomersController>/5
-        /* [HttpPut("{id}")]
-         public void Put(int id, [FromBody] string value)
-         {
-         }
-        */
-        /*
-         // DELETE api/<CustomersController>/5
-         [HttpDelete("{id}")]
-         public void Delete(int id)
-         {
-             Customer.DeleteCustomer(id);
-         }
-        */
+        // PUT api/<CustomersController>/5 -нет в ТЗ
+        //[HttpPut()]
+        //public void Put([FromBody] Customer value)
+        //{
+        //    Customer customer = value;
+        //    CustomerValidator customerValidator = new CustomerValidator();
+        //    _baseService.Put(customer);
+        //}
+        //DELETE api/<CustomersController>/5                    -нет в ТЗ
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    _baseService.Delete(id);
+        //}
     }
 }
