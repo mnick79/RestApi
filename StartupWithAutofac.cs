@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using RestApi.Interfaces;
 using RestApi.Models;
 using RestApi.Repository.Implimentation;
+using RestApi.Servises.Implimentations;
+using RestApi.Servises.Interfaces;
 //using RepositoryDesignPattern.Models;
 //using RepositoryDesignPattern.Repository;
 
@@ -40,8 +42,25 @@ namespace RepositoryDesignPattern
             // Это аналог строчки services.AddSingleton(typeof(IRepo<Book>), typeof(CollectionBasedRepo));
             // в файле Startup.cs.
             //builder.RegisterType<CollectionBasedRepo>().As<IRepo<Book>>().SingleInstance();
-            builder.RegisterType<RepoCustomer>().As<IRepo<Customer>>().SingleInstance();
+
+
+            //builder.RegisterType<IRepo<Customer>>().As<RepoCustomer>().SingleInstance();
+            //builder.RegisterType<IBaseService<Customer>>().As<CustomerService>().SingleInstance();
+            
+            //builder.RegisterType<RepoCustomer>().As<IRepo<Customer>>().
+            //builder.RegisterType<CustomerService>().As<IBaseService<Customer>>().SingleInstance();
+
             builder.RegisterType<RepoProduct>().As<IRepo<Product>>().SingleInstance();
+            builder.RegisterType<ProductService>().As<IBaseService<Product>>().SingleInstance();
+
+            builder.RegisterType<RepoCart>().As<IRepo<Cart>>().SingleInstance();
+            builder.RegisterType<CartService>().As<IBaseService<Cart>>().SingleInstance();
+
+            builder.RegisterType<RepoDetails>().As<IRepo<Details>>().SingleInstance();
+            builder.RegisterType<DetailsService>().As<IBaseService<Details>>().SingleInstance();
+
+
+
 
             // Это аналог строчки services.AddTransient(typeof(IRepo<Book>), typeof(CollectionBasedRepo));
             // в файле Startup.cs.

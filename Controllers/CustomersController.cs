@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestApi.Models;
 using RestApi.Servises.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace RestApi.Controllers
@@ -25,11 +26,13 @@ namespace RestApi.Controllers
         [HttpGet("{id}")]
         public Customer Get(int id)
         {
-            return _baseService.Get(id);
+            Customer customer = _baseService.Get(id);
+            if (customer == null) { return customer; }
+            return customer;
         }
 
         // POST api/<CustomersController> -нет в ТЗ
-        //[HttpPost]
+        //[HttpPost]    
         //public void Post([FromBody] Customer value)
         //{
         //    Customer customer = value;

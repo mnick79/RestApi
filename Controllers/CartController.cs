@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestApi.Domains.Validation;
 using RestApi.Models;
 using RestApi.Models.Validation;
+using RestApi.Servises.Implimentations;
 using RestApi.Servises.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace RestApi.Controllers
@@ -28,7 +29,7 @@ namespace RestApi.Controllers
         public void Post(int customer_number)
         {
             Cart cart = new Cart() { CustomerNumber=customer_number};
-            CartValidatorPost cartValidator = new CartValidatorPost();
+            CartValidator cartValidator = new CartValidator();
             _baseService.Post(cart);
         }
 
@@ -37,7 +38,7 @@ namespace RestApi.Controllers
         public void Put([FromBody] Cart value)
         {
             Cart cart = value;
-            CartValidatorPut cartValidator = new CartValidatorPut();
+            CartValidator cartValidator = new CartValidator();
             _baseService.Put(value);
         }
 

@@ -12,14 +12,7 @@ namespace RestApi.Servises.Implimentations
         {
             _repoCustomer = repo;
         }
-        public override void Delete(int id)
-        {
-            if (_repoCustomer.IsExist(id))
-            {
-                CustomerValidator validator = new CustomerValidator();
-            }
-            base.Delete(id);
-        }
+        
         public override Customer Get(int id)
         {
             if (_repoCustomer.IsExist(id))

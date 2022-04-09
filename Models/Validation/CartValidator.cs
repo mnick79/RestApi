@@ -3,9 +3,9 @@ using RestApi.Models;
 
 namespace RestApi.Models.Validation
 {
-    public class CartValidatorPut : AbstractValidator<Cart>
+    public class CartValidator : AbstractValidator<Cart>
     {
-        public CartValidatorPut()
+        public CartValidator()
         {
             RuleFor(cart => cart.Number).GreaterThan(0).WithMessage("PUT  Number must is positive");
 
