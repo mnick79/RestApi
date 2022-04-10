@@ -31,15 +31,24 @@ namespace RestApi.Controllers
 
         // POST api/<DetailsController>
         [HttpPost]
-        public void Post([FromBody] Details value)
+        public ActionResult Post([FromBody] Details value)
         {
+            if (value.Number != 0)
+            {
+                return BadRequest("Number must is 0. Number not is used");
+            }
             _baseService.Post(value);
+            return Ok();
         }
 
         // PUT api/<DetailsController>/5
         [HttpPut()]
         public ActionResult Put([FromBody] Details value)
         {
+            if (value.Number==0)
+            {
+                return BadRequest("Number must be greater than 0");
+            }
             if (_baseService.Put(value))
             {
                 return Ok();

@@ -33,12 +33,12 @@ namespace RestApi.Controllers
         public ActionResult Post([FromBody] Cart value)
         {
             Cart cart = value;
-            if (cart.Number == 0 && new[] { "", "string" }.Contains(cart.Description.Trim()) && cart.TotalPrice == 0)
+            if (cart.Number == 0)
             {
                 _baseService.Post(cart);
                 return Ok();
             }
-            return BadRequest("Number, TotalPrice and Description are not used");
+            return BadRequest("Number must be 0. Number is not used");
 
         }
 
@@ -46,9 +46,9 @@ namespace RestApi.Controllers
         [HttpPut()]
         public ActionResult Put([FromBody] Cart value)
         {
-            if (value.Number == 0 || value.TotalPrice == 0 || (new[] { "", "string" }.Contains(value.Description.Trim())))
+            if (value.Number == 0)
             {
-                return BadRequest("Number, TotalPrice and Description must have other values");
+                return BadRequest("Number must be greater than 0");
             }
             if (_baseService.Put(value))
             {
