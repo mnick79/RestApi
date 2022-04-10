@@ -1,14 +1,13 @@
 ﻿using FluentValidation;
+using RestApi.Models;
 
-namespace RestApi.Models.Validation
+namespace RestApi.Domains.Validation
 {
-    public class DetailsValidatorPut: AbstractValidator<Details>
+    public class DetailsValidator: AbstractValidator<Details>
     {
-        public DetailsValidatorPut()
+        public DetailsValidator()
         {
-            RuleFor(customer => customer.Number)
-                .NotEmpty().WithMessage("Number cannot be empty")
-                .GreaterThan(0).WithMessage("Number must is positive");
+            RuleFor(customer => customer.Number).GreaterThanOrEqualTo(0).WithMessage("Number must be greater that or equal 0");
 
             RuleFor(details => details.CartNumber)
                 .NotEmpty().WithMessage("CartNumber cannot be empty")
@@ -24,4 +23,3 @@ namespace RestApi.Models.Validation
         }
     }
 }
-

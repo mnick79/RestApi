@@ -7,6 +7,8 @@ using RestApi.Repository.Implimentation;
 using System.Text;
 using RestApi.Repository.Vip;
 using RestApi.Models.Validation;
+using System.Linq;
+using System;
 
 namespace RestApi.Servises.Implimentations
 {
@@ -22,9 +24,9 @@ namespace RestApi.Servises.Implimentations
             if (_repo.IsExist(id)) { return base.GetAll(id); }
             return null;
         }
-        public override void Put(Cart cart)
+        public override bool Put(Cart cart)
         {
-            
+
             if (_repo.IsExist(cart.Number))
             {
                 decimal sum = 0;
@@ -34,27 +36,17 @@ namespace RestApi.Servises.Implimentations
                 {
                     Product product = new RepoProduct().Get(details.ProductNumber);
                     sum += details.Count * product.Price;
-                    desc.Append(product.Name + "/count:" + details.Count.ToString() + "/price:" + product.Name.ToString());
+                    desc.Append(product.Name + "/count:" + details.Count.ToString() + "/price:" + product.Price.ToString()+"|");
                 }
 
-                cart.TotalPrice = new IsVip().FromCart(cart) ? sum * discont : sum;
+                cart.TotalPrice = new IsVip().FromCart(cart) ? Math.Round(sum * discont,2) : sum;
 
                 if (desc.Length > 254) { desc.Remove(254, desc.Length - 254 - 1); }
                 cart.Description = desc.ToString();
-
                 _repo.Put(cart);
+                return true;
             }
-        }
-        public override void Delete(int id)
-        {
-            if (_repo.IsExist(id))
-            {
-                base.Delete(id);
-            }
-        }
-        public override void Post(Cart entity)
-        {
-            base.Post(entity);
+            return false;
         }
     }
 }

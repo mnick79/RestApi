@@ -5,15 +5,16 @@ using RestApi.Models.Validation;
 using RestApi.Repository.Implimentation;
 using RestApi.Repository.Vip;
 using RestApi.Servises.Bases;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RestApi.Servises.Implimentations
 {
-    public class DetailsService: BaseService<Details>
+    public class DetailsService : BaseService<Details>
     {
         private readonly IRepo<Details> _repo;
-        public DetailsService(IRepo<Details> repo): base(repo)
+        public DetailsService(IRepo<Details> repo) : base(repo)
         {
             _repo = repo;
         }
@@ -25,28 +26,35 @@ namespace RestApi.Servises.Implimentations
             }
             return null;
         }
-        public override void Delete(int number)
+        public override bool Delete(int number)
         {
-            if (_repo.IsExist(number)) { 
-            Details details = new RepoDetails().Get(number);
-            base.Delete(number);
+            if (_repo.IsExist(number))
+            {
+                Details details = new RepoDetails().Get(number);
+                base.Delete(number);
 
-            AddDiscontAndAutoDescriptAndAutoSum(details, discont);
+                AddDiscontAndAutoDescriptAndAutoSum(details, discont);
+                return true;
             }
+            return false;
         }
         public override void Post(Details details)
         {
-            DetailsValidatorPost validations = new DetailsValidatorPost();
+            DetailsValidator validations = new DetailsValidator();
             base.Post(details);
 
             AddDiscontAndAutoDescriptAndAutoSum(details, discont);
         }
-        public override void Put(Details details)
+        public override bool Put(Details details)
         {
-            DetailsValidatorPut detailsValidator = new DetailsValidatorPut();
-            base.Put(details);
-
-            AddDiscontAndAutoDescriptAndAutoSum(details, discont);
+            if (_repo.IsExist(details.Number))
+            {
+                DetailsValidator detailsValidator = new DetailsValidator();
+                AddDiscontAndAutoDescriptAndAutoSum(details, discont);
+                _repo.Put(details);
+                return true;
+            }
+            return false;
         }
         public void AddDiscontAndAutoDescriptAndAutoSum(Details details, decimal discont)
         {
@@ -59,9 +67,9 @@ namespace RestApi.Servises.Implimentations
             {
                 Product product = new RepoProduct().Get(details.ProductNumber);
                 sum += details.Count * product.Price;
-                desc.Append(product.Name + "/count:" + details.Count.ToString() + "/price:" + product.Name.ToString());
+                desc.Append(product.Name + "/count:" + details.Count.ToString() + "/price:" + product.Price.ToString()+"|");
             }
-            cart.TotalPrice = new IsVip().FromDetails(details) ? sum * discont : sum;
+            cart.TotalPrice = new IsVip().FromDetails(details) ? Math.Round(sum * discont, 2) : sum;
             if (desc.Length > 254) { desc.Remove(254, desc.Length - 254 - 1); }
             cart.Description = desc.ToString();
             repoCart.Put(cart);
